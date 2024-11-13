@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @import 'https://fonts.googleapis.com/css?family=Roboto+Mono:100';
+
+    html,
+    body {
+      margin: 0;
+      font-family: 'Roboto Mono', monospace;
+      /* background: #0f0f0f; */
+      height: 100%;
+    }
+
+    .container {
+      color: aliceblue;
+      background-color: #b8cec5;
+      border: 1px solid wheat;
+
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      justify-content:space-evenly;
+      align-content:center;
+      align-items: center;
+
+    }
+
+    .text {
+      background-color: #d2c49d;
+      color: #030303;
+      height: 250px;
+      font-weight:900;
+      font-size: 20px;
+      padding: 10px;
+      margin: 10px;
+    }
+    .arabic_ayahs {
+      background-color: #a7bc78;
+      color: #000000;
+      font-weight: 100;
+      font-size: 36px;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .dud {
+      color: #ff0303;
+      font-size:16px;
+    }
+    .video-container {
+
+      max-width: 90%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <video class="video-container"  controls autoplay>
+      <source src="video_30_Ayet/Rad_28.mp4" type="video/mp4">
+      <!-- <source src="video.ogg" type="video/ogg"> -->
+      <p>Tarayıcınız video etiketini desteklemiyor.</p>
+    </video>
+    <img clas="resim" src="./Resim 30 Ayet/Rad_28.gif" alt="Resim">
+    <div class="arabic_ayahs"></div>
+    <div class="text"></div>
+    <!-- <audio src="./ses 30 Ayet/Rad_28.mp3" controls autoplay></audio> -->
+  </div>
+
+
+  <script>
+    class TextScramble {
+      constructor(el, arabic) {
+        this.el = el;
+        this.arabic = arabic;
+        this.chars = "!<>-_\\/[]{}—=+*^?#________";
+        this.update = this.update.bind(this);
+      }
+
+      setText(newText, counter) {
+        const oldText = this.el.innerHTML;
+        const length = Math.max(newText.length, oldText.length);
+        const promise = new Promise(resolve => this.resolve = resolve);
+        this.queue = [];
+        for (let i = 0; i < length; i++) {
+          const from = oldText[i] || '';
+          const to = newText[i] || '';
+          const start = Math.floor(Math.random() * 20);
+          const end = start + Math.floor(Math.random() * 20);
+          this.queue.push({ from, to, start, end });
+        }
+        console.log(this.queue)
+        cancelAnimationFrame(this.frameRequest);
+        this.frame = 0;
+        this.update(counter);
+        return promise;
+      }
+
+      update() {
+        let output = '';
+        let complete = 0;
+        for (let i = 0, n=this.queue.length; i<n; i++) {
+          let {from, to,  start,end, char}=this.queue[i];
+          if(this.frame>=end) {
+            complete++;
+            output +=to;
+          }else if(this.frame>=start){
+            if(!char || Math.random()<0.28){
+              char=this.randomChar();
+              this.queue[i].char = char;
+            }
+            output += `<span class="dud">&hearts;</span>`;
+          }else{
+            output += from;
+          }
+        }
+        output=output.replace(/\./g, '.<br>');
+        this.el.innerHTML = output;
+        this.arabic.innerHTML = arabic_ayahs[counter];
+
+        if(complete===this.queue.length) {
+          this.resolve();
+        }else{
+          this.frameRequest=setTimeout(requestAnimationFrame(this.update), 900);
+          this.frame++;
+        }
+
+      }
+
+      randomChar() {
+        return this.chars[Math.floor(Math.random() * this.chars.length)];
+      }
+    }
+
+    // Example
+
+    const phrases = 
+    [
+    "Kalpler ancak Allah’ı anmakla huzur bulur.",
+    "Nerede bulunursanız bulunun, O daima sizinle beraberdir. Allah bütün yaptıklarınızı görür.",
+    "Sizden, hayra çağıran, iyiliği emreden ve kötülüğe engel olan bir topluluk bulunsun. İşte kurtuluşa erenler onlardır.",
+    "Yiyin, için fakat israf etmeyin. Çünkü Allah israf edenleri sevmez.",
+    "Kim zerre miktarı hayır yapmışsa onu görür. Kim de zerre miktarı şer işlemişse onu görür.",
+    "Başarılı olmam sadece Allah’ın yardımı ile olur. Onun için ben de yalnız O’na dayanıyorum, O’na yöneliyorum.",
+    "Ey iman edenler! Sizden hiçbir topluluk bir başka toplulukla alay etmesin. Ne malum? Belki alay edilenler edenlerden daha hayırlıdır. Birbirinizi karalamayın, birbirinize kötü lakaplar takmayın.",
+    "Hayırlı işlerde birbirinizle yarışın.",
+    "Eğer şükrederseniz, Ben nimetlerimi daha da artırırım, ama nankörlük ederseniz haberiniz olsun ki azabım pek şiddetlidir!",
+    "Muhakkak ki namaz, insanı, ahlâk dışı davranışlardan, meşrû olmayan işlerden uzak tutar.",
+    "Allah’tan, kulları içinde ancak ilim sahibi olanlar korkar.",
+    "Sevdiğiniz şeylerden Allah yolunda harcamadıkça iyiliğe eremezsiniz. Harcadığınız her şeyi Allah hakkıyla bilir.",
+    "Andolsun zamana ki insan gerçekten ziyan içindedir. Ancak iman edip dünya ve âhiret için iyi ve yararlı işler yapanlar, birbirlerine hakkı tavsiye edenler ve sabrı tavsiye edenler başkadır.",
+    "Ey iman edenler! Siz Allah’ın dinine yardım ederseniz O yardım eder, ayaklarınızı kaydırmaz.",
+    "O has kullar, verdikleri sözleri ve üzerlerine aldıkları sorumlulukları yerine getirirler; felâketi bütün ufukları saracak bir günden korkarlar.",
+    "Rabbinizden bağışlanma dileyin, sonra da O’na tövbe edin. Şüphesiz Rabbim, engin merhamet sahibidir ve mü’minleri çok sevmektedir.",
+    "Bu Kur’an, âyetlerini düşünsünler ve akıl sahipleri öğüt alsınlar diye sana indirdiğimiz mübarek bir kitaptır.",
+    "Allah sizi annelerinizin karnından çıkardığı zaman hiçbir şey bilmiyordunuz. Şükredesiniz diye size kulaklar, gözler ve gönüller verdi.",
+    "Şüphesiz, inanıp yararlı işler yapanlara, onlar için, içlerinde ebedi kalacakları Firdevs cennetleri bir konaktır.",
+    "Ey iman edenler! Sabır göstererek ve namazı vesile kılarak Allah'tan yardım dileyin. Muhakkak ki Allah sabredenlerle beraberdir.",
+    "Kalplerinde bir hastalık vardır. Allah da onların hastalığını arttırmıştır. Yalan söylediklerinden dolayı onları elem verici bir azap beklemektedir.",
+    "Yapmaya niyet ettiğin herhangi bir hususta da “Yarın şunu yapacağım.” deme. “İnşâallah (Allah dilerse, izin verirse) yapacağım” de.",
+    "Rabbin kesin olarak şunları emretti: Kendisinden başkasına ibadet etmeyin, ana-babaya da iyi davranın. Onlardan biri veya her ikisi senin yanında yaşlanırsa sakın onlara ‘öf’ bile deme; onları azarlama, onlara tatlı ve güzel söz söyle.",
+    "Allah ve resulüne itaat edin, birbirinize düşmeyin, sonra zayıflarsınız ve zaferi elden kaçırırsınız. Sabredin, kuşkusuz Allah sabredenlerle beraberdir.",
+    "Hakkında kesin bilgi sahibi olmadığın şeye dayanıp karar verme. Çünkü kulak, göz ve kalb, evet bunların hepsi (verdiğin karar, vardığın sonuçtan) sorumludur ve sorguya çekilecektir.",
+    "Bir de, elbette iman etmiş olmak ve karşılıklı sabır teşvik ve tavsiyesinde bulunmak, merhamet teşvik ve tavsiyesinde bulunmaktır.",
+    "Kim şu peşin dünya zevkini isterse, Biz de dilediğimiz kimse hakkında ve dilediğimiz miktarda, o dünya zevkini ona veririz. Ama sonra ona cehennemi mekân kılarız, O da yerilmiş ve kovulmuş olarak oraya atılır.",
+    "Kim Allah'a iman eder, makbul ve güzel işler yaparsa, Allah onun fenalıklarını, günahlarını siler ve içinden ırmaklar akan cennetlere, hem de devamlı kalmak üzere yerleştirir. İşte en büyük başarı, en büyük mutluluk budur.",
+    "Cennetlikler cehennemliklere: “Biz, Rabbimizin bize vâd ettiği şeylerin gerçek olduğunu gördük; siz de Rabbinizin size vâd ettiklerinin gerçekleştiğini gördünüz mü?” deyince onlar: “Evet” diye cevap verirler.",
+    "Vay haline şöyle namaz kılanların: Onlar namazlarının özünden uzaktırlar. İbadetlerini gösteriş için yaparlar, zekât ve diğer yardımlarını esirger, vermezler."
+]
+
+    const arabic_ayahs = [
+    "بِذِكْرِ اللّٰهِ تَطْمَئِنُّ الْقُلُوبُ",
+    "وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ",
+    "وَلْتَكُن مِّنكُمْ أُمَّةٌ يَدْعُونَ إِلَى الْخَيْرِ",
+    "كُلُوا وَاشْرَبُوا وَلَا تُسْرِفُوا",
+    "فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًا يَرَهُ",
+    "وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ",
+    "يَا أَيُّهَا الَّذِينَ آمَنُوا لَا يَسْخَرْ قَوْمٌ مِّن قَوْمٍ",
+    "فَاسْتَبِقُوا الْخَيْرَاتِ",
+    "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
+    "إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنكَرِ",
+    "إِنَّمَا يَخْشَى اللَّهَ مِنْ عِبَادِهِ الْعُلَمَاءُ",
+    "لَن تَنَالُوا الْبِرَّ حَتَّى تُنفِقُوا مِمَّا تُحِبُّونَ",
+    "وَالْعَصْرِ ۝ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ",
+    "إِن تَنصُرُوا اللَّهَ يَنصُرْكُمْ",
+    "يُوفُونَ بِالنَّذْرِ وَيَخَافُونَ يَوْمًا كَانَ شَرُّهُ",
+    "وَأَنِيبُوا إِلَىٰ رَبِّكُمْ وَأَسْلِمُوا لَهُ",
+    "كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ مُبَارَكٌ",
+    "وَاللَّهُ أَخْرَجَكُم مِّن بُطُونِ أُمَّهَاتِكُمْ",
+    "إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ",
+    "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ",
+    "فِي قُلُوبِهِم مَّرَضٌ فَزَادَهُمُ اللَّهُ",
+    "وَلَا تَقُولَنَّ لِشَيْءٍ إِنِّي فَاعِلٌ ذَٰلِكَ غَدًا",
+    "وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ",
+    "وَلَا تَنَازَعُوا فَتَفْشَلُوا",
+    "وَلَا تَقْفُ مَا لَيْسَ لَكَ بِهِ عِلْمٌ",
+    "وَتَوَاصَوْا بِالصَّبْرِ وَتَوَاصَوْا بِالْمَرْحَمَةِ",
+    "مَن كَانَ يُرِيدُ الْعَاجِلَةَ",
+    "مَن يُؤْمِن بِاللَّهِ وَيَعْمَلْ صَالِحًا",
+    "أَفْوَاجٌ تَرَىٰ رَبَّكَ إِنَّا",
+    "فَوَيْلٌ لِّلْمُصَلِّينَ"
+]
+
+const el = document.querySelector('.text');
+const arabic = document.querySelector('.arabic_ayahs')
+    const fx = new TextScramble(el, arabic);
+
+    let counter = 0;
+    const next = () => {
+      fx.setText(phrases[counter], counter).then(() => {
+        setTimeout(next, 50 * phrases[2].length);
+        counter = (counter + 1) % phrases.length;
+      });
+    }
+
+    next();
+  </script>
+</body>
+
+</html>
