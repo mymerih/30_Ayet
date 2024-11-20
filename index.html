@@ -18,7 +18,7 @@
     }
 
     .container {
-      color: aliceblue;
+      color: rgb(188, 3, 245);
       background-color: #b8cec5;
       border: 1px solid wheat;
 
@@ -26,17 +26,28 @@
       flex-direction: column;
       width: 100%;
       height: 100%;
-      justify-content: space-evenly;
+      justify-content:flex-start;
       align-content: center;
       align-items: center;
 
     }
 
-    .ayet_meal_resim_contaniner {
+    .ayet_adi {
+      width: 100%;
+      text-align: center;
+      color: #8e03ff;
+      font-size: 20px;
+      font-weight: 900;
+      padding: 10px;
+      margin: 0px;
+      background-color: #a7bc78;
+    }
+
+    /* .ayet_meal_resim_contaniner {
       max-width: 100%;
       color: red;
       font-weight: 900;
-    }
+    } */
 
     .arapca {
       background-color: #a7bc78;
@@ -97,15 +108,16 @@
 <body>
 
   <div class="container">
+    <h3 class="ayet_adi">mehmet</h3>
     <!-- <video class="video-container"  controls autoplay> -->
     <!-- <source src="video_30_Ayet/Rad_28.mp4" type="video/mp4"> -->
     <!-- <source src="video.ogg" type="video/ogg"> -->
     <!-- <p>Tarayıcınız video etiketini desteklemiyor.</p> -->
     <!-- </video> -->
-    <picture>
+    <!-- <picture>
       <source srcset="" media="(max-width: 600px)">
       <img class="ayet_meal_resim_contaniner" src="./Resim 30 Ayet/" alt="Resim">
-    </picture>
+    </picture> -->
     <div class="arapca">
       <div class="ayet_container"></div>
       <div class="ayet_okunusu_container"></div>

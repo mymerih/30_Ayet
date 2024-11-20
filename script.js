@@ -41,14 +41,14 @@ const phrases =
 "Yiyin, için fakat israf etmeyin. Çünkü Allah israf edenleri sevmez.",
 "Kim zerre miktarı hayır yapmışsa onu görür. Kim de zerre miktarı şer işlemişse onu görür.",
 "Başarılı olmam sadece Allah’ın yardımı ile olur. Onun için ben de yalnız O’na dayanıyorum, O’na yöneliyorum.",
-"Ey iman edenler! Sizden hiçbir topluluk bir başka toplulukla alay etmesin. Ne malum? Belki alay edilenler edenlerden daha hayırlıdır... Birbirinizi karalamayın, birbirinize kötü lakaplar takmayın.",
+"Ey iman edenler! Sizden hiçbir topluluk bir başka toplulukla alay etmesin. Ne malum? Belki alay edilenler edenlerden daha hayırlıdır. Birbirinizi karalamayın, birbirinize kötü lakaplar takmayın.",
 "Hayırlı işlerde birbirinizle yarışın.",
 "Eğer şükrederseniz, Ben nimetlerimi daha da artırırım, ama nankörlük ederseniz haberiniz olsun ki azabım pek şiddetlidir!",
 "Muhakkak ki namaz, insanı, ahlâk dışı davranışlardan, meşrû olmayan işlerden uzak tutar.",
 "Allah’tan, kulları içinde ancak ilim sahibi olanlar korkar.",
 "Sevdiğiniz şeylerden Allah yolunda harcamadıkça iyiliğe eremezsiniz. Harcadığınız her şeyi Allah hakkıyla bilir.",
 "Andolsun zamana ki insan gerçekten ziyan içindedir. Ancak iman edip dünya ve âhiret için iyi ve yararlı işler yapanlar, birbirlerine hakkı tavsiye edenler ve sabrı tavsiye edenler başkadır.",
-"Ey iman edenler! Siz Allah’ın dinine yardım ederseniz O yardım eder, ayaklarınızı kaydırmaz.",
+"Ey iman edenler! Eğer siz Allah’a yardım ederseniz (emrini tutar, dinini uygularsanız), O da size yardım eder ve ayaklarınızı sağlam bastırır.",
 "O has kullar, verdikleri sözleri ve üzerlerine aldıkları sorumlulukları yerine getirirler; felâketi bütün ufukları saracak bir günden korkarlar.",
 "Rabbinizden bağışlanma dileyin, sonra da O’na tövbe edin. Şüphesiz Rabbim, engin merhamet sahibidir ve mü’minleri çok sevmektedir.",
 "Bu Kur’an, âyetlerini düşünsünler ve akıl sahipleri öğüt alsınlar diye sana indirdiğimiz mübarek bir kitaptır.",
@@ -104,15 +104,15 @@ const arapcaAyetler = [
 
 
 const ayet_okunuslari = [
-    "Elâ bi zikrillâhi tatma'innul kulûb.",
-    "Ve huve me'akum eyne mâ kuntum. Vallâhu bimâ ta'melûne basîr.",
-    "Ve'l tekun minkum ummetun yed'une ilel hayr ve ye'murûne bilma'rûfi ve yenhevne anil munker. Ve ulâike humul muflihûn.",
-    "Ve kulû veşrebû velâ tusrifû. İnnehu lâ yuhibbul musrifîn.",
-    "Fe men ya'mel mithkâle zerratin hayren yereh. Ve men ya'mel mithkâle zerratin şerren yereh.",
-    "Ve mâ tevfîkî illâ billâh. Aleyhi tevekkeltu ve ileyhi unîb.",
-    "Yâ eyyuhe'llezîne âmenû lâ yeshar kavmun min kavm. Asâ en yekûnû hayren minhum ve lâ nisâun min nisâin asâ en yekunne hayren minhunne ve lâ telmizû enfusekum ve lâ tenâbezû bil elkâb.",
-    "Feste bigû'l hayrât.",
-    "Ve iz te'ezzen rabbukum le'in şekartum le'ezîdennekum ve le'in kefertum inne azâbî leşedîd.",
+  "Elâ bi zikrillâhi tatma'innul kulûb.",
+  "Ve huve me'akum eyne mâ kuntum. Vallâhu bimâ ta'melûne basîr.",
+  "Ve'l tekun minkum ummetun yed'une ilel hayr ve ye'murûne bilma'rûfi ve yenhevne anil munker. Ve ulâike humul muflihûn.",
+  "Ve kulû veşrebû velâ tusrifû. İnnehu lâ yuhibbul musrifîn.",
+  "Fe men ya'mel mithkâle zerratin hayren yereh. Ve men ya'mel mithkâle zerratin şerren yereh.",
+  "Ve mâ tevfîkî illâ billâh. Aleyhi tevekkeltu ve ileyhi unîb.",
+  "Yâ eyyuhe'llezîne âmenû lâ yeshar kavmun min kavm. Asâ en yekûnû hayren minhum ve lâ nisâun min nisâin asâ en yekunne hayren minhunne ve lâ telmizû enfusekum ve lâ tenâbezû bil elkâb.",
+  "Feste bigû'l hayrât.",
+  "Ve iz te'ezzen rabbukum le'in şekartum le'ezîdennekum ve le'in kefertum inne azâbî leşedîd.",
   "Utlu mâ ûhıye ileyke minel kitâbi ve ekımıssalâte, inne salâte tenha anil fahşâ'i vel munker. Ve le zikrullâhi ekber, vallâhu ya'lemu mâ tasneûn.",
   "İnnemâ yahşellâhe min ibâdihil ulemâ.",
   "Len tenâlûl birre hattâ tunfikû mimmâ tuhıbbûn, ve mâ tunfikû min şey'in feinnallâhe bihî alîm.",
@@ -169,22 +169,22 @@ const ayetler_mp3 = [
 "30_Maun_4-7.mp3"
 ];
 
-
+const baslik_container = document.querySelector('.ayet_adi');
 const meal_container = document.querySelector('.meal');
 const ayet_container = document.querySelector('.ayet_container')
 const arabic_okunus_contaniner = document.querySelector('.ayet_okunusu_container')
-const ayet_meal_resim_contaniner = document.querySelector('.ayet_meal_resim_contaniner')
+// const ayet_meal_resim_contaniner = document.querySelector('.ayet_meal_resim_contaniner')
 const audio_element = document.querySelector('.audio')
-const fx = new TextScramble(meal_container, ayet_container, arabic_okunus_contaniner, 
-                          ayet_meal_resim_contaniner, audio_element);
-
+const fx = new TextScramble(baslik_container, meal_container, ayet_container, arabic_okunus_contaniner, 
+                          // ayet_meal_resim_contaniner,
+                          audio_element);
 let counter = 0;
 const next = () => {
   fx.setText(ayetMealResimler[counter], phrases[counter], arapcaAyetler[counter], 
             ayet_okunuslari[counter], ayetler_mp3[counter], counter)
     .then(() => {
     console.log(arapcaAyetler[counter]);
-    setTimeout(next, 30 * phrases[counter].length);
+    setTimeout(next, 50 * phrases[counter].length);
     counter = (counter + 1) % phrases.length;
   });
 }
