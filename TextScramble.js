@@ -1,7 +1,8 @@
 export class TextScramble {
-    constructor(meal_container, ayet_container, arabic_okunus_contaniner, 
+    constructor(baslik_container, meal_container, ayet_container, arabic_okunus_contaniner, 
               // ayet_meal_resim_contaniner,
               audio_element) {
+      this.baslik_container = baslik_container;
       this.ayet_container = ayet_container;
       this.arabic_okunus_contaniner = arabic_okunus_contaniner;
       // this.ayet_meal_resim_contaniner = ayet_meal_resim_contaniner;
@@ -55,6 +56,9 @@ export class TextScramble {
       output=output.replace(/\./g, '.<br>');
 
       // Sayfada Gosterim
+
+      this.baslik_container.innerHTML = output;
+      this.baslik_container.innerHTML = this.ayetMp3.replace(/\.mp3$/, '').replace(/_/, '.Ayet: ');
       this.meal_container.innerHTML = output;
       this.ayet_container.innerHTML = this.arapcaAyet;
       this.arabic_okunus_contaniner.innerHTML = this.ayetOkunusu;

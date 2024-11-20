@@ -169,16 +169,15 @@ const ayetler_mp3 = [
 "30_Maun_4-7.mp3"
 ];
 
-
+const baslik_container = document.querySelector('.ayet_adi');
 const meal_container = document.querySelector('.meal');
 const ayet_container = document.querySelector('.ayet_container')
 const arabic_okunus_contaniner = document.querySelector('.ayet_okunusu_container')
 // const ayet_meal_resim_contaniner = document.querySelector('.ayet_meal_resim_contaniner')
 const audio_element = document.querySelector('.audio')
-const fx = new TextScramble(meal_container, ayet_container, arabic_okunus_contaniner, 
+const fx = new TextScramble(baslik_container, meal_container, ayet_container, arabic_okunus_contaniner, 
                           // ayet_meal_resim_contaniner,
                           audio_element);
-
 let counter = 0;
 const next = () => {
   fx.setText(ayetMealResimler[counter], phrases[counter], arapcaAyetler[counter], 
