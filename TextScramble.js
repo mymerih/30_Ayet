@@ -12,7 +12,7 @@ export class TextScramble {
       this.update = this.update.bind(this);
     }
   
-    setText(ayetMealResim, yeniMeal, arapcaAyet, ayetOkunusu, ayetMp3, counter) {
+    setText(ayetMealResim, yeniMeal, arapcaAyet, ayetOkunusu, ayetMp3) {
       this.ayetMealResim = ayetMealResim;
       this.arapcaAyet = arapcaAyet;
       this.ayetOkunusu = ayetOkunusu;
@@ -24,14 +24,14 @@ export class TextScramble {
       for (let i = 0; i < length; i++) {
         const from = oldText[i] || '';
         const to = yeniMeal[i] || '';
-        const start = Math.floor(Math.random() * 20);
-        const end = start + Math.floor(Math.random() * 20);
+        const start = Math.floor(Math.random() *200);
+        const end = start + Math.floor(Math.random() * 200);
         this.queue.push({ from, to, start, end });
       }
-      console.log(this.queue)
+      // console.log(this.queue)
       cancelAnimationFrame(this.frameRequest);
       this.frame = 0;
-      this.update(counter);
+      this.update();
       return promise;
     }
   
@@ -44,7 +44,7 @@ export class TextScramble {
           complete++;
           output +=to;
         }else if(this.frame>=start){
-          if(!char || Math.random()<0.28){
+          if(!char || Math.random()<0.58){
             char=this.randomChar();
             this.queue[i].char = char;
           }
@@ -65,7 +65,7 @@ export class TextScramble {
       // this.ayet_meal_resim_contaniner.src = `./Resim 30 Ayet/${this.ayetMealResim}`
       // this.ayet_meal_resim_contaniner.alt = this.ayetMealResim.replace(/\.png$/) + ' Resmi';
       
-      this.audio_element.src = `./ses 30 Ayet/${this.ayetMp3}`;
+      // this.audio_element.src = `./ses 30 Ayet/${this.ayetMp3}`;
       if(complete===this.queue.length) {
         this.resolve();
       }else{
