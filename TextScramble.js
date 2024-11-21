@@ -24,8 +24,8 @@ export class TextScramble {
       for (let i = 0; i < length; i++) {
         const from = oldText[i] || '';
         const to = yeniMeal[i] || '';
-        const start = Math.floor(Math.random() *200);
-        const end = start + Math.floor(Math.random() * 200);
+        const start = Math.floor(Math.random() * 100);
+        const end = start + Math.floor(Math.random() * 100);
         this.queue.push({ from, to, start, end });
       }
       // console.log(this.queue)

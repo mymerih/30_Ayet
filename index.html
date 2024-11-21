@@ -7,8 +7,11 @@
   <title>30 Ayet Ezberle</title>
   <script type="module" src="script.js" defer></script>
   <style>
-    @import 'https://fonts.googleapis.com/css?family=Roboto+Mono:100';
-
+    @import 'https://fonts.googleapis.com/css?family=Roboto+Mono:300';
+    @import 'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,700;1,700&display=swap';
+    @import 'https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@700&display=swap';
+    @import 'https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap';
+    @import 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap';
     html,
     body {
       margin: 0;
@@ -19,23 +22,25 @@
 
     .container {
       color: rgb(188, 3, 245);
-      background-color: #b8cec5;
+      background-color: #9ee0ff;
       border: 1px solid wheat;
 
       display: flex;
       flex-direction: column;
       width: 100%;
-      height: 95%;
-      justify-content:flex-start;
+      height: 100%;
+      justify-content: flex-start;
       align-content: center;
       align-items: center;
 
     }
 
     .ayet_adi {
+      font-family: 'Playfair+Display', serif;
+      font-family: 'Oswald', sans-serif;
       width: 100%;
       text-align: center;
-      color: #8e03ff;
+      color: #000000;
       font-size: 20px;
       font-weight: 900;
       padding: 10px;
@@ -50,7 +55,8 @@
     } */
 
     .arapca {
-      background-color: #a7bc78;
+
+      background-color: #fdda7a;
       color: #000000;
       width: 94%;
       padding: 10px;
@@ -58,7 +64,9 @@
     }
 
     .ayet_container {
-      background-color: #a7bc78;
+      /* font-family: 'Amiri', serif; */
+      font-family: 'Scheherazade New', serif;
+      /* background-color: #a7bc78; */
       color: #000000;
       font-weight: 100;
       font-size: 30px;
@@ -67,8 +75,8 @@
     }
 
     .ayet_okunusu_container {
-      color: #a7bc78;
-      background-color: #000000;
+      background-color: #f5f2f0;
+      color: #000000;
       font-weight: 900;
       font-size: 18px;
       padding: 15px 5px;
@@ -76,7 +84,7 @@
     }
 
     .meal {
-      background-color: #d2c49d;
+      background-color: #ffbee4;
       color: #030303;
       height: 200px;
       font-weight: 900;
@@ -91,19 +99,30 @@
     }
 
     .audio-container {
-      background-color: #a7bc78;
+      /* background-color: #a7bc78; */
     }
+
     audio {
-      background-color: #86a83b;
+      /* background-color: #86a83b; */
     }
+
+    .buton_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #a7bc78;
+      width: 100%;
+      padding: 5px;
+    }
+
     button {
       background-color: #86a83b;
       color: #ffffff;
       border: none;
-      padding: 10px 20px;
+      padding: 10px 30px;
       font-size: 16px;
       cursor: pointer;
-      margin: 5px;
+      margin: 0px 20px;
     }
 
     button:hover {
@@ -147,16 +166,16 @@
       <div class="ayet_okunusu_container"></div>
       <div class="audio-container">
         <audio class="audio" src="" controls autoplay></audio>
+        <div class="buton_container">
+          <button id="prev-ayet" onclick="">Geri</button>
+          <button id="next-ayet" onclick="">İleri</button>
+          <label for="auto-play">Auto</label>
+          <input type="checkbox" id="auto-play" checked>
+        </div>
       </div>
     </div>
     <div class="meal"></div>
   </div>
-
-  <button id="prev-ayet" onclick="">Geri</button>
-  <button id="next-ayet" onclick="">İleri</button>
-  <label for="auto-play">Auto</label>
-  <input type="checkbox" id="auto-play" checked>
-
 
 
 </body>
