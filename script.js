@@ -174,6 +174,7 @@ const arabic_okunus_contaniner = document.querySelector(
 const audio_element = document.querySelector(".audio");
 const next_Button = document.querySelector("#next-ayet");
 const prev_Button = document.querySelector("#prev-ayet");
+const ayet_counter_Button = document.querySelector("#ayet-no");
 
 
 const fx = new TextScramble(
@@ -225,5 +226,10 @@ prev_Button.addEventListener("click", () => {
   next();
 });
 
+ayet_counter_Button.addEventListener("change", (e) => {
+  counter = (parseInt(e.target.value) - 1) % mealler.length;
+  ayet_counter_Button.blur();
+  next();
+});
 
 next();

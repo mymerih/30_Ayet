@@ -12,6 +12,7 @@
     @import 'https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@700&display=swap';
     @import 'https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap';
     @import 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap';
+
     html,
     body {
       margin: 0;
@@ -105,9 +106,10 @@
       /* background-color: #86a83b; */
       height: 30px;
     }
+
     .speed-control {
       display: flex;
-      justify-content:space-between;
+      justify-content: space-between;
       align-items: center;
       background-color: #a7bc78;
       /* max-width: 100%; */
@@ -115,6 +117,7 @@
       font-weight: 700;
 
     }
+
     #playbackRateValue {
       background-color: #000000;
       font-size: 16px;
@@ -140,7 +143,7 @@
       padding: 7px 30px;
       font-size: 16px;
       cursor: pointer;
-      margin: 0px 20px;
+      margin: 0px auto;
     }
 
     button:hover {
@@ -152,7 +155,14 @@
       color: #000000;
       margin: 10px 2px;
     }
-
+    #ayet-no {
+      /* background-color: #86a83b; */
+      padding: 6px 2px;
+      border-radius: 5px;
+      /* display: flex; */
+      /* align-items: center; */
+      width: 20px;
+    }
     input[type="checkbox"] {
       margin-left: 5px;
       transform: scale(1.5);
@@ -186,14 +196,15 @@
         <audio class="audio" src="" controls autoplay></audio>
         <div class="speed-control">
           <label for="playbackRate">Çalma Hızı:</label>
-            <output id="playbackRateValue">1.0</output>
-            0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="2" value="1" step="0.1" 
-            oninput="document.querySelector('.audio').playbackRate = this.value; 
+          <output id="playbackRateValue">1.0</output>
+          0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="2" value="1" step="0.1" oninput="document.querySelector('.audio').playbackRate = this.value; 
             document.getElementById('playbackRateValue').value = this.value">2.0
         </div>
       </div>
       <div class="buton_container">
-
+        <label for="ayet-no">AyetNo:</label>
+        <!-- <input type="number" id="ayet-no" min="1" max="30" value="1" onchange="updateCounter(this.value)"> -->
+        <input type="number" id="ayet-no" min="1" max="30" value="1" onfocus="this.select()" onchange="this.blur()">
         <button id="prev-ayet" onclick="">Geri</button>
         <button id="next-ayet" onclick="">İleri</button>
         <label for="auto-play">Auto</label>
