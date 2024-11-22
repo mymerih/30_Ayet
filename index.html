@@ -17,14 +17,13 @@
       margin: 0;
       font-family: 'Roboto Mono', monospace;
       /* background: #0f0f0f; */
-      height: 100%;
+      height: 100vh;
     }
 
     .container {
       color: rgb(188, 3, 245);
       background-color: #9ee0ff;
       border: 1px solid wheat;
-
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -32,7 +31,6 @@
       justify-content: flex-start;
       align-content: center;
       align-items: center;
-
     }
 
     .ayet_adi {
@@ -43,7 +41,7 @@
       color: #000000;
       font-size: 20px;
       font-weight: 900;
-      padding: 10px;
+      padding: 5px;
       margin: 0px;
       background-color: #a7bc78;
     }
@@ -58,9 +56,9 @@
 
       background-color: #fdda7a;
       color: #000000;
-      width: 94%;
-      padding: 10px;
-      margin: 10px 0px;
+      width: 95%;
+      padding: 7px;
+      margin: 5px 0px;
     }
 
     .ayet_container {
@@ -69,7 +67,7 @@
       /* background-color: #a7bc78; */
       color: #000000;
       font-weight: 100;
-      font-size: 30px;
+      font-size: 26px;
       /* padding: 10px; */
       /* margin: 10px 2px; */
     }
@@ -78,24 +76,25 @@
       background-color: #f5f2f0;
       color: #000000;
       font-weight: 900;
-      font-size: 18px;
-      padding: 15px 5px;
-      margin: 10px 0px;
+      font-size: 16px;
+      padding: 5px 5px;
+      margin: 5px 0px;
     }
 
     .meal {
       background-color: #ffbee4;
       color: #030303;
+      width: 95%;
       height: 200px;
       font-weight: 900;
-      font-size: 18px;
-      padding: 10px;
-      margin: 10px;
+      font-size: 16px;
+      padding: 8px;
+      margin: 5px;
     }
 
     .dud {
       color: #ff0303;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     .audio-container {
@@ -104,6 +103,25 @@
 
     audio {
       /* background-color: #86a83b; */
+      height: 30px;
+    }
+    .speed-control {
+      display: flex;
+      justify-content:space-between;
+      align-items: center;
+      background-color: #a7bc78;
+      /* max-width: 100%; */
+      padding: 0px 10px;
+      font-weight: 700;
+
+    }
+    #playbackRateValue {
+      background-color: #000000;
+      font-size: 16px;
+      font-weight: 900;
+      color: #fdda7a;
+      margin: 0px 15px 0px 0px;
+      padding: 5px 10px;
     }
 
     .buton_container {
@@ -112,14 +130,14 @@
       align-items: center;
       background-color: #a7bc78;
       width: 100%;
-      padding: 5px;
+      padding: 1px;
     }
 
     button {
       background-color: #86a83b;
       color: #ffffff;
       border: none;
-      padding: 10px 30px;
+      padding: 7px 30px;
       font-size: 16px;
       cursor: pointer;
       margin: 0px 20px;
@@ -132,7 +150,7 @@
     label {
       font-size: 16px;
       color: #000000;
-      margin: 10px;
+      margin: 10px 2px;
     }
 
     input[type="checkbox"] {
@@ -166,12 +184,20 @@
       <div class="ayet_okunusu_container"></div>
       <div class="audio-container">
         <audio class="audio" src="" controls autoplay></audio>
-        <div class="buton_container">
-          <button id="prev-ayet" onclick="">Geri</button>
-          <button id="next-ayet" onclick="">İleri</button>
-          <label for="auto-play">Auto</label>
-          <input type="checkbox" id="auto-play" checked>
+        <div class="speed-control">
+          <label for="playbackRate">Çalma Hızı:</label>
+            <output id="playbackRateValue">1.0</output>
+            0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="2" value="1" step="0.1" 
+            oninput="document.querySelector('.audio').playbackRate = this.value; 
+            document.getElementById('playbackRateValue').value = this.value">2.0
         </div>
+      </div>
+      <div class="buton_container">
+
+        <button id="prev-ayet" onclick="">Geri</button>
+        <button id="next-ayet" onclick="">İleri</button>
+        <label for="auto-play">Auto</label>
+        <input type="checkbox" id="auto-play" checked>
       </div>
     </div>
     <div class="meal"></div>
