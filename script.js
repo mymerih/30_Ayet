@@ -32,7 +32,7 @@ const ayetMealResimler = [
   "30_Maun_4-7.png",
 ];
 
-const mealler = [
+const turkce_mealler = [
   "İyi bilin ki kalpler ancak Allah’ı anmakla huzur bulur.",
   "Nerede bulunursanız bulunun, O daima sizinle beraberdir. Allah bütün yaptıklarınızı görür.",
   "Sizden, hayra çağıran, iyiliği emreden ve kötülüğe engel olan bir topluluk bulunsun. İşte kurtuluşa erenler onlardır.",
@@ -63,6 +63,38 @@ const mealler = [
   "Kim Allah'a iman eder, makbul ve güzel işler yaparsa, Allah onun fenalıklarını, günahlarını siler ve içinden ırmaklar akan cennetlere, hem de devamlı kalmak üzere yerleştirir. İşte en büyük başarı, en büyük mutluluk budur.",
   "Cennetlikler cehennemliklere: “Biz, Rabbimizin bize vâd ettiği şeylerin gerçek olduğunu gördük; siz de Rabbinizin size vâd ettiklerinin gerçekleştiğini gördünüz mü?” deyince onlar: “Evet” diye cevap verirler.",
   "Vay haline şöyle namaz kılanların: Onlar namazlarının özünden uzaktırlar. İbadetlerini gösteriş için yaparlar, zekât ve diğer yardımlarını esirger, vermezler.",
+];
+const almanca_mealler = [
+  "Seid euch dessen bewusst, dass es im Gedenken an Ihn und in der vollkommenen Hingabe an Gott ist, dass die Herzen Ruhe und Zufriedenheit finden.",
+  "Er ist bei euch, wo immer ihr sein mögt. Und Gott sieht wohl, was immer ihr tut.",
+  "Es soll unter euch eine Gemeinschaft sein, die zum Guten aufruft und das Rechte gebietet und tatkräftig fördert und Unrecht verwehrt und sich bemüht, Übles zu verhindern. Sie sind es, die erfolgreich sein werden.",
+  "Esst und trinkt, doch seid nicht verschwenderisch, denn Er liebt wahrlich nicht die Verschwenderischen.",
+  "Wer nun im Gewicht eines Stäubchens Gutes tut, wird es sehen. Und wer im Gewicht eines Stäubchens Böses tut, wird es sehen.",
+  "Mein Erfolg bei meiner Aufgabe hängt allein von Gott ab. In Ihn habe ich mein Vertrauen gesetzt, und Ihm wende ich mich wir stets von ganzem Herzen zu.",
+  "O ihr, die ihr glaubt! Lasst nicht die einen unter euch über die anderen spotten; es mag durchaus sein, dass die Letzteren besser sind als die Ersteren; ... Und verleumdet euch nicht gegenseitig, und verletzt einander nicht durch Schimpfnamen.",
+  "So wetteifert miteinander in allem, was gut ist.",
+  "Wenn ihr dankbar seid, werde Ich euch fürwahr mehr geben; seid ihr jedoch undankbar, dann wird Meine Strafe gewiss streng sein.",
+  "Trage vor und überbringe ihnen, was dir vom Buch offenbart wird, und verrichte das Gebet entsprechend seinen Vorschriften. Wahrlich, das Gebet hält ab von allem, was abscheulich und verwerflich ist, und von allem, was schlecht ist. Wahrlich, Gottes zu gedenken, ist am hervorragendsten. Gott weiß um alles, was ihr tut.",
+  "Von all Seinen Dienern empfinden nur diejenigen, die echtes Wissen besitzen, Ehrfurcht vor Gott.",
+  "Niemals werdet ihr Güte und Tugend erlangen, ehe ihr nicht von dem hingebt, was euch lieb ist, für die Sache Gottes oder um die Bedürftigen zu versorgen. Und was immer ihr hingebt, wahrlich Gott weiß es wohl.",
+  "Bei der Zeit, Wahrlich, der Mensch befindet sich in einem Zustand des Verlustes; Außer denen, die glauben und gut, rechtschaffen handeln und sich gegenseitig zur Wahrheit aufrufen und sich gegenseitig zu standhafter Geduld aufrufen.",
+  "O ihr, die ihr glaubt! Wenn ihr Gottes Sache unterstützt, dann wird Er euch helfen und eure Füße festen Halt finden lassen.",
+  "Das sind diejenigen, die ihre Versprechen und die Pflichten, die sie übernehmen, erfüllen und die einen Tag fürchten, dessen Übel sich weithin ausbreitet und alles erfasst.",
+  "Fleht euren Herrn an, dass Er euch vergeben möge, und wendet euch Ihm in Reue zu. Wahrlich, mein Herr ist barmherzig, liebevoll.",
+  "Dies ist ein Buch, das Wir dir herabgesandt haben, voll des Segens, damit sie über seine Zeichen nachsinnen mögen und damit die Menschen, die einsichtig sind, darüber nachdenken und sich in Acht nehmen mögen.",
+  "Gott hat euch aus den Schößen eurer Mütter hervorgebracht, als ihr von nichts wusstet, und hat euch Gehör und Augen mitgegeben, und Herzen, damit ihr euren Dank abstatten möget.",
+  "Wahrlich, diejenigen, die glauben und gut, rechtschaffen handeln, die sollen in den Gärten der höchsten Ebene des Paradieses willkommen geheißen werden. Dort werden sie verweilen, ohne irgendeine Änderung zu begehren.",
+  "O ihr, die ihr glaubt! Sucht Hilfe in Geduld (Standfestigkeit) und im Gebet; wahrlich, Gott ist mit den Geduldigen (Standhaften).",
+  "In ihren Herzen ist eine Krankheit und (wegen ihres moralischen Verfalls und der Schliche, die sie aus Neid und in böser Absicht anwenden) hat Gott ihre Krankheit größer werden lassen. Ihnen wird eine schmerzliche Strafe zuteil werden, weil sie zu lügen pflegen.",
+  "Und sage nicht über etwas (das du vorhast): „Ich werde es morgen tun“. Ohne hinzuzufügen: „So Gott will.“",
+  "Dein Herr hat entschieden, dass ihr niemanden außer Ihm allein anbeten sollt und dass ihr die Eltern in schönster Freundlichkeit behandeln sollt. Wenn ein (Elternteil) oder beide zu deinen Lebzeiten ein hohes Alter erreichen, dann sage nicht: „Pfui“ zu ihnen, und weise sie auch nicht ab, sondern richte stets liebenswürdige Worte an sie.",
+  "Und gehorcht Gott und Seinem Gesandten, und streitet nicht miteinander, damit ihr nicht den Mut verliert und eure Kraft und Ausdauer euch verlässt, und bleibt geduldig; wahrlich, Gott ist mit den Geduldigen.",
+  "Und folge nicht dem, wovon du kein Wissen hast, und enthalte dich grundloser Behauptungen und Vermutungen. Wahrlich, Gehör, Sehvermögen und Herz sie alle werden dereinst darüber befragt werden.",
+  "Und dass man davon abgesehen zu jenen gehört, die glauben und einander zu Geduld aufrufen und sich gegenseitig zu Mitgefühl und Erbarmen anspornen.",
+  "Wer immer sich nur die unmittelbaren Vorteile wünscht, so gewähren Wir davon so viel Wir möchten, wem immer Wir wollen. Danach schicken Wir ihn in die Hölle, wo er brennen wird, in Schande gestürzt und verstoßen.",
+  "Wer auch immer an Gott glaubt und gut, rechtschaffen handelt, deren böse Taten wird Er für sie auslöschen und sie eintreten lassen in Gärten, durch die Ströme fließen, in denen sie für immer verweilen werden. Das ist die höchste Glückseligkeit.",
+  "Die Bewohner des Paradieses werden den Bewohnern des Feuers zurufen: „Jetzt haben wir tatsächlich gefunden, dass das, was unser Herr uns versprochen hat, wahr ist. Habt (auch) ihr gefunden, dass das, was euer Herr euch versprochen hat, wahr ist?“ Sie werden sagen: „Ja!“",
+  "Wehe also jenen Betenden, die nachlässig sind in ihren Gebeten, die von anderen dabei gesehen und wahrgenommen werden wollen, und doch jegliche Hilfeleistung verweigern."
 ];
 
 const arapcaAyetler = [
@@ -186,7 +218,7 @@ const fx = new TextScramble(
   audio_element
 );
 let counter = 0;
-
+let mealler = almanca_mealler
 const next = () => {
   playAyet();
 
