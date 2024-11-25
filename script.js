@@ -198,10 +198,9 @@ const ayetler_mp3 = [
 
 const baslik_container = document.querySelector(".ayet_adi");
 const ayet_container = document.querySelector(".ayet_container");
-const meal_container = document.querySelector(".meal");
-const arabic_okunus_contaniner = document.querySelector(
-  ".ayet_okunusu_container"
-);
+const meal_cont_turckce = document.querySelector(".turkce");
+const meal_container = document.querySelector(".almanca");
+const arabic_okunus_contaniner = document.querySelector(".ayet_okunusu_container");
 // const ayet_meal_resim_contaniner = document.querySelector('.ayet_meal_resim_contaniner')
 const audio_element = document.querySelector(".audio");
 const next_Button = document.querySelector("#next-ayet");
@@ -211,6 +210,7 @@ const ayet_counter_Button = document.querySelector("#ayet-no");
 
 const fx = new TextScramble(
   baslik_container,
+  // meal_cont_turckce,
   meal_container,
   ayet_container,
   arabic_okunus_contaniner,
