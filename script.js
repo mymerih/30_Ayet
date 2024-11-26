@@ -115,12 +115,12 @@ const arapcaAyetler = [
   "يُوفُونَ بِالنَّذْرِ وَيَخَافُونَ يَوْمًا كَانَ شَرُّهُ مُسْتَطِيرًا",
   "وَاسْتَغْفِرُوا رَبَّكُمْ ثُمَّ تُوبُوا إِلَيْهِ ۚ إِنَّ رَبِّي رَحِيمٌ وَدُودٌ",
   "كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ مُبَارَكٌ لِّيَدَّبَّرُوا آيَاتِهِ وَلِيَتَذَكَّرَ أُولُوا الْأَلْبَابِ",
-  "وَاللَّهُ أَخْرَجَكُم مِّن بُطُونِ أُمَّهَاتِكُمْ لَا تَعْلَمُونَ شَيْئًا ۖ وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ وَالْأَفْئِدَةَ لَعَلَّكُمْ تَشْكُرُونَ",
+  "وَاللَّهُ أَخْرَجَكُم مِّن بُطُونِ أُمَّهَاتِكُمْ لَا تَعْلَمُونَ شَيْئًا ۖ وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَار�� وَالْأَفْئِدَةَ لَعَلَّكُمْ تَشْكُرُونَ",
   "إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلًا (107) خَالِدِينَ فِيهَا لَا يَبْغُونَ عَنْهَا حِوَلًا (108)",
   "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
   "فِي قُلُوبِهِم مَّرَضٌ فَزَادَهُمُ اللَّهُ مَرَضًا ۖ وَلَهُمْ عَذَابٌ أَلِيمٌ بِمَا كَانُوا يَكْذِبُونَ",
   "وَلَا تَقُولَنَّ لِشَيْءٍ إِنِّي فَاعِلٌ ذَٰلِكَ غَدًا ۝ إِلَّا أَن يَشَاءَ اللَّهُ",
-  "وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا ۚ إِمَّا يَبْلُغَنَّ عِندَكَ الْكِبَرَ أَحَدُهُمَا أَوْ كِلَاهُمَا فَلَا تَقُل لَّهُمَا أُفٍّ وَلَا تَنْهَرْهُمَا وَقُل لَّهُمَا قَوْلًا كَرِيمًا",
+  "وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا ۚ إِمَّا يَبْلُغَنَّ عِندَكَ الْكِبَرَ أَحَدُهُمَا أَوْ كِلَاه��مَا فَلَا تَقُل لَّهُمَا أُفٍّ وَلَا تَنْهَرْهُمَا وَقُل لَّهُمَا قَوْلًا كَرِيمًا",
   "وَأَطِيعُوا اللَّهَ وَرَسُولَهُۥ وَلَا تَنَازَعُوا فَتَفْشَلُوا وَتَذْهَبَ رِيحُكُمْ ۖ وَاصْبِرُوا ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
   "وَلَا تَقْفُ مَا لَيْسَ لَكَ بِهِۦ عِلْمٌ ۚ إِنَّ السَّمْعَ وَالْبَصَرَ وَالْفُؤَادَ كُلُّ أُولَٰئِكَ كَانَ عَنْهُ مَسْئُولًا",
   "ثُمَّ كَانَ مِنَ الَّذِينَ آمَنُوا وَتَوَاصَوْا بِالصَّبْرِ وَتَوَاصَوْا بِالْمَرْحَمَةِ",
@@ -198,14 +198,14 @@ const ayetler_mp3 = [
 
 const baslik_container = document.querySelector(".ayet_adi");
 const ayet_container = document.querySelector(".ayet_container");
-const meal_cont_turckce = document.querySelector(".turkce");
-const meal_container = document.querySelector(".almanca");
+const meal_container = document.querySelector("#meal");
 const arabic_okunus_contaniner = document.querySelector(".ayet_okunusu_container");
 // const ayet_meal_resim_contaniner = document.querySelector('.ayet_meal_resim_contaniner')
 const audio_element = document.querySelector(".audio");
 const next_Button = document.querySelector("#next-ayet");
 const prev_Button = document.querySelector("#prev-ayet");
 const ayet_counter_Button = document.querySelector("#ayet-no");
+const ayetTekrar_checkbox = document.querySelector("#ayetTekrar");
 
 
 const fx = new TextScramble(
@@ -217,8 +217,11 @@ const fx = new TextScramble(
   // ayet_meal_resim_contaniner,
   audio_element
 );
+
+// ayetTekrar_checkbox.addEventListener('change', )
 let counter = 0;
 let mealler = almanca_mealler
+
 const next = () => {
   playAyet();
 
@@ -231,14 +234,15 @@ const next = () => {
     counter
   ).then(() => {
     audio_element.addEventListener("ended", () => {
-      setTimeout(() => {
-        counter = (counter + 1) % mealler.length;
-        console.log("meal uzunlugu: " + mealler[counter].length);
-        console.log("dizi uzunlugu: " + mealler.length);
-        console.log("counter: " + counter);
-        next();
-      }, (45 * mealler[counter].length));
-    }, { once: true});
+      if (ayetTekrar_checkbox.checked) {
+        playAyet();
+      } else {
+        setTimeout(() => {
+          counter = (counter + 1) % mealler.length;
+          next();
+        }, 45 * mealler[counter].length);
+      }
+    }, { once: true });
   });
 };
 
@@ -246,7 +250,10 @@ function playAyet() {
   audio_element.src = `./ses 30 Ayet/${ayetler_mp3[counter]}`;
   audio_element.playbackRate = 1.20;
   audio_element.play(); // play the audio
-};
+  if (ayetTekrar_checkbox.checked) {
+    audio_element.addEventListener("ended", playAyet, { once: true });
+  }
+}
 
 next_Button.addEventListener("click", () => {
   counter = (counter + 1) % mealler.length;
