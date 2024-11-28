@@ -209,23 +209,27 @@ const prev_Button = document.querySelector("#prev-ayet");
 const ayet_counter_Button = document.querySelector("#ayet-no");
 const ayetTekrar_checkbox = document.querySelector("#ayetTekrar");
 
+
+// NESNE olusturma
 const fx = new TextScramble(
   baslik_container,
-  // meal_cont_turckce,
   meal_container,
   ayet_container,
   arabic_okunus_contaniner,
-  // ayet_meal_resim_contaniner,
   audio_element
 );
 
-// ayetTekrar_checkbox.addEventListener('change', )
 let counter = 0;
 let mealler = turkce_mealler;
+let endedListener;
 
+// ANA Fonksiyon, Metin Animasyon ve Ayet Seslendirme
 const next = () => {
-  console.log("next checkbox: " + ayetTekrar_checkbox.checked);
+  // Ayet sayici ve oynatma hizi belirleme
+  ayet_counter_Button.value = counter + 1;
   determinePlaybackRate();
+
+  // Meal Animasyon
   fx.setText(
     ayetMealResimler[counter],
     mealler[counter],
@@ -234,9 +238,16 @@ const next = () => {
     ayetler_mp3[counter],
     counter
   ).then(() => {
-    audio_element.addEventListener(
-      "ended",
-      () => {
+    if(audio_element.ended) audio_element.play();
+
+    // Daha once tanimlanmis dinleyiciyi kaldiriyoruz
+    if(endedListener) {
+      audio_element.removeEventListener('ended', endedListener);
+    }
+
+    // Yeni dinleyici olustur ve referansi sakla
+
+    endedListener = () => {
         if (ayetTekrar_checkbox.checked) {
           console.log("next if checkbox: " + ayetTekrar_checkbox.checked);
           playAyet();
@@ -246,38 +257,32 @@ const next = () => {
             next();
           }, 45 * mealler[counter].length);
         }
-      },
-      { once: true }
-    );
+      };
+
+      // Yeni dinleyiciyi tanimla
+      audio_element.addEventListener("ended", endedListener, { once: true });
   });
 };
+
 function determinePlaybackRate() {
   audio_element.src = `./ses 30 Ayet/${ayetler_mp3[counter]}`;
+  console.log('sure1: ', audio_element.src)
+
   audio_element.playbackRate = document.getElementById("playbackRate").value; // Set playback rate
 }
 
 function playAyet() {
-  let res = "";
-  const promisePlay = new Promise((resolve) => (res = resolve));
-  audio_element.play(); // play the audio
+  
   if (ayetTekrar_checkbox.checked) {
     console.log("playAyet if checkbox: " + ayetTekrar_checkbox.checked);
-
+    
+    audio_element.play(); // play the audio
     audio_element.addEventListener("ended", playAyet, { once: true });
   } else {
     console.log("playAyet if checkbox: " + ayetTekrar_checkbox.checked);
-
-    audio_element.addEventListener(
-      "ended",
-      () => {
         counter = (counter + 1) % mealler.length;
         next();
-        res();
-      },
-      { once: true }
-    );
   }
-  return promisePlay;
 }
 
 next_Button.addEventListener("click", () => {
