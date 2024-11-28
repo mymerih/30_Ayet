@@ -94,7 +94,7 @@ const almanca_mealler = [
   "Wer immer sich nur die unmittelbaren Vorteile wünscht, so gewähren Wir davon so viel Wir möchten, wem immer Wir wollen. Danach schicken Wir ihn in die Hölle, wo er brennen wird, in Schande gestürzt und verstoßen.",
   "Wer auch immer an Gott glaubt und gut, rechtschaffen handelt, deren böse Taten wird Er für sie auslöschen und sie eintreten lassen in Gärten, durch die Ströme fließen, in denen sie für immer verweilen werden. Das ist die höchste Glückseligkeit.",
   "Die Bewohner des Paradieses werden den Bewohnern des Feuers zurufen: „Jetzt haben wir tatsächlich gefunden, dass das, was unser Herr uns versprochen hat, wahr ist. Habt (auch) ihr gefunden, dass das, was euer Herr euch versprochen hat, wahr ist?“ Sie werden sagen: „Ja!“",
-  "Wehe also jenen Betenden, die nachlässig sind in ihren Gebeten, die von anderen dabei gesehen und wahrgenommen werden wollen, und doch jegliche Hilfeleistung verweigern."
+  "Wehe also jenen Betenden, die nachlässig sind in ihren Gebeten, die von anderen dabei gesehen und wahrgenommen werden wollen, und doch jegliche Hilfeleistung verweigern.",
 ];
 
 const arapcaAyetler = [
@@ -199,14 +199,15 @@ const ayetler_mp3 = [
 const baslik_container = document.querySelector(".ayet_adi");
 const ayet_container = document.querySelector(".ayet_container");
 const meal_container = document.querySelector("#meal");
-const arabic_okunus_contaniner = document.querySelector(".ayet_okunusu_container");
+const arabic_okunus_contaniner = document.querySelector(
+  ".ayet_okunusu_container"
+);
 // const ayet_meal_resim_contaniner = document.querySelector('.ayet_meal_resim_contaniner')
 const audio_element = document.querySelector(".audio");
 const next_Button = document.querySelector("#next-ayet");
 const prev_Button = document.querySelector("#prev-ayet");
 const ayet_counter_Button = document.querySelector("#ayet-no");
 const ayetTekrar_checkbox = document.querySelector("#ayetTekrar");
-
 
 const fx = new TextScramble(
   baslik_container,
@@ -220,11 +221,11 @@ const fx = new TextScramble(
 
 // ayetTekrar_checkbox.addEventListener('change', )
 let counter = 0;
-let mealler = almanca_mealler
+let mealler = turkce_mealler;
 
 const next = () => {
-  playAyet();
-
+  console.log("next checkbox: " + ayetTekrar_checkbox.checked);
+  determinePlaybackRate();
   fx.setText(
     ayetMealResimler[counter],
     mealler[counter],
@@ -233,26 +234,50 @@ const next = () => {
     ayetler_mp3[counter],
     counter
   ).then(() => {
-    audio_element.addEventListener("ended", () => {
-      if (ayetTekrar_checkbox.checked) {
-        playAyet();
-      } else {
-        setTimeout(() => {
-          counter = (counter + 1) % mealler.length;
-          next();
-        }, 45 * mealler[counter].length);
-      }
-    }, { once: true });
+    audio_element.addEventListener(
+      "ended",
+      () => {
+        if (ayetTekrar_checkbox.checked) {
+          console.log("next if checkbox: " + ayetTekrar_checkbox.checked);
+          playAyet();
+        } else {
+          setTimeout(() => {
+            counter = (counter + 1) % mealler.length;
+            next();
+          }, 45 * mealler[counter].length);
+        }
+      },
+      { once: true }
+    );
   });
 };
+function determinePlaybackRate() {
+  audio_element.src = `./ses 30 Ayet/${ayetler_mp3[counter]}`;
+  audio_element.playbackRate = document.getElementById("playbackRate").value; // Set playback rate
+}
 
 function playAyet() {
-  audio_element.src = `./ses 30 Ayet/${ayetler_mp3[counter]}`;
-  audio_element.playbackRate = 1.20;
+  let res = "";
+  const promisePlay = new Promise((resolve) => (res = resolve));
   audio_element.play(); // play the audio
   if (ayetTekrar_checkbox.checked) {
+    console.log("playAyet if checkbox: " + ayetTekrar_checkbox.checked);
+
     audio_element.addEventListener("ended", playAyet, { once: true });
+  } else {
+    console.log("playAyet if checkbox: " + ayetTekrar_checkbox.checked);
+
+    audio_element.addEventListener(
+      "ended",
+      () => {
+        counter = (counter + 1) % mealler.length;
+        next();
+        res();
+      },
+      { once: true }
+    );
   }
+  return promisePlay;
 }
 
 next_Button.addEventListener("click", () => {

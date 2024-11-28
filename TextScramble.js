@@ -65,7 +65,6 @@ export class TextScramble {
       // this.ayet_meal_resim_contaniner.alt = this.ayetMealResim.replace(/\.png$/) + ' Resmi';
       
       if(complete===this.queue.length) {
-        
         this.resolve();
       }else{
         this.frameRequest=setTimeout(requestAnimationFrame(this.update), 900);
