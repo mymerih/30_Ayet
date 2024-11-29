@@ -261,23 +261,21 @@
     <!-- Meal Bekleme Suresini Belirleme -->
     <div class="meal_bekleme_container">
       <label for="mealBeklemeKatsayisi">Meal Bekleme Süresi:</label>
-      <output id="beklemeKatsayisiOutput">45</output>
-      <input list="sureler" id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi" placeholder="Süre Girin"
-      onfocus="this.select()"
-      onchange="beklemeSuresiGir(this.value);
-      this.blur();">
-      <datalist id="sureler">
-        <option value="0">
-        <option value="5">
-        <option value="10">
-        <option value="20">
-        <option value="30">
-        <option value="40">
-        <option value="50">
-        <option value="60">
-        <option value="70">
-      </datalist>
-    </div>
+      <span id="beklemeKatsayisiOutput">45</span>
+      <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi" 
+      onchange="beklemeSuresiGir(this);">
+          <option value="">Süre Seçin</option>
+          <option value="0">0</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+          <option value="60">60</option>
+          <option value="70">70</option>
+      </select>
+  </div>
 
   </div>
 

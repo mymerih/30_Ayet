@@ -320,16 +320,19 @@ auto_play.addEventListener('input', () => {
 });
 
 // Bekleme Suresi Girme Fonksiyonu
-    meal_bekleme_suresi_input.addEventListener('input', () => {
-    mealBeklemeKatsayisi = meal_bekleme_suresi_input.value;
-    console.log('bekleme suresi: ', mealBeklemeKatsayisi);
-  });
+  //   meal_bekleme_suresi_input.addEventListener('input', () => {
+  //   mealBeklemeKatsayisi = meal_bekleme_suresi_input.value;
+  //   document.querySelector('#beklemeKatsayisiOutput').value=mealBeklemeKatsayisi
 
-  window.beklemeSuresiGir = function (beklemeKatsayisi) {
+  //   console.log('bekleme suresi: ', mealBeklemeKatsayisi);
+  // });
+
+  window.beklemeSuresiGir = function (selectElement) {
+    let beklemeKatsayisi = selectElement.value
+    if(!beklemeKatsayisi) return;
     mealBeklemeKatsayisi = beklemeKatsayisi;
-    document.querySelector('#beklemeKatsayisiOutput').value=beklemeKatsayisi
-
-    console.log('bekleme suresi: ', mealBeklemeKatsayisi);
+    document.querySelector('#beklemeKatsayisiOutput').textContent=beklemeKatsayisi;
+    // selectElement.value = '';
   }
 
 next();
