@@ -208,6 +208,7 @@ const next_Button = document.querySelector("#next-ayet");
 const prev_Button = document.querySelector("#prev-ayet");
 const ayet_counter_Button = document.querySelector("#ayet-no");
 const ayetTekrar_checkbox = document.querySelector("#ayetTekrar");
+const auto_play = document.querySelector('#auto-play');
 
 
 // NESNE olusturma
@@ -251,7 +252,9 @@ const next = () => {
         if (ayetTekrar_checkbox.checked) {
           console.log("next if checkbox: " + ayetTekrar_checkbox.checked);
           playAyet();
-        } else {
+        } else if (!auto_play.checked) {
+          
+        }else {
           setTimeout(() => {
             counter = (counter + 1) % mealler.length;
             next();
@@ -299,6 +302,19 @@ ayet_counter_Button.addEventListener("change", (e) => {
   counter = (parseInt(e.target.value) - 1) % mealler.length;
   ayet_counter_Button.blur();
   next();
+});
+
+// Auto Play checkbox'i dinleyerek programi baslatma
+auto_play.addEventListener('input', () => {
+  console.log('auto-play: ', auto_play.checked);
+  if (auto_play.checked) {
+  if (audio_element.ended) audio_element.play();
+
+  audio_element.addEventListener('ended', () => {
+  counter = (counter + 1) % mealler.length;
+  next();
+  }, {once : true});
+}
 });
 
 next();
