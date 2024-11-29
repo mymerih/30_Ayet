@@ -128,7 +128,7 @@
 
     }
 
-    #playbackRateValue {
+    output, #playbackRateValue, #beklemeKatsayisiOutput {
       background-color: #000000;
       font-size: 12px;
       font-weight: 900;
@@ -180,6 +180,17 @@
       transform: scale(1.5);
     }
 
+    .meal_bekleme_container {
+      display: flex;
+      align-items: center;
+      max-height: 30px;
+    }
+    #mealBeklemeKatsayisi {
+      max-width: 80px;
+      padding: 5px;
+      text-align: center;
+    }
+
     .video-container {
       max-width: 80%;
     }
@@ -209,7 +220,7 @@
       <div class="audio-container">
         <!-- Player ve Ayet Tekrari -->
         <div class="audioControlRepeat">
-          <audio class="audio" src="" controls ></audio>
+          <audio class="audio" src="" controls></audio>
           <label for="ayetTekrar">&#x1f501:<div id="x1f501"></div></label>
           <input type="checkbox" id="ayetTekrar">
         </div>
@@ -220,8 +231,7 @@
             <output id="playbackRateValue">1.9</output>
           </div>
           <div>
-            0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="2" value="1.9" step="0.1" 
-            oninput="document.querySelector('.audio').playbackRate = this.value; 
+            0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="2" value="1.9" step="0.1" oninput="document.querySelector('.audio').playbackRate = this.value; 
             document.getElementById('playbackRateValue').value = this.value">2.0
           </div>
         </div>
@@ -230,7 +240,6 @@
       <!-- Ayet Secim Kontrol Tuslari -->
       <div class="buton_container">
         <label for="ayet-no">AyetNo:</label>
-        <!-- <input type="number" id="ayet-no" min="1" max="30" value="1" onchange="updateCounter(this.value)"> -->
         <input type="number" id="ayet-no" min="1" max="30" value="1" onfocus="this.select()"
           onchange="updateCounter(this.value); this.blur()">
         <button id="prev-ayet" onclick="">Geri</button>
@@ -239,7 +248,37 @@
         <input type="checkbox" id="auto-play" checked>
       </div>
     </div>
+
+    <!-- Meali Gosterme -->
     <div class="meal" id="meal"></div>
+
+    <!-- Meal icin dil secimi -->
+     <!-- <div class="meal_dili_secimi">
+      <label for="turkce">Meal Lisani</label>
+      <input type="checkbox" id="turkce">
+     </div> -->
+
+    <!-- Meal Bekleme Suresini Belirleme -->
+    <div class="meal_bekleme_container">
+      <label for="mealBeklemeKatsayisi">Meal Bekleme Süresi:</label>
+      <output id="beklemeKatsayisiOutput">45</output>
+      <input list="sureler" id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi" placeholder="Süre Girin"
+      onfocus="this.select()"
+      onchange="beklemeSuresiGir(this.value);
+      this.blur();">
+      <datalist id="sureler">
+        <option value="0">
+        <option value="5">
+        <option value="10">
+        <option value="20">
+        <option value="30">
+        <option value="40">
+        <option value="50">
+        <option value="60">
+        <option value="70">
+      </datalist>
+    </div>
+
   </div>
 
 

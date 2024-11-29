@@ -209,7 +209,7 @@ const prev_Button = document.querySelector("#prev-ayet");
 const ayet_counter_Button = document.querySelector("#ayet-no");
 const ayetTekrar_checkbox = document.querySelector("#ayetTekrar");
 const auto_play = document.querySelector('#auto-play');
-
+const meal_bekleme_suresi_input = document.querySelector('#mealBeklemeKatsayisi');
 
 // NESNE olusturma
 const fx = new TextScramble(
@@ -220,9 +220,11 @@ const fx = new TextScramble(
   audio_element
 );
 
+// Degiskenler
 let counter = 0;
 let mealler = turkce_mealler;
 let endedListener;
+let mealBeklemeKatsayisi = 45;
 
 // ANA Fonksiyon, Metin Animasyon ve Ayet Seslendirme
 const next = () => {
@@ -258,7 +260,7 @@ const next = () => {
           setTimeout(() => {
             counter = (counter + 1) % mealler.length;
             next();
-          }, 45 * mealler[counter].length);
+          }, mealBeklemeKatsayisi * mealler[counter].length);
         }
       };
 
@@ -316,5 +318,18 @@ auto_play.addEventListener('input', () => {
   }, {once : true});
 }
 });
+
+// Bekleme Suresi Girme Fonksiyonu
+    meal_bekleme_suresi_input.addEventListener('input', () => {
+    mealBeklemeKatsayisi = meal_bekleme_suresi_input.value;
+    console.log('bekleme suresi: ', mealBeklemeKatsayisi);
+  });
+
+  window.beklemeSuresiGir = function (beklemeKatsayisi) {
+    mealBeklemeKatsayisi = beklemeKatsayisi;
+    document.querySelector('#beklemeKatsayisiOutput').value=beklemeKatsayisi
+
+    console.log('bekleme suresi: ', mealBeklemeKatsayisi);
+  }
 
 next();
