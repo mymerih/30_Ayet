@@ -291,16 +291,19 @@ function playAyet() {
 }
 
 next_Button.addEventListener("click", () => {
+  fx.shouldStop = true;
   counter = (counter + 1) % mealler.length;
   next();
 });
 
 prev_Button.addEventListener("click", () => {
+  fx.shouldStop = true;
   counter = (counter - 1) % mealler.length;
   next();
 });
 
 ayet_counter_Button.addEventListener("change", (e) => {
+  fx.shouldStop = true;
   counter = (parseInt(e.target.value) - 1) % mealler.length;
   ayet_counter_Button.blur();
   next();
@@ -310,11 +313,10 @@ ayet_counter_Button.addEventListener("change", (e) => {
 auto_play.addEventListener('input', () => {
   console.log('auto-play: ', auto_play.checked);
   if (auto_play.checked) {
-  if (audio_element.ended) audio_element.play();
-
-  audio_element.addEventListener('ended', () => {
-  counter = (counter + 1) % mealler.length;
-  next();
+    if (audio_element.ended) audio_element.play();
+    audio_element.addEventListener('ended', () => {
+    counter = (counter + 1) % mealler.length;
+    next();
   }, {once : true});
 }
 });

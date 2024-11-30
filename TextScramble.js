@@ -15,6 +15,7 @@ export class TextScramble {
     this.meal_container = meal_container;
     this.chars = "!<>-_\\/[]{}—=+*^?#________";
     this.update = this.update.bind(this);
+    this.shouldStop = false;
   }
 
   setText(ayetMealResim, yeniMeal, arapcaAyet, ayetOkunusu, ayetMp3) {
@@ -40,25 +41,31 @@ export class TextScramble {
     console.log('sure: ', this.audio_element.duration)
     this.playAyet();
     this.update();
+
+    this.shouldStop = false;
+
     return promise;
   }
 
   update() {
     let output = "";
     let complete = 0;
-    for (let i = 0, n = this.queue.length; i < n; i++) {
-      let { from, to, start, end, char } = this.queue[i];
-      if (this.frame >= end) {
-        complete++;
-        output += to;
-      } else if (this.frame >= start) {
-        if (!char || Math.random() < 0.58) {
-          char = this.randomChar();
-          this.queue[i].char = char;
+    let i, n;
+    for (i = 0, n = this.queue.length; i < n; i++) {
+      if (!this.shouldStop) {
+        let { from, to, start, end, char } = this.queue[i];
+        if (this.frame >= end) {
+          complete++;
+          output += to;
+        } else if (this.frame >= start) {
+          if (!char || Math.random() < 0.58) {
+            char = this.randomChar();
+            this.queue[i].char = char;
+          }
+          output += `<span class="dud">&hearts;</span>`;
+        } else {
+          output += from;
         }
-        output += `<span class="dud">&hearts;</span>`;
-      } else {
-        output += from;
       }
     }
     output = output.replace(/\.{1,}/g, ".<br>");
