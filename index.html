@@ -47,13 +47,7 @@
       background-color: #a7bc78;
     }
 
-    /* .ayet_meal_resim_contaniner {
-      max-width: 100%;
-      color: red;
-      font-weight: 900;
-    } */
-
-    .arapca {
+     .arapca {
 
       background-color: #fdda7a;
       color: #000000;
@@ -191,10 +185,6 @@
       text-align: center;
     }
 
-    .video-container {
-      max-width: 80%;
-    }
-  
 /* Medya sorguları ile responsive tasarımı destekleme */
 @media (max-width: 768px) {
   .container {
@@ -257,15 +247,7 @@ body {
 
   <div class="container">
     <h3 class="ayet_adi"></h3>
-    <!-- <video class="video-container"  controls autoplay> -->
-    <!-- <source src="video_30_Ayet/Rad_28.mp4" type="video/mp4"> -->
-    <!-- <source src="video.ogg" type="video/ogg"> -->
-    <!-- <p>Tarayıcınız video etiketini desteklemiyor.</p> -->
-    <!-- </video> -->
-    <!-- <picture>
-      <source srcset="" media="(max-width: 600px)">
-      <img class="ayet_meal_resim_contaniner" src="./Resim 30 Ayet/" alt="Resim">
-    </picture> -->
+   
     <div class="arapca">
       <div class="ayet_container"></div>
       <div class="ayet_okunusu_container"></div>
@@ -282,11 +264,11 @@ body {
         <div class="speed-control">
           <div>
             <label for="playbackRate">Çalma Hızı:</label>
-            <output id="playbackRateValue">1.9</output>
+            <output id="playbackRateValue">1.0</output>
           </div>
           <div>
-            0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="2" value="1.9" step="0.1" oninput="document.querySelector('.audio').playbackRate = this.value; 
-            document.getElementById('playbackRateValue').value = this.value">2.0
+            0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="2" value="1.0" step="0.1" oninput="document.querySelector('.audio').playbackRate = this.value; 
+            document.getElementById('playbackRateValue').value = this.value">1.0
           </div>
         </div>
       </div>
@@ -314,7 +296,7 @@ body {
 
     <!-- Meal Bekleme Suresini Belirleme -->
     <div class="meal_bekleme_container">
-      <label for="mealBeklemeKatsayisi">Meal Bekleme Süresi:</label>
+      <label for="mealBeklemeKatsayisi">Meal Bekleme Katsayısı:</label>
       <span id="beklemeKatsayisiOutput">45</span>
       <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi" 
       onchange="beklemeSuresiGir(this);">
@@ -328,8 +310,13 @@ body {
           <option value="50">50</option>
           <option value="60">60</option>
           <option value="70">70</option>
-      </select>
-  </div>
+        </select>
+      </div>
+      <div class="bekleme_suresi_goster">
+        Kalan Bekleme Süresi:
+        <span id="kalan_sure"></span>
+      </div>
+    </div>
 
   </div>
 

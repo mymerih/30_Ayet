@@ -4,18 +4,15 @@ export class TextScramble {
     meal_container,
     ayet_container,
     arabic_okunus_contaniner,
-    // ayet_meal_resim_contaniner,
     audio_element
   ) {
     this.baslik_container = baslik_container;
     this.ayet_container = ayet_container;
     this.arabic_okunus_contaniner = arabic_okunus_contaniner;
-    // this.ayet_meal_resim_contaniner = ayet_meal_resim_contaniner;
     this.audio_element = audio_element;
     this.meal_container = meal_container;
     this.chars = "!<>-_\\/[]{}—=+*^?#________";
     this.update = this.update.bind(this);
-    this.shouldStop = false;
   }
 
   setText(ayetMealResim, yeniMeal, arapcaAyet, ayetOkunusu, ayetMp3) {
@@ -38,11 +35,8 @@ export class TextScramble {
     cancelAnimationFrame(this.frameRequest);
     this.frame = 0;
 
-    console.log('sure: ', this.audio_element.duration)
     this.playAyet();
     this.update();
-
-    this.shouldStop = false;
 
     return promise;
   }
@@ -52,20 +46,18 @@ export class TextScramble {
     let complete = 0;
     let i, n;
     for (i = 0, n = this.queue.length; i < n; i++) {
-      if (!this.shouldStop) {
-        let { from, to, start, end, char } = this.queue[i];
-        if (this.frame >= end) {
-          complete++;
-          output += to;
-        } else if (this.frame >= start) {
-          if (!char || Math.random() < 0.58) {
-            char = this.randomChar();
-            this.queue[i].char = char;
-          }
-          output += `<span class="dud">&hearts;</span>`;
-        } else {
-          output += from;
+      let { from, to, start, end, char } = this.queue[i];
+      if (this.frame >= end) {
+        complete++;
+        output += to;
+      } else if (this.frame >= start) {
+        if (!char || Math.random() < 0.58) {
+          char = this.randomChar();
+          this.queue[i].char = char;
         }
+        output += `<span class="dud">&hearts;</span>`;
+      } else {
+        output += from;
       }
     }
     output = output.replace(/\.{1,}/g, ".<br>");
@@ -78,8 +70,6 @@ export class TextScramble {
     this.ayet_container.innerHTML = this.arapcaAyet;
     this.arabic_okunus_contaniner.innerHTML = this.ayetOkunusu;
     this.meal_container.innerHTML = output;
-    // this.ayet_meal_resim_contaniner.src = `./Resim 30 Ayet/${this.ayetMealResim}`
-    // this.ayet_meal_resim_contaniner.alt = this.ayetMealResim.replace(/\.png$/) + ' Resmi';
 
     if (complete === this.queue.length) {
       this.resolve();
@@ -90,7 +80,7 @@ export class TextScramble {
   }
 
   playAyet() {
-      this.audio_element.play();
+    this.audio_element.play();
   }
 
   randomChar() {

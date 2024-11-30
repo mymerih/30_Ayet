@@ -202,7 +202,6 @@ const meal_container = document.querySelector("#meal");
 const arabic_okunus_contaniner = document.querySelector(
   ".ayet_okunusu_container"
 );
-// const ayet_meal_resim_contaniner = document.querySelector('.ayet_meal_resim_contaniner')
 const audio_element = document.querySelector(".audio");
 const next_Button = document.querySelector("#next-ayet");
 const prev_Button = document.querySelector("#prev-ayet");
@@ -210,6 +209,7 @@ const ayet_counter_Button = document.querySelector("#ayet-no");
 const ayetTekrar_checkbox = document.querySelector("#ayetTekrar");
 const auto_play = document.querySelector('#auto-play');
 const meal_bekleme_suresi_input = document.querySelector('#mealBeklemeKatsayisi');
+const meal_kalan_sure = document.querySelector('#kalan_sure');
 
 // NESNE olusturma
 const fx = new TextScramble(
@@ -225,6 +225,7 @@ let counter = 0;
 let mealler = turkce_mealler;
 let endedListener;
 let mealBeklemeKatsayisi = 45;
+let beklemeSuresi;
 
 // ANA Fonksiyon, Metin Animasyon ve Ayet Seslendirme
 const next = () => {
@@ -251,16 +252,17 @@ const next = () => {
     // Yeni dinleyici olustur ve referansi sakla
 
     endedListener = () => {
-        if (ayetTekrar_checkbox.checked) {
-          console.log("next if checkbox: " + ayetTekrar_checkbox.checked);
-          playAyet();
-        } else if (!auto_play.checked) {
-          
-        }else {
-          setTimeout(() => {
-            counter = (counter + 1) % mealler.length;
+      if (ayetTekrar_checkbox.checked) {
+        console.log("next if checkbox: " + ayetTekrar_checkbox.checked);
+        playAyet();
+      } else if (!auto_play.checked) {
+        
+      }else {
+        counter = (counter + 1) % mealler.length;
+        determineMealBeklemeSuresi();
+        setTimeout(() => {
             next();
-          }, mealBeklemeKatsayisi * mealler[counter].length);
+          }, beklemeSuresi);
         }
       };
 
@@ -269,10 +271,17 @@ const next = () => {
   });
 };
 
+function determineMealBeklemeSuresi() {
+  beklemeSuresi = mealBeklemeKatsayisi * mealler[counter].length;
+  meal_kalan_sure.textContent = `${beklemeSuresi/1000} sn`;
+
+  console.log('beklemeSuresi: '+ beklemeSuresi/1000);
+  console.log('ayet no: '+ (counter+1) + '  ' + 'meal uzunlugu: ' + mealler[counter].length);
+  console.log(mealler[counter]);
+}
+
 function determinePlaybackRate() {
   audio_element.src = `./ses 30 Ayet/${ayetler_mp3[counter]}`;
-  console.log('sure1: ', audio_element.src)
-
   audio_element.playbackRate = document.getElementById("playbackRate").value; // Set playback rate
 }
 
@@ -291,19 +300,18 @@ function playAyet() {
 }
 
 next_Button.addEventListener("click", () => {
-  fx.shouldStop = true;
   counter = (counter + 1) % mealler.length;
   next();
+  determineMealBeklemeSuresi();
 });
 
 prev_Button.addEventListener("click", () => {
-  fx.shouldStop = true;
   counter = (counter - 1) % mealler.length;
   next();
+  determineMealBeklemeSuresi();
 });
 
 ayet_counter_Button.addEventListener("change", (e) => {
-  fx.shouldStop = true;
   counter = (parseInt(e.target.value) - 1) % mealler.length;
   ayet_counter_Button.blur();
   next();
@@ -317,6 +325,7 @@ auto_play.addEventListener('input', () => {
     audio_element.addEventListener('ended', () => {
     counter = (counter + 1) % mealler.length;
     next();
+  determineMealBeklemeSuresi();
   }, {once : true});
 }
 });
@@ -337,6 +346,7 @@ auto_play.addEventListener('input', () => {
     // selectElement.value = '';
   }
 
+determineMealBeklemeSuresi();
 next();
 
 // Dinamik responsive düzenleme
