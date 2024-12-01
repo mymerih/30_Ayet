@@ -194,7 +194,61 @@
     .video-container {
       max-width: 80%;
     }
-  </style>
+  
+/* Medya sorguları ile responsive tasarımı destekleme */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .ayet_container {
+    font-size: 20px;
+  }
+
+  button {
+    padding: 5px 15px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 5px;
+  }
+
+  .ayet_container {
+    font-size: 18px;
+  }
+
+  button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
+
+/* Görsellerin responsive hale getirilmesi */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Yazı tipi boyutlarını dinamikleştirme */
+body {
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 0.8rem;
+}
+
+</style>
   <!-- <script type="module" src="script.js" defer></script> -->
 
 </head>

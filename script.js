@@ -338,3 +338,14 @@ auto_play.addEventListener('input', () => {
   }
 
 next();
+
+// Dinamik responsive düzenleme
+window.addEventListener("resize", () => {
+    const width = window.innerWidth;
+
+    if (width < 768) {
+        document.querySelector(".container").style.flexDirection = "column";
+    } else {
+        document.querySelector(".container").style.flexDirection = "row";
+    }
+});
