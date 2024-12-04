@@ -15,85 +15,82 @@
 
     html,
     body {
-      margin: 0;
+      box-sizing: border-box;
+      margin: 0px auto;
       font-family: 'Roboto Mono', monospace;
       /* background: #0f0f0f; */
       height: 100vh;
+      font-size: 4vw;
     }
-
+    
     .container {
-      color: rgb(188, 3, 245);
+      color: #000000;
       background-color: #9ee0ff;
-      border: 1px solid wheat;
-      display: flex;
-      flex-direction: column;
       width: 100%;
       height: 100%;
+      padding: 0.15rem;
+      
+      display: flex;
+      flex-direction: column;
       justify-content: flex-start;
-      align-content: center;
       align-items: center;
     }
-
+    
+    .ayetAdi_ayetKontrolu{
+      width: 100%;
+    }
     .ayet_adi {
       font-family: 'Playfair+Display', serif;
       font-family: 'Oswald', sans-serif;
-      width: 100%;
+      /* width: 100%; */
       text-align: center;
-      color: #000000;
-      font-size: 20px;
+      font-size: 1.0rem;
       font-weight: 900;
-      padding: 5px;
-      margin: 0px;
+      /* padding: 5px; */
+      margin: 0px 0px;
       background-color: #a7bc78;
     }
 
-     .arapca {
+    .arapca {
 
       background-color: #fdda7a;
-      color: #000000;
       width: 95%;
       padding: 7px;
-      margin: 5px 0px;
+      margin: 5px 0 5px 0;
     }
 
     .ayet_container {
       /* font-family: 'Amiri', serif; */
       font-family: 'Scheherazade New', serif;
-      /* background-color: #a7bc78; */
-      color: #000000;
       font-weight: 100;
-      font-size: 26px;
+      font-size: 1.5rem;
+
       /* padding: 10px; */
       /* margin: 10px 2px; */
     }
 
     .ayet_okunusu_container {
       background-color: #f5f2f0;
-      color: #000000;
       font-weight: 900;
-      font-size: 16px;
+      /* font-size: 16px; */
       padding: 5px 5px;
       margin: 5px 0px;
     }
 
     .meal {
+      box-sizing: border-box;
       background-color: #ffbee4;
-      color: #030303;
-      width: 95%;
-      height: 200px;
+      width: 98%;
+      min-height: 200px;
       font-weight: 900;
-      font-size: 16px;
+      /* font-size: 16px; */
       padding: 8px;
-      margin: 5px;
+      margin-bottom: 10px;
     }
 
     .dud {
       color: #ff0303;
       font-size: 14px;
-    }
-
-    .audio-container {
-      /* background-color: #a7bc78; */
     }
 
     .audioControlRepeat {
@@ -118,17 +115,18 @@
       background-color: #a7bc78;
       /* max-width: 100%; */
       padding: 0px 10px;
+      font-size: 0.6rem;
       font-weight: 700;
 
     }
 
-    output, #playbackRateValue, #beklemeKatsayisiOutput {
+    .output {
       background-color: #000000;
-      font-size: 12px;
+      font-size: 0.7rem;
       font-weight: 900;
       color: #fdda7a;
       margin: 0px 10px 0px 0px;
-      padding: 5px 10px;
+      padding: 2px 10px;
     }
 
     .buton_container {
@@ -144,7 +142,7 @@
       background-color: #86a83b;
       color: #ffffff;
       border: none;
-      padding: 7px 30px;
+      padding: 7px 20px;
       font-size: 16px;
       cursor: pointer;
       margin: 0px auto;
@@ -155,18 +153,20 @@
     }
 
     label {
-      font-size: 16px;
+      font-size: 0.7rem;
+      font-weight: 700;
       color: #000000;
       margin: 10px 2px;
     }
 
     #ayet-no {
-      /* background-color: #86a83b; */
+      background-color: #0000ff;
+      color: yellow;
+      font-weight: 700;
       padding: 6px 2px;
       border-radius: 5px;
-      /* display: flex; */
-      /* align-items: center; */
-      width: 20px;
+      text-align: center;
+      width: 25px;
     }
 
     input[type="checkbox"] {
@@ -179,66 +179,28 @@
       align-items: center;
       max-height: 30px;
     }
+
     #mealBeklemeKatsayisi {
-      max-width: 80px;
-      padding: 5px;
+      max-width: 130px;
+      background-color: #0000ff;
+      color: yellow;
+      font-weight: 700;
+      padding: 6px 2px;
+      border-radius: 5px;
       text-align: center;
     }
 
-/* Medya sorguları ile responsive tasarımı destekleme */
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    padding: 10px;
-  }
+    @media screen and (max-width: 768px) {
+      .container {
+        height: auto ;
+      }
+    }
 
-  .ayet_container {
-    font-size: 20px;
-  }
+    /* Medya sorguları ile responsive tasarımı destekleme */
+    
+    /* Yazı tipi boyutlarını dinamikleştirme */
 
-  button {
-    padding: 5px 15px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 5px;
-  }
-
-  .ayet_container {
-    font-size: 18px;
-  }
-
-  button {
-    padding: 5px 10px;
-    font-size: 12px;
-  }
-}
-
-/* Görsellerin responsive hale getirilmesi */
-img, video {
-  max-width: 100%;
-  height: auto;
-}
-
-/* Yazı tipi boyutlarını dinamikleştirme */
-body {
-  font-size: 1rem;
-}
-
-@media (max-width: 768px) {
-  body {
-    font-size: 0.9rem;
-}
-
-@media (max-width: 480px) {
-  body {
-    font-size: 0.8rem;
-}
-
-</style>
+  </style>
   <!-- <script type="module" src="script.js" defer></script> -->
 
 </head>
@@ -246,60 +208,62 @@ body {
 <body>
 
   <div class="container">
-    <h3 class="ayet_adi"></h3>
-   
-    <div class="arapca">
-      <div class="ayet_container"></div>
-      <div class="ayet_okunusu_container"></div>
+    <div class="ayetAdi_ayetKontrolu">
+      <h3 class="ayet_adi"></h3>
+      <div class="arapca">
+        <div class="ayet_container"></div>
+        <div class="ayet_okunusu_container"></div>
 
-      <!-- Audio -->
-      <div class="audio-container">
-        <!-- Player ve Ayet Tekrari -->
-        <div class="audioControlRepeat">
-          <audio class="audio" src="" controls></audio>
-          <label for="ayetTekrar">&#x1f501:<div id="x1f501"></div></label>
-          <input type="checkbox" id="ayetTekrar">
-        </div>
-        <!-- Oynatma Hizi -->
-        <div class="speed-control">
-          <div>
-            <label for="playbackRate">Çalma Hızı:</label>
-            <output id="playbackRateValue">1.0</output>
+        <!-- Audio -->
+        <div class="audio-container">
+          <!-- Player ve Ayet Tekrari -->
+          <div class="audioControlRepeat">
+            <audio class="audio" src="" controls></audio>
+            <label for="ayetTekrar">&#x1f501:<div id="x1f501"></div></label>
+            <input type="checkbox" id="ayetTekrar">
           </div>
-          <div>
-            0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="2" value="1.0" step="0.1" oninput="document.querySelector('.audio').playbackRate = this.value; 
+          <!-- Oynatma Hizi -->
+          <div class="speed-control">
+            <div>
+              <label for="playbackRate">Çalma Hızı:</label>
+              <span class="output" id="playbackRateValue">1.0</span>
+            </div>
+            <div>
+              0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="2" value="1.0" step="0.1"
+                oninput="document.querySelector('.audio').playbackRate = this.value; 
             document.getElementById('playbackRateValue').value = this.value">1.0
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Ayet Secim Kontrol Tuslari -->
-      <div class="buton_container">
-        <label for="ayet-no">AyetNo:</label>
-        <input type="number" id="ayet-no" min="1" max="30" value="1" onfocus="this.select()"
-          onchange="updateCounter(this.value); this.blur()">
-        <button id="prev-ayet" onclick="">Geri</button>
-        <button id="next-ayet" onclick="">İleri</button>
-        <label for="auto-play">Auto</label>
-        <input type="checkbox" id="auto-play" checked>
+        <!-- Ayet Secim Kontrol Tuslari -->
+        <div class="buton_container">
+          <label for="ayet-no">AyetNo:</label>
+          <input type="number" id="ayet-no" min="1" max="30" value="1" onfocus="this.select()"
+            onchange="updateCounter(this.value); this.blur()">
+          <button id="prev-ayet" onclick="">Geri</button>
+          <button id="next-ayet" onclick="">İleri</button>
+          <label for="auto-play">Auto</label>
+          <input type="checkbox" id="auto-play" checked>
+        </div>
       </div>
     </div>
 
-    <!-- Meali Gosterme -->
-    <div class="meal" id="meal"></div>
+    <div class="meal_digerKontrol">
+      <!-- Meali Gosterme -->
+      <div class="meal" id="meal"></div>
 
-    <!-- Meal icin dil secimi -->
-     <!-- <div class="meal_dili_secimi">
+      <!-- Meal icin dil secimi -->
+      <!-- <div class="meal_dili_secimi">
       <label for="turkce">Meal Lisani</label>
       <input type="checkbox" id="turkce">
      </div> -->
 
-    <!-- Meal Bekleme Suresini Belirleme -->
-    <div class="meal_bekleme_container">
-      <label for="mealBeklemeKatsayisi">Meal Bekleme Katsayısı:</label>
-      <span id="beklemeKatsayisiOutput">45</span>
-      <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi" 
-      onchange="beklemeSuresiGir(this);">
+      <!-- Meal Bekleme Suresini Belirleme -->
+      <div class="meal_bekleme_container">
+        <label for="mealBeklemeKatsayisi">Meal Bekleme Katsayısı:</label>
+        <span class="output" id="beklemeKatsayisiOutput">45</span>
+        <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi" onchange="beklemeSuresiGir(this);">
           <option value="">Süre Seçin</option>
           <option value="0">0</option>
           <option value="5">5</option>
@@ -313,11 +277,10 @@ body {
         </select>
       </div>
       <div class="bekleme_suresi_goster">
-        Kalan Bekleme Süresi:
-        <span id="kalan_sure"></span>
+        <label>Meal Bekleme Süresi:</label>
+        <span class="output" id="kalan_sure"></span>
       </div>
     </div>
-
   </div>
 
 
