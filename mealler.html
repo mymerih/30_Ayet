@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        
+    </div>
+    <script>
+        const turkce_mealler = [
+  "İyi bilin ki kalpler ancak Allah’ı anmakla huzur bulur.",
+  "Nerede bulunursanız bulunun, O daima sizinle beraberdir. Allah bütün yaptıklarınızı görür.",
+  "Sizden, hayra çağıran, iyiliği emreden ve kötülüğe engel olan bir topluluk bulunsun. İşte kurtuluşa erenler onlardır.",
+  "Yiyin, için fakat israf etmeyin. Çünkü Allah israf edenleri sevmez.",
+  "Kim zerre miktarı hayır yapmışsa onu görür. Kim de zerre miktarı şer işlemişse onu görür.",
+  "Başarılı olmam sadece Allah’ın yardımı ile olur. Onun için ben de yalnız O’na dayanıyorum, O’na yöneliyorum.",
+  "Ey iman edenler! Sizden hiçbir topluluk bir başka toplulukla alay etmesin. Ne malum? Belki alay edilenler edenlerden daha hayırlıdır. Birbirinizi karalamayın, birbirinize kötü lakaplar takmayın.",
+  "Hayırlı işlerde birbirinizle yarışın.",
+  "Eğer şükrederseniz, Ben nimetlerimi daha da artırırım, ama nankörlük ederseniz haberiniz olsun ki azabım pek şiddetlidir!",
+  "Muhakkak ki namaz, insanı, ahlâk dışı davranışlardan, meşrû olmayan işlerden uzak tutar.",
+  "Allah’tan, kulları içinde ancak ilim sahibi olanlar korkar.",
+  "Sevdiğiniz şeylerden Allah yolunda harcamadıkça iyiliğe eremezsiniz. Harcadığınız her şeyi Allah hakkıyla bilir.",
+  "Andolsun zamana ki insan gerçekten ziyan içindedir. Ancak iman edip dünya ve âhiret için iyi ve yararlı işler yapanlar, birbirlerine hakkı tavsiye edenler ve sabrı tavsiye edenler başkadır.",
+  "Ey iman edenler! Eğer siz Allah’a yardım ederseniz (emrini tutar, dinini uygularsanız), O da size yardım eder ve ayaklarınızı sağlam bastırır.",
+  "O has kullar, verdikleri sözleri ve üzerlerine aldıkları sorumlulukları yerine getirirler; felâketi bütün ufukları saracak bir günden korkarlar.",
+  "Rabbinizden bağışlanma dileyin, sonra da O’na tövbe edin. Şüphesiz Rabbim, engin merhamet sahibidir ve mü’minleri çok sevmektedir.",
+  "Bu Kur’an, âyetlerini düşünsünler ve akıl sahipleri öğüt alsınlar diye sana indirdiğimiz mübarek bir kitaptır.",
+  "Allah sizi annelerinizin karnından çıkardığı zaman hiçbir şey bilmiyordunuz. Şükredesiniz diye size kulaklar, gözler ve gönüller verdi.",
+  "Şüphesiz, inanıp yararlı işler yapanlara, onlar için, içlerinde ebedi kalacakları Firdevs cennetleri bir konaktır.",
+  "Ey iman edenler! Sabır göstererek ve namazı vesile kılarak Allah'tan yardım dileyin. Muhakkak ki Allah sabredenlerle beraberdir.",
+  "Kalplerinde bir hastalık vardır. Allah da onların hastalığını arttırmıştır. Yalan söylediklerinden dolayı onları elem verici bir azap beklemektedir.",
+  "Yapmaya niyet ettiğin herhangi bir hususta da “Yarın şunu yapacağım.” deme. “İnşâallah (Allah dilerse, izin verirse) yapacağım” de.",
+  "Rabbin kesin olarak şunları emretti: Kendisinden başkasına ibadet etmeyin, ana-babaya da iyi davranın. Onlardan biri veya her ikisi senin yanında yaşlanırsa sakın onlara ‘öf’ bile deme; onları azarlama, onlara tatlı ve güzel söz söyle.",
+  "Allah ve resulüne itaat edin, birbirinize düşmeyin, sonra zayıflarsınız ve zaferi elden kaçırırsınız. Sabredin, kuşkusuz Allah sabredenlerle beraberdir.",
+  "Hakkında kesin bilgi sahibi olmadığın şeye dayanıp karar verme. Çünkü kulak, göz ve kalb, evet bunların hepsi (verdiğin karar, vardığın sonuçtan) sorumludur ve sorguya çekilecektir.",
+  "Bir de, elbette iman etmiş olmak ve karşılıklı sabır teşvik ve tavsiyesinde bulunmak, merhamet teşvik ve tavsiyesinde bulunmaktır.",
+  "Kim şu peşin dünya zevkini isterse, Biz de dilediğimiz kimse hakkında ve dilediğimiz miktarda, o dünya zevkini ona veririz. Ama sonra ona cehennemi mekân kılarız, O da yerilmiş ve kovulmuş olarak oraya atılır.",
+  "Kim Allah'a iman eder, makbul ve güzel işler yaparsa, Allah onun fenalıklarını, günahlarını siler ve içinden ırmaklar akan cennetlere, hem de devamlı kalmak üzere yerleştirir. İşte en büyük başarı, en büyük mutluluk budur.",
+  "Cennetlikler cehennemliklere: “Biz, Rabbimizin bize vâd ettiği şeylerin gerçek olduğunu gördük; siz de Rabbinizin size vâd ettiklerinin gerçekleştiğini gördünüz mü?” deyince onlar: “Evet” diye cevap verirler.",
+  "Vay haline şöyle namaz kılanların: Onlar namazlarının özünden uzaktırlar. İbadetlerini gösteriş için yaparlar, zekât ve diğer yardımlarını esirger, vermezler.",
+];
+
+turkce_mealler.forEach((ayet, index)=> {
+    let para = document.createElement('p');
+    para.id = `ayetNo-${index}`;
+    para.textContent = ayet;
+    document.querySelector('.container').appendChild(para);
+});
+    </script>
+
+
+</body>
+</html>
