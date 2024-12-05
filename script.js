@@ -273,7 +273,7 @@ const next = () => {
 
 function determineMealBeklemeSuresi() {
   beklemeSuresi = mealBeklemeKatsayisi * mealler[counter].length;
-  meal_kalan_sure.textContent = `${(beklemeSuresi / 1000).toFixed(1)} sn`;
+  meal_kalan_sure.textContent = `${beklemeSuresi/1000} sn`;
 
   console.log('beklemeSuresi: '+ beklemeSuresi/1000);
   console.log('ayet no: '+ (counter+1) + '  ' + 'meal uzunlugu: ' + mealler[counter].length);
