@@ -1,4 +1,4 @@
-export const ayatList = [
+export const ayahList = [
   {
     id: 1,
     surah: "Raad",

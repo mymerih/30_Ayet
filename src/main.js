@@ -1,8 +1,8 @@
 // entry point
 import { initializeDOM } from "./domHandlers.js";
-import { setupAyatHandlers } from "./ayatHandlers.js";
+import { setupAyahHandlers } from "./ayahHandlers.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     initializeDOM(); // Initialize UI elements
-    setupAyatHandlers(); // Setup logic for ayat-related operations
+    setupAyahHandlers(); // Setup logic for ayah-related operations
 })

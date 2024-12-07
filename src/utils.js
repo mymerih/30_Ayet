@@ -20,9 +20,9 @@ export const getNextAyah = (currentIndex, ayahList) => {
 
 
 // Bunlar muhtemelen silinecek
-export const fetchAyatData = () => {
-    // Ayat details as array of objects
-    const ayatList = [
+export const fetchAyahData = () => {
+    // Ayah details as array of objects
+    const ayahList = [
 
     ]
 }
