@@ -1,26 +1,23 @@
+
 export class TextScramble {
   constructor(
-    baslik_container,
-    meal_container,
-    ayet_container,
-    arabic_okunus_contaniner,
-    audio_element
+    mealContainer
   ) {
-    this.baslik_container = baslik_container;
-    this.ayet_container = ayet_container;
-    this.arabic_okunus_contaniner = arabic_okunus_contaniner;
-    this.audio_element = audio_element;
-    this.meal_container = meal_container;
+    this.mealContainer = mealContainer;
     this.chars = "!<>-_\\/[]{}—=+*^?#________";
     this.update = this.update.bind(this);
   }
 
-  setText(ayetMealResim, yeniMeal, arapcaAyet, ayetOkunusu, ayetMp3) {
-    this.ayetMealResim = ayetMealResim;
-    this.arapcaAyet = arapcaAyet;
-    this.ayetOkunusu = ayetOkunusu;
+  static bilgi = 'TextScramble.js sinifina erisildi';
+  static yazdirBilgi () {
+    console.log(TextScramble.bilgi);
+  }
+  static {this.yazdirBilgi();
+    console.log('static alan calisti: ', TextScramble.bilgi);}
+
+  setText(yeniMeal, ayetMp3) {
     this.ayetMp3 = ayetMp3;
-    const oldText = this.meal_container?.innerHTML || "";
+    const oldText = this.mealContainer?.innerHTML || "";
     const length = Math.max(yeniMeal.length, oldText.length);
     const promise = new Promise((resolve) => (this.resolve = resolve));
     this.queue = [];
@@ -35,7 +32,6 @@ export class TextScramble {
     cancelAnimationFrame(this.frameRequest);
     this.frame = 0;
 
-    this.playAyet();
     this.update();
 
     return promise;
@@ -55,7 +51,7 @@ export class TextScramble {
           char = this.randomChar();
           this.queue[i].char = char;
         }
-        output += `<span class="dud">&hearts;</span>`;
+        output += `<span class="dud">${char}</span>`;
       } else {
         output += from;
       }
@@ -63,25 +59,17 @@ export class TextScramble {
     output = output.replace(/\.{1,}/g, ".<br>");
 
     // Sayfada Gosterim
-
-    this.baslik_container.innerHTML = this.ayetMp3
-      .replace(/\.mp3$/, "")
-      .replace(/_/, ".Ayet: ");
-    this.ayet_container.innerHTML = this.arapcaAyet;
-    this.arabic_okunus_contaniner.innerHTML = this.ayetOkunusu;
-    this.meal_container.innerHTML = output;
+    this.mealContainer.innerHTML = output;
 
     if (complete === this.queue.length) {
       this.resolve();
     } else {
-      this.frameRequest = setTimeout(requestAnimationFrame(this.update), 900);
+      // this.frameRequest = setTimeout(requestAnimationFrame(this.update), 900);
+      this.frameRequest = requestAnimationFrame(this.update);
       this.frame++;
     }
   }
 
-  playAyet() {
-    this.audio_element.play();
-  }
 
   randomChar() {
     return this.chars[Math.floor(Math.random() * this.chars.length)];

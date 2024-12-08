@@ -1,11 +1,11 @@
-export const ayahList = [
+export const ayatList = [
   {
     id: 1,
     surah: "Raad",
     ayahNumber: 28,
     image: "1_Raad_28.png",
     audio: "1_Raad_28.mp3",
-    arabicText: "ا أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+    arabicText: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
     transliteration: "Elâ bi zikrillâhi tatma'innul kulûb.",
     translations: {
       turkish: "İyi bilin ki kalpler ancak Allah’ı anmakla huzur bulur.",

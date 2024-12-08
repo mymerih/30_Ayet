@@ -17,7 +17,7 @@
     <div class="ayetAdi_ayetKontrolu">
       <h3 class="ayet_adi"></h3>
       <div class="arapca">
-        <div class="ayet_container"></div>
+        <div class="arabicTextConainer"></div>
         <div class="ayet_okunusu_container"></div>
 
         <!-- Audio -->
@@ -47,8 +47,8 @@
           <label for="ayet-no">AyetNo:</label>
           <input type="number" id="ayet-no" min="1" max="30" value="1" onfocus="this.select()"
             onchange="updateCounter(this.value); this.blur()">
-          <button id="prev-btm" onclick="">Geri</button>
-          <button id="next-btn" onclick="">İleri</button>
+          <button id="prevBtn" onclick="">Geri</button>
+          <button id="nextBtn" onclick="">İleri</button>
           <label for="auto-play">Auto</label>
           <input type="checkbox" id="auto-play" checked>
         </div>

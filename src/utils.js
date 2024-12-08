@@ -1,14 +1,14 @@
 // for utility/helper functions
-import { ayahList } from "./data/ayahList.js";
+import { ayatList } from "../data/ayatList.js";
 
-export const getNextAyah = (currentIndex, ayahList) => {
-    if(!Array.isArray(ayahList) || ayahList.length === 0) {
-        throw new Error("ayahList must be a non-empty array");
+export const getNextAyah = (currentIndex, ayatList) => {
+    if(!Array.isArray(ayatList) || ayatList.length === 0) {
+        throw new Error("ayatList must be a non-empty array");
     }
     if (typeof currentIndex !== 'number' || currentIndex < 0 ) {
-        throw new Error("currentIndex must be a valid index in ayahList")
+        throw new Error("currentIndex must be a valid index in ayatList")
     }
-    return ayahList[(currentIndex + 1) % ayahList.length];
+    return ayatList[(currentIndex + 1) % ayatList.length];
 };
 
 
@@ -20,9 +20,9 @@ export const getNextAyah = (currentIndex, ayahList) => {
 
 
 // Bunlar muhtemelen silinecek
-export const fetchAyahData = () => {
+export const ayatList = () => {
     // Ayah details as array of objects
-    const ayahList = [
+    const ayatList = [
 
     ]
 }
