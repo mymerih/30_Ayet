@@ -1,10 +1,9 @@
-// for Quran ayah-related logic
-// import { getElements, updateContent, updateAudio } from "./domHandlers.js";
+// Handles Quran ayah-related logic
 import * as domHandlers from "./domHandlers.js";
 import { TextScramble } from "./TextScramble.js";
 import { ayatList } from "../data/ayahList.js";
 
-// Initialize TextScramble with DOM elements
+// Cache DOM Elements
 const {
   baslikContainer,
   arabicTextConainer,
@@ -13,18 +12,30 @@ const {
   audioPlayer,
   nextBtn,
   prevBtn,
+  ayahNummerInput,
+  ayahPlaybackRateInput,
+  ayahPlaybackRateSpan,
+  ayahRepeatCheckbox,
+  autoPlay,
+  mealRemainingTime,
+  mealWaitingFactorInput,
 } = domHandlers.getElements();
 
 // Global degiskenler
 let currentIndex = 0; // Index of Ayat
-let isAnimating = false; // Kontrol degiskeni. Animasyon devam ederken diger ayete gecisi onlemek icin
-let counter = 0; // Ayet atlama adedi.
-
+let jumpCounter = 0; // Ayet atlama adedi.
+let displayAllowed = false; // next'e basilmis ise animasyondan sonra devam eder
+// TextScramble nesne ornegi olusturma
 const fx = new TextScramble(mealContainer);
 
 export const setupAyahHandlers = () => {
   nextBtn.addEventListener("click", () => handleNextAyah());
   prevBtn.addEventListener("click", handlePrevAyah);
+  ayahNummerInput.addEventListener("change", (event) =>
+    changeAyahNummer(event)
+  );
+  // ayahPlaybackRateInput.addEventListener("input", changeAyahPlaybackRate);
+  domHandlers.addEvent(ayahPlaybackRateInput, "input", updateAyahPlaybackRate);
 
   // Display the initial ayah
   displayAyah(currentIndex);
@@ -32,70 +43,115 @@ export const setupAyahHandlers = () => {
 
 // Async function to display ayah with animation and audio
 async function displayAyah(index) {
-  if (!ayatList[index]) {
-    console.error("Ayah couldnt be find!");
-  }
   const ayah = ayatList[index];
 
-  // Update header, arabic text, arabic pronounciation
-  domHandlers.updateContent(
-    baslikContainer,
-    `${ayah.id}.Ayet: ${ayah.surah}_${ayah.id}`
-  );
-  domHandlers.updateContent(arabicTextConainer, ayah.arabicText);
-  domHandlers.updateContent(arabicPronunciationContainer, ayah.transliteration);
-  domHandlers.updateAudio(audioPlayer, `../assets/audio/${ayah.audio}`);
+  if (!ayah) {
+    console.error("Ayah couldnt be find!");
+  }
 
-  // Animate and show the ayah with TextScramble
-  await fx.setText(ayah.translations.turkish);
+  // Update header, arabic text, arabic pronounciation
+  updatePage(ayah);
+  playAyah(ayah);
+
+  await fx
+  .setText(ayah.translations.turkish) // Metin icin animasyon baslatilir
+  .then(() => {
+    // Amimasyon tamamlandiktan sonra burasi calisir
+    console.log("Animasyon tamamlandi.");
+    if (displayAllowed) {
+      //Animasyon tamamlanmadan next/prev'e basilirsa burasi calisir
+      displayAllowed = false; // Mevcut ayetin islenmesine baslanir ve yenisi engellenir.
+      fx.isAnimating = true; // Animasyonun basladigini gosteren bayrak aktif edilir
+      currentIndex = (currentIndex + jumpCounter + ayatList.length) % ayatList.length; // jumpCounter kadar atlanir
+      jumpCounter = 0; // Sayaci sifirla
+
+      displayAyah(currentIndex);
+    }
+  })
+  .finally(() => {
+    // fx.isAnimating = false;
+    //Animasyon tamamlandiginda bayragi sifirla
+  });
 }
 
 // Function to handle 'Next Ayah' logic
-async function handleNextAyah(skipAnimation = false) {
-  counter = counter + 1;
+async function handleNextAyah() {
+  // Animasyon devam etmiyorsa sonraki ayeti goster
+  if (!fx.isAnimating) {
+    fx.isAnimating = true;
 
-  if (isAnimating) {
-    console.warn("Animasyon devam ediyor, lütfen bekleyin.");
-    return;
-  }
+    // Bir sonraki ayete gec
+    currentIndex = (currentIndex + 1) % ayatList.length;
 
-  try {
-    isAnimating = true; // Animasyon basliyor. Animasyon bitene kadar bu kismi tekrar calistirma.
-
-    if (!skipAnimation) {
-      // Wait for the current ayah's animation to complete before moving to the next
-      await displayAyah(currentIndex);
-    }
-
-    // Move to the next Ayah
-    if (counter > 0) {
-      currentIndex = (currentIndex + counter) % ayatList.length;
-      counter = 0;
-    } else {
-      currentIndex = (currentIndex + 1) % ayatList.length;
-    }
-    // Display the next Ayah
-    displayAyah(currentIndex);
-  } catch (error) {
-    console.error("Bir hata olustu. Hata: ", error);
-  } finally {
-    isAnimating = false; // Islem tammamlandi, kilidi kaldir.
+    // Yeni ayeti goster ve animasyonu baslat
+    await displayAyah(currentIndex);
+  } else {
+    jumpCounter = jumpCounter + 1; // Next tusuna basma adedi. Atlanacak ayet sayisi
+    ayahNummerInput.value =( (currentIndex + jumpCounter) % ayatList.length) + 1; //Atlanacak ayet sayisini goster
+    // Animasyon devam ediyorsa setText() donusunde otomatik jumpCounter kadar sonraki ayeti goster.
+    displayAllowed = true; // Next tusuna basildi, ama ayet gosterilemedi. Otomatik sonraki ayetleri goster.
   }
 }
 
 // Function to handle 'Previous Ayah' logic
 async function handlePrevAyah() {
-  counter = counter -1;
+  // Animasyon devam etmiyorsa sonraki ayeti goster
+  if (!fx.isAnimating) {
+    fx.isAnimating = true;
 
-  if (isAnimating) {
-    console.warn("Animasyon devam ediyor, lütfen bekleyin.");
-    return;
+    // Move to the previous ayah
+    currentIndex = (currentIndex - 1 + ayatList.length) % ayatList.length;
+
+    // Display and wait for the current ayah's animation to complete
+    await displayAyah(currentIndex);
+  } else {
+    jumpCounter = jumpCounter - 1; // Next tusuna basma adedi. Atlanacak ayet sayisi
+    ayahNummerInput.value =
+     ( (currentIndex + jumpCounter + ayatList.length) % ayatList.length) +1;
+
+    // Animasyon devam ediyorsa setText() donusunde otomatik jumpCounter kadar sonraki ayeti goster.
+    displayAllowed = true; // Next tusuna basildi, ama ayet gosterilemedi. Otomatik sonraki ayetleri goster.
   }
+}
 
-  // Wait for the current ayah's animation to complete
-  await displayAyah(currentIndex);
+async function changeAyahNummer(event) {
+  // Animasyon devam etmiyorsa sonraki ayeti goster
+  if (!fx.isAnimating) {
+    fx.isAnimating = true;
 
-  // Move to the previous ayah
-  currentIndex = (currentIndex - 1 + ayatList.length) % ayatList.length;
-  displayAyah(currentIndex);
+    // Move to the given ayah
+    currentIndex = (parseInt(ayahNummerInput.value) - 1) % ayatList.length; //input'a girilen degeri string'den sayiya cevirir.
+    ayahNummerInput.blur(); // Odaktan cikar.
+
+    // Display and wait for the current ayah's animation to complete
+    await displayAyah(currentIndex);
+  } else {
+    // Animasyon devam ediyorsa setText() donusunde otomatik jumpCounter kadar sonraki ayeti goster.
+    displayAllowed = true; // Next tusuna basildi, ama ayet gosterilemedi. Otomatik sonraki ayetleri goster.
+  }
+}
+
+// Update header, arabic text, arabic pronounciation
+function updatePage(ayah) {
+  domHandlers.updateContent(
+    baslikContainer,
+    `${ayah.id}.Ayet: ${ayah.surah}_${ayah.id}`
+  );
+  domHandlers.setInputValue(ayahNummerInput, ayah.id); // Ayet No'yu gunceller
+  domHandlers.updateContent(arabicTextConainer, ayah.arabicText); // Arapca ayeti gunceller
+  domHandlers.updateContent(arabicPronunciationContainer, ayah.transliteration); // Arapca okunusu gunceller
+  domHandlers.setAttribute(audioPlayer, "src", `../assets/audio/${ayah.audio}`); // ayet mp3 src'sini gunceller.
+  // domHandlers.updateAudio(audioPlayer, `../assets/audio/${ayah.audio}`);
+}
+
+function updateAyahPlaybackRate() {
+  let ayahPlaybackRate = ayahPlaybackRateInput.value; // Oynatma hizi degisince, degiskene atar.
+  audioPlayer.value = ayahPlaybackRate; // Src'u degisen player'in resetlenen oynatma hizini ayarlanan degere gunceller
+  return ayahPlaybackRate;
+  // domHandlers.setInputValue(playbackRateValue, ayahPlaybackRateInput.value)
+}
+
+function playAyah(ayah) {
+  audioPlayer.playbackRate = updateAyahPlaybackRate();
+  audioPlayer.play();
 }

@@ -1,45 +1,27 @@
 // for DOM-related functions
 export const initializeDOM = () => {
-  const baslikContainer = document.querySelector(".ayet_adi");
-  const arabicTextConainer = document.querySelector(".arabicTextConainer");
-  const mealContainer = document.querySelector("#meal");
-  const arabicPronunciationContainer = document.querySelector(
-    ".ayet_okunusu_container"
-  );
-  const audioPlayer = document.querySelector(".audio");
-  const nextBtn = document.querySelector("#nextBtn");
-  const prevBtn = document.querySelector("#prevBtn");
-  const ayet_counter_Button = document.querySelector("#ayet-no");
-  const ayetTekrar_checkbox = document.querySelector("#ayetTekrar");
-  const auto_play = document.querySelector("#auto-play");
-  const meal_bekleme_suresi_input = document.querySelector(
-    "#mealBeklemeKatsayisi"
-  );
-  const meal_kalan_sure = document.querySelector("#kalan_sure");
 };
 
 // selec and return DOM elements
 export const getElements = () => ({
-  nextBtn: document.getElementById("#nextBtn"),
-  prevBtn: document.getElementById("#prevBtn"),
-  ayahTextContainer: document.querySelector(".arabicTextConainer"),
-  mealTextContainer: document.getElementById("meal"),
-  audioPlayer: document.querySelector(".audio"),
   // containers div
   baslikContainer: document.querySelector(".ayet_adi"),
   arabicTextConainer: document.querySelector(".arabicTextConainer"),
-  mealContainer: document.querySelector("#meal"),
   arabicPronunciationContainer: document.querySelector(
     ".ayet_okunusu_container"
   ),
+  mealContainer: document.querySelector("#meal"),
   audioPlayer: document.querySelector(".audio"),
-  nextBtn: document.querySelector("#nextBtn"),
-  prevBtn: document.querySelector("#prevBtn"),
-  ayet_counter_Button: document.querySelector("#ayet-no"),
-  ayetTekrar_checkbox: document.querySelector("#ayetTekrar"),
-  auto_play: document.querySelector("#auto-play"),
-  meal_bekleme_suresi_input: document.querySelector("#mealBeklemeKatsayisi"),
-  meal_kalan_sure: document.querySelector("#kalan_sure"),
+  nextBtn: document.getElementById("nextBtn"),
+  prevBtn: document.getElementById("prevBtn"),
+
+  ayahNummerInput: document.querySelector("#ayet-no"),
+  ayahRepeatCheckbox: document.querySelector("#ayetTekrar"),
+  ayahPlaybackRateInput: document.getElementById('playbackRate'),
+  ayahPlaybackRateSpan: document.getElementById('playbackRateValue'),
+  autoPlay: document.querySelector("#auto-play"),
+  mealRemainingTime: document.querySelector("#kalan_sure"),
+  mealWaitingFactorInput: document.querySelector("#mealBeklemeKatsayisi"),
 });
 
 // Update content of a DOM element
@@ -63,7 +45,7 @@ export const addEvent = (element, eventType, callback) => {
   }
 };
 
-export const removeElement = (element, eventType, callback) => {
+export const removeEvent = (element, eventType, callback) => {
   if (element) {
     element.removeEventListener(eventType, callback);
   }
@@ -71,7 +53,7 @@ export const removeElement = (element, eventType, callback) => {
 
 // Example Usage:
 addEvent(document.getElementById("arabicTextConainer"), "input", () => {
-  console.log("mehmet");
+  // console.log("mehmet");
 });
 
 // 2. DOM Elemnt Creation
@@ -88,7 +70,9 @@ export const creatElement = (tagName, attributes = {}, textContent = "") => {
 // Example Usage:
 const newButton = creatElement(
   "button",
-  { id: "nextBtn", onclick: console.log("onclick fonk on button calisti") },
+  { id: "nextBtn", 
+    // onclick: console.log("onclick fonk on button calisti") 
+  },
   "Click me"
 );
 document.body.appendChild(newButton);

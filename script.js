@@ -43,10 +43,10 @@ const next = () => {
     // Yeni dinleyici olustur ve referansi sakla
 
     endedListener = () => {
-      if (ayetTekrar_checkbox.checked) {
-        console.log("next if checkbox: " + ayetTekrar_checkbox.checked);
+      if (ayahRepeatCheckbox.checked) {
+        console.log("next if checkbox: " + ayahRepeatCheckbox.checked);
         playAyet();
-      } else if (!auto_play.checked) {
+      } else if (!autoPlay.checked) {
         
       }else {
         currentIndex = (currentIndex + 1) % mealler.length;
@@ -64,7 +64,7 @@ const next = () => {
 
 function determineMealBeklemeSuresi() {
   beklemeSuresi = mealBeklemeKatsayisi * mealler[currentIndex].length;
-  meal_kalan_sure.textContent = `${(beklemeSuresi / 1000).toFixed(1)} sn`;
+  mealRemainingTime.textContent = `${(beklemeSuresi / 1000).toFixed(1)} sn`;
 
   console.log('beklemeSuresi: '+ beklemeSuresi/1000);
   console.log('ayet no: '+ (currentIndex+1) + '  ' + 'meal uzunlugu: ' + mealler[currentIndex].length);
@@ -78,13 +78,13 @@ function determinePlaybackRate() {
 
 function playAyet() {
   
-  if (ayetTekrar_checkbox.checked) {
-    console.log("playAyet if checkbox: " + ayetTekrar_checkbox.checked);
+  if (ayahRepeatCheckbox.checked) {
+    console.log("playAyet if checkbox: " + ayahRepeatCheckbox.checked);
     
     audioPlayer.play(); // play the audio
     audioPlayer.addEventListener("ended", playAyet, { once: true });
   } else {
-    console.log("playAyet if checkbox: " + ayetTekrar_checkbox.checked);
+    console.log("playAyet if checkbox: " + ayahRepeatCheckbox.checked);
         currentIndex = (currentIndex + 1) % mealler.length;
         next();
   }
@@ -109,9 +109,9 @@ ayet_currentIndex_Button.addEventListener("change", (e) => {
 });
 
 // Auto Play checkbox'i dinleyerek programi baslatma
-auto_play.addEventListener('input', () => {
-  console.log('auto-play: ', auto_play.checked);
-  if (auto_play.checked) {
+autoPlay.addEventListener('input', () => {
+  console.log('auto-play: ', autoPlay.checked);
+  if (autoPlay.checked) {
     if (audioPlayer.ended) audioPlayer.play();
     audioPlayer.addEventListener('ended', () => {
     currentIndex = (currentIndex + 1) % mealler.length;
@@ -122,8 +122,8 @@ auto_play.addEventListener('input', () => {
 });
 
 // Bekleme Suresi Girme Fonksiyonu
-  //   meal_bekleme_suresi_input.addEventListener('input', () => {
-  //   mealBeklemeKatsayisi = meal_bekleme_suresi_input.value;
+  //   mealWaitingFactorInput.addEventListener('input', () => {
+  //   mealBeklemeKatsayisi = mealWaitingFactorInput.value;
   //   document.querySelector('#beklemeKatsayisiOutput').value=mealBeklemeKatsayisi
 
   //   console.log('bekleme suresi: ', mealBeklemeKatsayisi);

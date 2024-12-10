@@ -1,21 +1,13 @@
-
 export class TextScramble {
-  constructor(
-    mealContainer
-  ) {
+  constructor(mealContainer) {
     this.mealContainer = mealContainer;
     this.chars = "!<>-_\\/[]{}—=+*^?#________";
     this.update = this.update.bind(this);
+    this.frameRequest = null;
+    this.isAnimating = true;
   }
 
-  static bilgi = 'TextScramble.js sinifina erisildi';
-  static yazdirBilgi () {
-    console.log(TextScramble.bilgi);
-  }
-  static {this.yazdirBilgi();
-    console.log('static alan calisti: ', TextScramble.bilgi);}
-
-  setText(yeniMeal, ayetMp3) {
+   setText(yeniMeal, ayetMp3) {
     this.ayetMp3 = ayetMp3;
     const oldText = this.mealContainer?.innerHTML || "";
     const length = Math.max(yeniMeal.length, oldText.length);
@@ -28,16 +20,14 @@ export class TextScramble {
       const end = start + Math.floor(Math.random() * 100);
       this.queue.push({ from, to, start, end });
     }
-    // console.log(this.queue)
-    cancelAnimationFrame(this.frameRequest);
-    this.frame = 0;
+    this.animationReset(); // Yenisi baslatilmadan once, onceki animasyon resetlenir
 
-    this.update();
+    this.update(yeniMeal);  // Yeni animasyon baslatilir
 
     return promise;
   }
 
-  update() {
+  update(yeniMeal) {
     let output = "";
     let complete = 0;
     let i, n;
@@ -61,17 +51,29 @@ export class TextScramble {
     // Sayfada Gosterim
     this.mealContainer.innerHTML = output;
 
-    if (complete === this.queue.length) {
+    if (complete >= this.queue.length) {  // Animasyon burada sonlanir
+      this.isAnimating = false;
       this.resolve();
-    } else {
+    } else if (!this.isAnimating) { // Kullanici animasyonu next,prev vb. ile burada durdurabilir
+      this.mealContainer.innerHTML = yeniMeal;
+      this.resolve();
+      return;
+    }else {
+      this.isAnimating = true;  // Animasyon teyit edilir ve islemleri devam ettirilir
       // this.frameRequest = setTimeout(requestAnimationFrame(this.update), 900);
       this.frameRequest = requestAnimationFrame(this.update);
       this.frame++;
     }
   }
 
-
   randomChar() {
     return this.chars[Math.floor(Math.random() * this.chars.length)];
+  }
+
+  animationReset() {
+    cancelAnimationFrame(this.frameRequest);
+    this.frame = 0;
+    
+    // this.queue = [];
   }
 }
