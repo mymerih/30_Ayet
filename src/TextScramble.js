@@ -3,31 +3,34 @@ export class TextScramble {
     this.mealContainer = mealContainer;
     this.chars = "!<>-_\\/[]{}—=+*^?#________";
     this.update = this.update.bind(this);
-    this.frameRequest = null;
+    this.frame = 0;
     this.isAnimating = true;
+    this.frameRequest = null;
   }
 
-   setText(yeniMeal, ayetMp3) {
-    this.ayetMp3 = ayetMp3;
+  setText(newText) {
     const oldText = this.mealContainer?.innerHTML || "";
-    const length = Math.max(yeniMeal.length, oldText.length);
-    const promise = new Promise((resolve) => (this.resolve = resolve));
     this.queue = [];
-    for (let i = 0; i < length; i++) {
+    const maxLength = Math.max(newText.length, oldText.length);
+
+    for (let i = 0; i < maxLength; i++) {
       const from = oldText[i] || "";
-      const to = yeniMeal[i] || "";
+      const to = newText[i] || "";
       const start = Math.floor(Math.random() * 100);
       const end = start + Math.floor(Math.random() * 100);
       this.queue.push({ from, to, start, end });
     }
     this.animationReset(); // Yenisi baslatilmadan once, onceki animasyon resetlenir
 
-    this.update(yeniMeal);  // Yeni animasyon baslatilir
-
-    return promise;
+    
+    return new Promise((resolve) => {
+      this.resolve = resolve;
+      this.frame = 0;
+      this.update(newText); // Yeni animasyon baslatilir
+    });
   }
 
-  update(yeniMeal) {
+  update(newText) {
     let output = "";
     let complete = 0;
     let i, n;
@@ -51,15 +54,17 @@ export class TextScramble {
     // Sayfada Gosterim
     this.mealContainer.innerHTML = output;
 
-    if (complete >= this.queue.length) {  // Animasyon burada sonlanir
+    if (complete >= this.queue.length) {
+      // Animasyon burada sonlanir
       this.isAnimating = false;
       this.resolve();
-    } else if (!this.isAnimating) { // Kullanici animasyonu next,prev vb. ile burada durdurabilir
-      this.mealContainer.innerHTML = yeniMeal;
+    } else if (!this.isAnimating) {
+      // Kullanici animasyonu next,prev vb. ile burada durdurabilir
+      this.mealContainer.innerHTML = newText;
       this.resolve();
       return;
-    }else {
-      this.isAnimating = true;  // Animasyon teyit edilir ve islemleri devam ettirilir
+    } else {
+      this.isAnimating = true; // Animasyon teyit edilir ve islemleri devam ettirilir
       // this.frameRequest = setTimeout(requestAnimationFrame(this.update), 900);
       this.frameRequest = requestAnimationFrame(this.update);
       this.frame++;
@@ -73,7 +78,5 @@ export class TextScramble {
   animationReset() {
     cancelAnimationFrame(this.frameRequest);
     this.frame = 0;
-    
-    // this.queue = [];
   }
 }

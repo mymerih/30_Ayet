@@ -4,7 +4,7 @@ import { TextScramble } from "./TextScramble.js";
 
 // NESNE olusturma
 const fx = new TextScramble(
-  baslikContainer,
+  titleContainer,
   mealContainer,
   arabicTextConainer,
   arabicPronunciationContainer,
@@ -46,7 +46,7 @@ const next = () => {
       if (ayahRepeatCheckbox.checked) {
         console.log("next if checkbox: " + ayahRepeatCheckbox.checked);
         playAyet();
-      } else if (!autoPlay.checked) {
+      } else if (!autoPlayCheckbox.checked) {
         
       }else {
         currentIndex = (currentIndex + 1) % mealler.length;
@@ -109,9 +109,9 @@ ayet_currentIndex_Button.addEventListener("change", (e) => {
 });
 
 // Auto Play checkbox'i dinleyerek programi baslatma
-autoPlay.addEventListener('input', () => {
-  console.log('auto-play: ', autoPlay.checked);
-  if (autoPlay.checked) {
+autoPlayCheckbox.addEventListener('input', () => {
+  console.log('auto-play: ', autoPlayCheckbox.checked);
+  if (autoPlayCheckbox.checked) {
     if (audioPlayer.ended) audioPlayer.play();
     audioPlayer.addEventListener('ended', () => {
     currentIndex = (currentIndex + 1) % mealler.length;

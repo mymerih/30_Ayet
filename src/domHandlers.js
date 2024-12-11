@@ -5,7 +5,7 @@ export const initializeDOM = () => {
 // selec and return DOM elements
 export const getElements = () => ({
   // containers div
-  baslikContainer: document.querySelector(".ayet_adi"),
+  titleContainer: document.querySelector(".ayet_adi"),
   arabicTextConainer: document.querySelector(".arabicTextConainer"),
   arabicPronunciationContainer: document.querySelector(
     ".ayet_okunusu_container"
@@ -15,11 +15,11 @@ export const getElements = () => ({
   nextBtn: document.getElementById("nextBtn"),
   prevBtn: document.getElementById("prevBtn"),
 
-  ayahNummerInput: document.querySelector("#ayet-no"),
-  ayahRepeatCheckbox: document.querySelector("#ayetTekrar"),
+  ayahNumInput: document.querySelector("#ayet-no"),
   ayahPlaybackRateInput: document.getElementById('playbackRate'),
   ayahPlaybackRateSpan: document.getElementById('playbackRateValue'),
-  autoPlay: document.querySelector("#auto-play"),
+  ayahRepeatCheckbox: document.querySelector("#ayetTekrar"),
+  autoPlayCheckbox: document.querySelector("#auto-play"),
   mealRemainingTime: document.querySelector("#kalan_sure"),
   mealWaitingFactorInput: document.querySelector("#mealBeklemeKatsayisi"),
 });
@@ -29,13 +29,6 @@ export const updateContent = (element, content) => {
   if (element) element.innerHTML = content;
 };
 
-// Update audio player
-export const updateAudio = (audioPlayer, src) => {
-  if (audioPlayer) {
-    audioPlayer.src = src;
-    audioPlayer.play();
-  }
-};
 
 // 1. Event Handling Utilities
 // Functions to simplify attaching, removing, or managing events.
