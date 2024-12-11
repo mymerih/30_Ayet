@@ -22,9 +22,11 @@ const {
 } = domHandlers.getElements();
 
 // Global degiskenler
-let currentIndex = 22; // Index of Ayat
+let currentIndex = 16; // Index of Ayat
 let jumpCounter = 0; // Ayet atlama adedi.
 let allowDisplayAfterAnimation = false; // next'e basilmis ise animasyondan sonra devam eder
+let allowDisplayAfterPlay = false; // Ayet okumasi bitince, sonraki ayet islenir.
+let isPlaying = false;
 // TextScramble nesne ornegi olusturma
 const fx = new TextScramble(mealContainer);
 
@@ -36,11 +38,19 @@ export const setupAyahHandlers = () => {
     changeAyahNummer(event);
   });
   domHandlers.addEvent(ayahPlaybackRateInput, "input", updateAyahPlaybackRate);
-
+  domHandlers.addEvent(autoPlayCheckbox, 'change', playAyahContinious);
+  domHandlers.addEvent(ayahRepeatCheckbox, 'change', repeatAyahOhneAnimation);
+  
   // Display the initial ayah
   displayAyah(currentIndex);
 };
 
+function playAyahContinious() {
+
+};
+function repeatAyahOhneAnimation() {
+
+};
 // Async function to display ayah and audio
 async function displayAyah(index) {
   const ayah = ayatList[index];
@@ -60,8 +70,11 @@ async function animateMeal(ayah) {
       // Amimasyon tamamlandiktan sonra burasi calisir
       console.log("Animasyon tamamlandi.");
 
-      //Animasyon tamamlanmadan next/prev'e basilirsa animasyon bitince burasi calisir
-      if (allowDisplayAfterAnimation) {
+      audioPlayer.addEventListener('ended', async () => {
+        isPlaying = false;
+
+              //Animasyon tamamlanmadan next/prev'e basilirsa animasyon bitince burasi calisir
+      if (allowDisplayAfterAnimation ) {
         allowDisplayAfterAnimation = false; // Mevcut ayetin islenmesine baslanir ve yenisi engellenir.
         fx.isAnimating = true; // Animasyonun basladigini gosteren bayrak aktif edilir
         if(jumpCounter !== 0) {
@@ -71,13 +84,15 @@ async function animateMeal(ayah) {
         }
         displayAyah(currentIndex);
       }
+      }, {once: true});
+
     })
 }
 
 // Navigation handlers
 async function handleNextAyah() {
   // Animasyon devam etmiyorsa sonraki ayeti goster
-  if (!fx.isAnimating) {
+  if (!fx.isAnimating && !isPlaying) {
     fx.isAnimating = true;
 
     // Bir sonraki ayete gec
@@ -96,7 +111,7 @@ async function handleNextAyah() {
 
 async function handlePrevAyah() {
   // Animasyon devam etmiyorsa sonraki ayeti goster
-  if (!fx.isAnimating) {
+  if (!fx.isAnimating && !isPlaying) {
     fx.isAnimating = true;
 
     // Move to the previous ayah
@@ -156,4 +171,5 @@ function updateAyahPlaybackRate() {
 function playAyah() {
   audioPlayer.playbackRate = updateAyahPlaybackRate();
   audioPlayer.play();
+  isPlaying = true;
 }
