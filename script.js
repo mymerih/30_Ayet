@@ -64,7 +64,7 @@ const next = () => {
 
 function determineMealBeklemeSuresi() {
   beklemeSuresi = mealBeklemeKatsayisi * mealler[currentIndex].length;
-  mealRemainingTime.textContent = `${(beklemeSuresi / 1000).toFixed(1)} sn`;
+  mealWaitingTimeSpan.textContent = `${(beklemeSuresi / 1000).toFixed(1)} sn`;
 
   console.log('beklemeSuresi: '+ beklemeSuresi/1000);
   console.log('ayet no: '+ (currentIndex+1) + '  ' + 'meal uzunlugu: ' + mealler[currentIndex].length);

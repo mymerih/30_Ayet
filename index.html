@@ -9,7 +9,7 @@
   <script type="module">
     import { updateContent, setInputValue } from "./src/domHandlers.js";
   </script>
-  <link rel="stylesheet" href="./styles/style.css">
+  <link rel="stylesheet" href="./style.css">
 
 
 </head>
@@ -38,7 +38,7 @@
               <span class="output" id="playbackRateValue">1.0</span>
             </div>
             <div>
-              0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="3" value="3.0" step="0.1"
+              0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="3" value="1.0" step="0.1"
                 oninput="document.getElementById('playbackRateValue').innerHTML = this.value;
                 document.querySelector('.audio').playbackRate = this.value;
                 ">3.0
@@ -52,9 +52,9 @@
           <!-- Ayet-No Input Elemani -->
           <label for="ayet-no">AyetNo:</label>
           <input type="number" id="ayet-no" min="1" max="30" value="1" onfocus="this.select()"
-            onchange="setInputValue(this.value); this.blur()">
+            onchange="setInputValue(this, this.value); this.blur()">
 
-            <!-- Navigation Buttons -->
+          <!-- Navigation Buttons -->
           <button id="prevBtn" onclick="">Geri</button>
           <button id="nextBtn" onclick="">İleri</button>
 
@@ -79,7 +79,8 @@
       <div class="meal_bekleme_container">
         <label for="mealBeklemeKatsayisi">Meal Bekleme Katsayısı:</label>
         <span class="output" id="beklemeKatsayisiOutput">45</span>
-        <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi" onchange="beklemeSuresiGir(this);">
+        <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi"
+          onchange="document.getElementById('beklemeKatsayisiOutput').innerHTML = this.value;">
           <option value="">Süre Seçin</option>
           <option value="0">0</option>
           <option value="5">5</option>
@@ -98,8 +99,13 @@
       </div>
     </div>
   </div>
+  <script type="module">
+    import { setInputValue } from "./src/domhandlers.js";
 
-  
+    // setInputValue fonksiyonunu global olarak erisilebilir yapma
+    window.setInputValue = setInputValue;
+  </script>
+
 </body>
 
 </html>

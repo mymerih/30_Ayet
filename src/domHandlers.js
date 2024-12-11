@@ -20,7 +20,7 @@ export const getElements = () => ({
   ayahPlaybackRateSpan: document.getElementById('playbackRateValue'),
   ayahRepeatCheckbox: document.querySelector("#ayetTekrar"),
   autoPlayCheckbox: document.querySelector("#auto-play"),
-  mealRemainingTime: document.querySelector("#kalan_sure"),
+  mealWaitingTimeSpan: document.querySelector("#kalan_sure"),
   mealWaitingFactorInput: document.querySelector("#mealBeklemeKatsayisi"),
 });
 
@@ -61,14 +61,14 @@ export const creatElement = (tagName, attributes = {}, textContent = "") => {
 };
 
 // Example Usage:
-const newButton = creatElement(
-  "button",
-  { id: "nextBtn", 
-    // onclick: console.log("onclick fonk on button calisti") 
-  },
-  "Click me"
-);
-document.body.appendChild(newButton);
+// const newButton = creatElement(
+//   "button",
+//   { id: "nextBtn", 
+//     // onclick: console.log("onclick fonk on button calisti") 
+//   },
+//   "Click me"
+// );
+// document.body.appendChild(newButton);
 
 // 3. Class Manipulation
 // Utility functions for adding, removing, or toggling CSS classes.
