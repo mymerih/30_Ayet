@@ -22,23 +22,24 @@
       height: 100vh;
       font-size: 4vw;
     }
-    
+
     .container {
       color: #000000;
       background-color: #9ee0ff;
       width: 100%;
       height: 100%;
       padding: 0.15rem;
-      
+
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
     }
-    
-    .ayetAdi_ayetKontrolu{
+
+    .ayetAdi_ayetKontrolu {
       width: 100%;
     }
+
     .ayet_adi {
       font-family: 'Playfair+Display', serif;
       font-family: 'Oswald', sans-serif;
@@ -192,14 +193,13 @@
 
     @media screen and (max-width: 768px) {
       .container {
-        height: auto ;
+        height: auto;
       }
     }
 
     /* Medya sorguları ile responsive tasarımı destekleme */
-    
-    /* Yazı tipi boyutlarını dinamikleştirme */
 
+    /* Yazı tipi boyutlarını dinamikleştirme */
   </style>
   <!-- <script type="module" src="script.js" defer></script> -->
 
@@ -229,9 +229,9 @@
               <span class="output" id="playbackRateValue">1.0</span>
             </div>
             <div>
-              0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="2" value="1.0" step="0.1"
+              0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="3" value="1.0" step="0.1"
                 oninput="document.querySelector('.audio').playbackRate = this.value; 
-            document.getElementById('playbackRateValue').value = this.value">1.0
+            document.getElementById('playbackRateValue').value = this.value">3.0
             </div>
           </div>
         </div>

@@ -207,9 +207,13 @@ const next_Button = document.querySelector("#next-ayet");
 const prev_Button = document.querySelector("#prev-ayet");
 const ayet_counter_Button = document.querySelector("#ayet-no");
 const ayetTekrar_checkbox = document.querySelector("#ayetTekrar");
-const auto_play = document.querySelector('#auto-play');
-const meal_bekleme_suresi_input = document.querySelector('#mealBeklemeKatsayisi');
-const meal_kalan_sure = document.querySelector('#kalan_sure');
+const auto_play = document.querySelector("#auto-play");
+const meal_bekleme_suresi_input = document.querySelector(
+  "#mealBeklemeKatsayisi"
+);
+const meal_kalan_sure = document.querySelector("#kalan_sure");
+const plabackRateInput = document.getElementById("playbackRate");
+const plabackRateSpan = document.getElementById("playbackRateValue");
 
 // NESNE olusturma
 const fx = new TextScramble(
@@ -226,12 +230,13 @@ let mealler = turkce_mealler;
 let endedListener;
 let mealBeklemeKatsayisi = 45;
 let beklemeSuresi;
-
+let mealPlayRate = 1.0;
 // ANA Fonksiyon, Metin Animasyon ve Ayet Seslendirme
 const next = () => {
   // Ayet sayici ve oynatma hizi belirleme
   ayet_counter_Button.value = counter + 1;
   determinePlaybackRate();
+  determineMealBeklemeSuresi();
 
   // Meal Animasyon
   fx.setText(
@@ -242,11 +247,11 @@ const next = () => {
     ayetler_mp3[counter],
     counter
   ).then(() => {
-    if(audio_element.ended) audio_element.play();
+    if (audio_element.ended) audio_element.play();
 
     // Daha once tanimlanmis dinleyiciyi kaldiriyoruz
-    if(endedListener) {
-      audio_element.removeEventListener('ended', endedListener);
+    if (endedListener) {
+      audio_element.removeEventListener("ended", endedListener);
     }
 
     // Yeni dinleyici olustur ve referansi sakla
@@ -256,46 +261,42 @@ const next = () => {
         console.log("next if checkbox: " + ayetTekrar_checkbox.checked);
         playAyet();
       } else if (!auto_play.checked) {
-        
-      }else {
+      } else {
         counter = (counter + 1) % mealler.length;
-        determineMealBeklemeSuresi();
         setTimeout(() => {
-            next();
-          }, beklemeSuresi);
-        }
-      };
+          next();
+        }, beklemeSuresi);
+      }
+    };
 
-      // Yeni dinleyiciyi tanimla
-      audio_element.addEventListener("ended", endedListener, { once: true });
+    // Yeni dinleyiciyi tanimla
+    audio_element.addEventListener("ended", endedListener, { once: true });
   });
 };
 
-function determineMealBeklemeSuresi() {
-  beklemeSuresi = mealBeklemeKatsayisi * mealler[counter].length;
-  meal_kalan_sure.textContent = `${(beklemeSuresi / 1000).toFixed(1)} sn`;
-
-  console.log('beklemeSuresi: '+ beklemeSuresi/1000);
-  console.log('ayet no: '+ (counter+1) + '  ' + 'meal uzunlugu: ' + mealler[counter].length);
-  console.log(mealler[counter]);
-}
+// Ayet oynatma hizinin ayarlanmasi ve guncellenmesi
+plabackRateInput.addEventListener("change", (event) => {
+  mealPlayRate = event.target.value;
+  console.log('mealPlayRate :>> ', mealPlayRate);
+  plabackRateSpan.innerHTML = mealPlayRate;
+  audio_element.playbackRate = mealPlayRate; // Set playback rate
+});
 
 function determinePlaybackRate() {
   audio_element.src = `./ses 30 Ayet/${ayetler_mp3[counter]}`;
-  audio_element.playbackRate = document.getElementById("playbackRate").value; // Set playback rate
+  audio_element.playbackRate = mealPlayRate; // Set playback rate
 }
 
 function playAyet() {
-  
   if (ayetTekrar_checkbox.checked) {
     console.log("playAyet if checkbox: " + ayetTekrar_checkbox.checked);
-    
+
     audio_element.play(); // play the audio
     audio_element.addEventListener("ended", playAyet, { once: true });
   } else {
     console.log("playAyet if checkbox: " + ayetTekrar_checkbox.checked);
-        counter = (counter + 1) % mealler.length;
-        next();
+    counter = (counter + 1) % mealler.length;
+    next();
   }
 }
 
@@ -318,44 +319,52 @@ ayet_counter_Button.addEventListener("change", (e) => {
 });
 
 // Auto Play checkbox'i dinleyerek programi baslatma
-auto_play.addEventListener('input', () => {
-  console.log('auto-play: ', auto_play.checked);
+auto_play.addEventListener("input", () => {
+  console.log("auto-play: ", auto_play.checked);
   if (auto_play.checked) {
     if (audio_element.ended) audio_element.play();
-    audio_element.addEventListener('ended', () => {
-    counter = (counter + 1) % mealler.length;
-    next();
-  determineMealBeklemeSuresi();
-  }, {once : true});
-}
+    audio_element.addEventListener(
+      "ended",
+      () => {
+        counter = (counter + 1) % mealler.length;
+        next();
+        determineMealBeklemeSuresi();
+      },
+      { once: true }
+    );
+  }
 });
 
 // Bekleme Suresi Girme Fonksiyonu
-  //   meal_bekleme_suresi_input.addEventListener('input', () => {
-  //   mealBeklemeKatsayisi = meal_bekleme_suresi_input.value;
-  //   document.querySelector('#beklemeKatsayisiOutput').value=mealBeklemeKatsayisi
-
-  //   console.log('bekleme suresi: ', mealBeklemeKatsayisi);
-  // });
-
-  window.beklemeSuresiGir = function (selectElement) {
-    let beklemeKatsayisi = selectElement.value
-    if(!beklemeKatsayisi) return;
-    mealBeklemeKatsayisi = beklemeKatsayisi;
-    document.querySelector('#beklemeKatsayisiOutput').textContent=beklemeKatsayisi;
-    // selectElement.value = '';
-  }
+function determineMealBeklemeSuresi() {
+  beklemeSuresi = mealBeklemeKatsayisi * mealler[counter].length;
+  meal_kalan_sure.textContent = `${(beklemeSuresi / 1000).toFixed(1)} sn`;
+}
+meal_bekleme_suresi_input.addEventListener("input", () => {
+  mealBeklemeKatsayisi = meal_bekleme_suresi_input.value;
+  document.querySelector("#beklemeKatsayisiOutput").value =
+  mealBeklemeKatsayisi;
+  determineMealBeklemeSuresi();
+});
+window.beklemeSuresiGir = function (selectElement) {
+  let beklemeKatsayisi = selectElement.value;
+  if (!beklemeKatsayisi) return;
+  mealBeklemeKatsayisi = beklemeKatsayisi;
+  document.querySelector("#beklemeKatsayisiOutput").textContent =
+    beklemeKatsayisi;
+  // selectElement.value = '';
+};
 
 determineMealBeklemeSuresi();
 next();
 
 // Dinamik responsive düzenleme
-window.addEventListener("resize", () => {
-    const width = window.innerWidth;
+// window.addEventListener("resize", () => {
+//   const width = window.innerWidth;
 
-    if (width < 768) {
-        document.querySelector(".container").style.flexDirection = "column";
-    } else {
-        document.querySelector(".container").style.flexDirection = "row";
-    }
-});
+//   if (width < 768) {
+//     document.querySelector(".container").style.flexDirection = "column";
+//   } else {
+//     document.querySelector(".container").style.flexDirection = "row";
+//   }
+// });
