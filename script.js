@@ -205,7 +205,7 @@ const arabic_okunus_contaniner = document.querySelector(
 const audio_element = document.querySelector(".audio");
 const next_Button = document.querySelector("#next-ayet");
 const prev_Button = document.querySelector("#prev-ayet");
-const ayet_counter_Button = document.querySelector("#ayet-no");
+const ayetJumpInput = document.querySelector("#ayet-no");
 const ayetTekrar_checkbox = document.querySelector("#ayetTekrar");
 const auto_play = document.querySelector("#auto-play");
 const meal_bekleme_suresi_input = document.querySelector(
@@ -234,7 +234,7 @@ let mealPlayRate = 1.0;
 // ANA Fonksiyon, Metin Animasyon ve Ayet Seslendirme
 const next = () => {
   // Ayet sayici ve oynatma hizi belirleme
-  ayet_counter_Button.value = counter + 1;
+  ayetJumpInput.value = counter + 1;
   determinePlaybackRate();
   determineMealBeklemeSuresi();
 
@@ -312,11 +312,15 @@ prev_Button.addEventListener("click", () => {
   determineMealBeklemeSuresi();
 });
 
-ayet_counter_Button.addEventListener("change", (e) => {
+// Ayet atlatma Girisi
+ayetJumpInput.addEventListener("change", (e) => {
   counter = (parseInt(e.target.value) - 1) % mealler.length;
-  ayet_counter_Button.blur();
+  ayetJumpInput.blur();
   next();
 });
+ayetJumpInput.addEventListener('wheel', (e) => {
+  e.preventDefault(); // Prevent default scroll behavior
+}, {passive: false});
 
 // Auto Play checkbox'i dinleyerek programi baslatma
 auto_play.addEventListener("input", () => {

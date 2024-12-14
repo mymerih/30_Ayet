@@ -99,7 +99,8 @@
     }
 
     label[for='ayetTekrar'] {
-      margin-left: 20px;
+      margin-left: 1vw;
+      font-size: 1.3rem;
       /* border: 2px solid red; */
     }
 
@@ -162,17 +163,18 @@
 
     #ayet-no {
       background-color: #0000ff;
+      font-size: 0.7rem;
       color: yellow;
       font-weight: 700;
       padding: 6px 2px;
       border-radius: 5px;
       text-align: center;
-      width: 25px;
+      width: 50px;
     }
 
     input[type="checkbox"] {
-      margin-left: 5px;
-      transform: scale(1.5);
+      margin-left: ;
+      transform: scale(1.7);
     }
 
     .meal_bekleme_container {
@@ -283,7 +285,29 @@
     </div>
   </div>
 
+  <label for="ayetNum">AyetNo:</label>
+  <select id="ayetNum" onchange="updateCounter(this.value)">
+  </select>
 
+  <script>
+    const ayetNoDropdown = document.getElementById("ayetNum");
+
+// Use Array.from to generate the options and join them into a single HTML string
+let array= Array.from({ length: 30 }, (_, i) => {
+  const value = i + 1;
+  return `<option value="${value}">${value}</option>`;
+});
+let string = array.join("");
+ayetNoDropdown.innerHTML = string;
+console.log('ayetNoDropdown.innerHTML :>> ', ayetNoDropdown.innerHTML);
+// Example function to handle value change
+function updateCounter(value) {
+  // console.log("Selected Ayet:", value);
+}
+
+
+
+  </script>
 </body>
 
 </html>
