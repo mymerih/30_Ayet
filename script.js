@@ -206,6 +206,7 @@ const audio_element = document.querySelector(".audio");
 const next_Button = document.querySelector("#next-ayet");
 const prev_Button = document.querySelector("#prev-ayet");
 const ayetJumpInput = document.querySelector("#ayet-no");
+const ayetJumpSelect = document.querySelector("#ayetNum");
 const ayetTekrar_checkbox = document.querySelector("#ayetTekrar");
 const auto_play = document.querySelector("#auto-play");
 const meal_bekleme_suresi_input = document.querySelector(
@@ -225,7 +226,7 @@ const fx = new TextScramble(
 );
 
 // Degiskenler
-let counter = 0;
+let counter = 15;
 let mealler = turkce_mealler;
 let endedListener;
 let mealBeklemeKatsayisi = 45;
@@ -235,6 +236,7 @@ let mealPlayRate = 1.0;
 const next = () => {
   // Ayet sayici ve oynatma hizi belirleme
   ayetJumpInput.value = counter + 1;
+  ayetJumpSelect.value = counter + 1;
   determinePlaybackRate();
   determineMealBeklemeSuresi();
 
@@ -313,11 +315,16 @@ prev_Button.addEventListener("click", () => {
 });
 
 // Ayet atlatma Girisi
-ayetJumpInput.addEventListener("change", (e) => {
+
+const jumpAyah = (e) => {
   counter = (parseInt(e.target.value) - 1) % mealler.length;
+  // ayetJumpSelect.value = e.target.value;
   ayetJumpInput.blur();
   next();
-});
+}
+ayetJumpInput.addEventListener("change", jumpAyah);
+ayetJumpSelect.addEventListener('change', jumpAyah);
+
 ayetJumpInput.addEventListener('wheel', (e) => {
   e.preventDefault(); // Prevent default scroll behavior
 }, {passive: false});
@@ -344,12 +351,14 @@ function determineMealBeklemeSuresi() {
   beklemeSuresi = mealBeklemeKatsayisi * mealler[counter].length;
   meal_kalan_sure.textContent = `${(beklemeSuresi / 1000).toFixed(1)} sn`;
 }
+
 meal_bekleme_suresi_input.addEventListener("input", () => {
   mealBeklemeKatsayisi = meal_bekleme_suresi_input.value;
   document.querySelector("#beklemeKatsayisiOutput").value =
   mealBeklemeKatsayisi;
   determineMealBeklemeSuresi();
 });
+
 window.beklemeSuresiGir = function (selectElement) {
   let beklemeKatsayisi = selectElement.value;
   if (!beklemeKatsayisi) return;

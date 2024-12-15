@@ -1,0 +1,302 @@
+@import 'https://fonts.googleapis.com/css?family=Roboto+Mono:300';
+@import 'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,700;1,700&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@700&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap';
+
+/* Kök düzeyinde ölçümler (root-level sizing)
+   Tek bir değişkenle orantılı tüm boyutların ayarlanması (DE: proportionale Größenanpassung mit einer Variable, EN: proportional sizing with a single variable)
+   Kullanıcı bu değeri JS ile değiştirebilir. */
+:root {
+    --scale: 1.1;
+    --scaled-value: calc(var(--scale) * 1.5);
+    /* Temel font boyutunu ekran genişliğine göre ayarla (fluid typography) */
+    --base-font-size: clamp(0.7rem, 2.5vw, 1.2rem);
+
+    /* Bu baz font boyutundan daha büyük/küçük boyutları elde edebiliriz */
+    --small-font-size: calc(var(--base-font-size) * 0.7 * var(--scale));
+    --medium-font-size: calc(var(--base-font-size) * var(--scale));
+    --large-font-size: calc(var(--base-font-size) * 1.4 * var(--scale));
+    --xlarge-font-size: calc(var(--base-font-size) * 2.2 * var(--scale));
+
+    /* Margin, padding, vb. orantılı boşluklar */
+    --spacing: calc(0.5rem * var(--scale));
+    --padding: calc(1.1vw * var(--scale));
+    --border-radius: calc(0.3rem * var(--scale));
+    --heightness: calc(1.0vh * var(--scale));
+
+    /* Renkler sade tutulabilir */
+    --color-text: #000;
+    --color-bg: #fff;
+    --color-highlight: #fdda7a;
+    --color-secondary-bg: #a7bc78;
+    --color-label-bg: #0b8300;
+    --color-output-bg: #000;
+    --color-output-text: #fdda7a;
+}
+
+/* Ekran döndürülmesi durumunda boyutların yeniden ayarlanması 
+   (DE: Anpassung bei Bildschirmrotation, EN: adjust on orientation change) */
+
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    max-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+    font-family: 'Roboto Mono', monospace;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    width: 100%;
+    height: 100%;
+    font-size: var(--medium-font-size);
+
+}
+
+html {
+    font-size: var(--base-font-size);
+}
+
+/* Konteyner (DE: Container, EN: container) */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    min-height: 100%;
+    padding: var(--spacing);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* align-items: center; */
+    align-content: center;
+    background-color: #9ee0ff;
+}
+
+.meal,
+.ayet_container,
+.ayet_okunusu_container {
+    max-width: 100%;
+    /* Kutular ekran sınırlarını aşmaz */
+    overflow-wrap: break-word;
+    white-space: normal;
+    margin: calc(0.2 * var(--heightness)) auto;
+}
+
+/* Ayet başlığı */
+.ayet_adi {
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: var(--large-font-size);
+    font-weight: 900;
+    margin: 0;
+    background-color: var(--color-secondary-bg);
+    padding: calc(var(--spacing) * 0.2);
+}
+
+/* Arapça metin (Ayetin orijinali) */
+.arapca {
+    background-color: var(--color-highlight);
+    /* width: 100%; */
+    padding: calc(var(--spacing) * 0.2) calc(var(--spacing) * 1.0);
+    margin: calc(var(--spacing) * 0.2);
+}
+
+/* Arapça ayet içeriği */
+.ayet_container {
+    font-family: 'Scheherazade New', serif;
+    font-size: var(--xlarge-font-size);
+    font-weight: 400;
+    margin-bottom: var(--spacing);
+    direction: rtl;
+    text-align: right;
+}
+
+/* Ayetin Latin harfle okunuşu */
+.ayet_okunusu_container {
+    background-color: #f5f2f0;
+    font-size: var(--large-font-size);
+    font-weight: 900;
+    padding: var(--spacing);
+    margin-bottom: var(--spacing);
+    line-height: 3.0vh;
+
+}
+.audioControlRepeat {
+    display: flex;
+    flex: 1;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    margin: 0;
+    padding: 0;
+}
+/* Meal */
+.meal {
+    background-color: #ffbee4;
+    width: 100%;
+    font-size: var(--large-font-size);
+    font-weight: 900;
+    padding: var(--spacing);
+    margin-bottom: var(--spacing);
+    line-height: 3.0vh;
+}
+
+.dud {
+    color: #ff0303;
+    /* font-size: 14px; */
+}
+
+/* Label gibi sürekli okunmayan öğeler daha küçük fontta */
+label {
+    font-size: var(--medium-font-size);
+    font-weight: 700;
+    color: var(--color-text);
+    margin: var(--spacing) var(--spacing) 0 var(--spacing);
+}
+
+/* Audio player */
+.audioControlRepeat,
+.speed-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-bottom: var(--spacing); */
+}
+
+audio {
+    width: 80%;
+    height: calc(10 *var(--heightness));
+}
+
+/* Çalma Hızı Kontrol Alanı */
+.speed-control {
+    background-color: var(--color-secondary-bg);
+    /* padding: var(--spacing); */
+    font-size: var(--small-font-size);
+    font-weight: 700;
+}
+
+.output {
+    background-color: var(--color-output-bg);
+    color: var(--color-output-text);
+    font-size: var(--medium-font-size);
+    font-weight: 900;
+    padding: calc(0.5 * var(--spacing)) var(--spacing);
+    margin: calc(0.1 * var(--spacing)) var(--spacing);
+}
+
+/* Buton konteyneri */
+.buton_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-secondary-bg);
+    /* padding: var(--spacing); */
+
+}
+
+button {
+    background-color: var(--color-label-bg);
+    color: #fff;
+    border: none;
+    padding: calc(var(--spacing)*1);
+    font-size: var(--medium-font-size);
+    cursor: pointer;
+    margin: 0 var(--spacing);
+    border-radius: var(--border-radius);
+}
+
+button:hover {
+    background-color: #fff;
+    color: #02b402;
+}
+
+/* Numara kutuları ve benzeri */
+input,
+select {
+    background-color: #0000ff;
+    color: yellow;
+    font-weight: 700;
+    font-size: var(--medium-font-size);
+    padding: var(--padding);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+
+
+input[type="checkbox"],
+input[type="range"],
+input[type="number"],
+select {
+
+    transform: scale(var(--scale));
+    margin: var(--spacing);
+}
+
+input[type="checkbox"] {
+    transform: scale(var(--scaled-value));
+}
+
+/* Gerekli alanları sade tutup, gereksizleri çıkartın */
+/* Örneğin .dud class'ı kullanılmıyorsa kaldırılabilir */
+
+/* Responsive ayarlar */
+@media screen and (max-width: 768px) {
+    .container {
+        height: auto;
+        padding: calc(var(--spacing) * 0.4);
+
+    }
+
+}
+
+@media (orientation: landscape) {
+    :root {
+        /* Yatay konumda fontları biraz büyütelim */
+        --base-font-size: clamp(0.7rem, 2vw, 1.1rem) !important;
+    }
+
+    .container {
+        padding: 0;
+    }
+    .ayet_adi {
+        font-size: var(--medium-font-size);
+        font-weight: 600;
+        margin: 0;
+        padding: calc(var(--spacing) * 0.1);
+    }
+    .ayet_okunusu_container {
+        line-height: 7.0vh;
+    }
+
+    .meal {
+        line-height: 7.0vh;
+    }
+}
+
+@media (orientation: landscape) and (min-width: 1000px) and (max-width:1600px) {
+    .container {
+        padding: var(--spacing);
+    }
+
+    .ayet_okunusu_container {
+        line-height: 4.0vh;
+    }
+
+    .meal {
+        line-height: 4.0vh;
+    }
+}
