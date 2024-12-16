@@ -90,13 +90,13 @@ function playAyet() {
   }
 }
 
-nextBtn.addEventListener("click", () => {
+nextAyahBtn.addEventListener("click", () => {
   currentIndex = (currentIndex + 1) % mealler.length;
   next();
   determineMealBeklemeSuresi();
 });
 
-prevBtn.addEventListener("click", () => {
+prevAyahBtn.addEventListener("click", () => {
   currentIndex = (currentIndex - 1) % mealler.length;
   next();
   determineMealBeklemeSuresi();

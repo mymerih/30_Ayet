@@ -12,10 +12,11 @@ export const getElements = () => ({
   ),
   mealContainer: document.querySelector("#meal"),
   audioPlayer: document.querySelector(".audio"),
-  nextBtn: document.getElementById("nextBtn"),
-  prevBtn: document.getElementById("prevBtn"),
+  nextAyahBtn: document.getElementById("nextAyahBtn"),
+  prevAyahBtn: document.getElementById("prevAyahBtn"),
 
   ayahNumInput: document.querySelector("#ayet-no"),
+  ayetJumpSelect: document.getElementById("ayetNum"),
   ayahPlaybackRateInput: document.getElementById('playbackRate'),
   ayahPlaybackRateSpan: document.getElementById('playbackRateValue'),
   ayahRepeatCheckbox: document.querySelector("#ayetTekrar"),
@@ -51,7 +52,7 @@ addEvent(document.getElementById("arabicTextConainer"), "input", () => {
 
 // 2. DOM Elemnt Creation
 // Functions to create new DOM elements dynamically
-export const creatElement = (tagName, attributes = {}, textContent = "") => {
+export const createElement = (tagName, attributes = {}, textContent = "") => {
   const element = document.createElement(tagName);
   Object.keys(attributes).forEach((key) => {
     element.setAttribute(key, attributes[key]);
@@ -61,9 +62,9 @@ export const creatElement = (tagName, attributes = {}, textContent = "") => {
 };
 
 // Example Usage:
-// const newButton = creatElement(
+// const newButton = createElement(
 //   "button",
-//   { id: "nextBtn", 
+//   { id: "nextAyahBtn", 
 //     // onclick: console.log("onclick fonk on button calisti") 
 //   },
 //   "Click me"
@@ -104,6 +105,13 @@ export const setInputValue = (inputElement, value) => {
     inputElement.value = value;
   }
 };
+
+export const setSelectValue = (inputElement, value) => {
+  if (inputElement) {
+    const selectedIndex = inputElement.selectedIndex;
+    inputElement.options[selectedIndex].value = value;
+  }
+}
 
 // Example Usage:
 setInputValue(document.getElementById("#searchInput"), "New value");
@@ -174,7 +182,7 @@ animateElement(document.getElementById("card"), "fade-in", 1000);
 // 9. Error Handling or Notifications
 // Functions to display error messages or notifications in the UI
 export const displayError = (message, container) => {
-  const errorElement = creatElement("div", { class: "errorMessage" }, message);
+  const errorElement = createElement("div", { class: "errorMessage" }, message);
   if (container) {
     container.appendChild(errorElement);
     settimeout(container.removeChild(errorElement), 3000);
