@@ -9,6 +9,10 @@ const {
   arabicTextConainer,
   arabicPronunciationContainer,
   mealContainer,
+  scaleRange,
+  scaleValue,
+  scaleDecreaseBtn,
+  scaleIncreaseBtn,
   audioPlayer,
   nextAyahBtn,
   prevAyahBtn,
@@ -32,7 +36,7 @@ let autoPlaying = true;
 let mealWaitingTimeFactor = 45;
 let mealWaitingTime = 4000;
 let ayahNumJumper =false;  // Auto play modda, ayet numarasi girilmis ise currentIndex'i girilen ayete ayarlar.
-function determineMealWaitingFactor() {}
+
 
 function determineMealWaitingTime() {
   let factor = parseInt(mealWaitingTimeFactor);
@@ -48,8 +52,15 @@ const fx = new TextScramble(mealContainer);
 
 // Setup handlers
 export const setupAyahHandlers = () => {
-  domHandlers.addEvent(nextAyahBtn, "click", ()=>handleNextPrevAyahNav(true));
-  domHandlers.addEvent(prevAyahBtn, "click", ()=>handleNextPrevAyahNav(false));
+  domHandlers.addEvent(scaleRange, "input", (e) => updateScale(e));
+  domHandlers.addEvent(scaleDecreaseBtn, "click", (e) =>{ 
+    updateScale(e, false);
+});
+domHandlers.addEvent(scaleIncreaseBtn, "click", (e) => {
+  updateScale(e, true);
+});
+  domHandlers.addEvent(nextAyahBtn, "click", () => handleNextPrevAyahNav(true));
+  domHandlers.addEvent(prevAyahBtn, "click", () => handleNextPrevAyahNav(false));
   domHandlers.addEvent(ayahNumInput, "change", (event) => {
     let ayahNummer = event.target.value;
     changeAyahNummer(ayahNummer);
@@ -73,7 +84,27 @@ export const setupAyahHandlers = () => {
   displayAyah(currentIndex);
 };
 
+// Arayuzun olcegini degistirme
+function updateScale (event, isIncrease) {
+  let scale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--scale"));
+  if (event.type === 'input') {
+    scale = event.target.value;
+  } else if (event.type === 'click') {
+    scale = isIncrease ? scale + 0.1 : scale - 0.1;
+  }
+  scale = scale < 0.5 ? 0.5 : scale; // Min deger
+  scale = scale > 2 ? 2 : scale; // Max deger
+  scale = scale.toFixed(1);
+  document.documentElement.style.setProperty("--scale", scale);
+  scaleValue.textContent = scale;
+}
+
+// Buton ile UI Scale ayarlama
+
+
+// Mevcut ayeti surekli tekrar etme
 function repeatAyahOhneAnimation() {}
+
 
 // Async function to display ayah and audio
 async function displayAyah(index) {
@@ -122,7 +153,7 @@ function updatePage(ayah) {
   domHandlers.setAttribute(audioPlayer, "src", `../assets/audio/${ayah.audio}`); // ayet mp3 src'sini gunceller.
   domHandlers.updateContent(
     mealWaitingTimeSpan,
-    `${(mealWaitingTime / 1000).toFixed(1)} sn.`
+    `${(mealWaitingTime / 1000).toFixed(1)} s`
   );
 }
 
