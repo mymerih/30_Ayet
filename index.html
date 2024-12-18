@@ -5,73 +5,98 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>30 Ayet Ezberle</title>
-  <script type="module" src="script.js" defer></script>
-  <link rel="stylesheet" href="style.css">
+  <script type="module" src="./src/main.js" defer></script>
+  <script type="module">
+    import { updateContent, setInputValue } from "./src/domHandlers.js";
+  </script>
+  <link rel="stylesheet" href="./style/style.css">
+  <!-- Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
 
 <body>
-
+  <!-- Container -->
   <div class="container">
-    <div id="ayetAdi_ayetKontrolu">
-      <h3 class="ayet_adi"></h3>
-      <div class="arapca">
-        <div class="ayet_container"></div>
-        <div class="ayet_okunusu_container"></div>
-
-        <!-- Audio -->
-        <div class="audio-container">
-          <!-- Player ve Ayet Tekrari -->
-          <div class="audioControlRepeat">
-            <audio class="audio" src="" controls></audio>
-            <label for="ayetTekrar">&#x1f501:<div id="x1f501"></div></label>
-            <input type="checkbox" id="ayetTekrar">
-          </div>
-          <!-- Oynatma Hizi -->
-          <div class="speed-control">
-            <div>
-              <label for="playbackRate">Çalma Hızı:</label>
-              <span class="output" id="playbackRateValue">1.0</span>
-            </div>
-            <div>
-              0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="3" value="1.0" step="0.1"
-                oninput="document.querySelector('.audio').playbackRate = this.value; 
-            document.getElementById('playbackRateValue').value = this.value">3.0
-            </div>
-          </div>
-        </div>
-
-        <!-- Ayet Secim Kontrol Tuslari -->
-        <div class="buton_container">
-          <label for="ayet-no">AyetNo:</label>
-          <input type="number" id="ayet-no" min="1" max="30" value="1" onfocus="this.select()"
-          onchange="document.getElementById('ayetNum').value = this.value">
-            <!-- Ayet Atlama Select -->
-            <select id="ayetNum"></select>
-          <button id="prev-ayet" onclick="">Geri</button>
-          <button id="next-ayet" onclick="">İleri</button>
-          <label for="auto-play">Auto</label>
-          <input type="checkbox" id="auto-play" checked>
-        </div>
-      </div>
+    <!-- Ayet Basligi -->
+    <h3 class="ayet_adi"></h3>
+    <!-- Arapca Ayet ve Okunusu -->
+    <div class="arapca">
+      <div class="arabicTextConainer"></div>
+      <div class="ayet_okunusu_container"></div>
     </div>
 
-    <div class="meal_digerKontrol">
-      <!-- Meali Gosterme -->
-      <div class="meal" id="meal"></div>
+    <!-- Kontrol Paneli -->
+    <div class="control-panel1">
+      <!-- Kullanici icin kontrol araci -->
+      <div class="control scale-control-panel">
+        <!-- Scale icin - butonu -->
+        <label for="scale-range">Arayüz Ölçeği:</label>
+        <span id="scale-value" class="output">1.0</span>
+        <button id="decrease-scale">
+          <i class="fas fa-minus-circle"></i>
+        </button>
+        0<input type="range" id="scale-range" min="0.5" max="2" step="0.1" value="1">2
+        <button id="increase-scale">
+          <i class="fas fa-plus-circle"></i>
+        </button>
+      </div>
+      <!-- Audio -->
+      <div class="control audio-control-panel">
+        <!-- Player ve Ayet Tekrari -->
+        <div class=" audio-player-control-panel">
+          <audio class="audio" src="" controls></audio>
+          <label for="ayah-repeat">&#x1f501:<div id="x1f501"></div></label>
+          <input type="checkbox" id="ayah-repeat">
+        </div>
+        <!-- Oynatma Hizi -->
+        <div class="speed-control">
+          <div>
+            <label for="playbackRate">Çalma Hızı:</label>
+            <span class="output" id="playbackRateValue">1.0</span>
+          </div>
+          <div>
+            0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="3" value="1.0" step="0.1" oninput="document.getElementById('playbackRateValue').innerHTML = this.value;
+          document.querySelector('.audio').playbackRate = this.value;
+          ">3.0
+          </div>
+        </div>
+      </div>
 
-      <!-- Meal icin dil secimi -->
-      <!-- <div class="meal_dili_secimi">
+      <!-- Ayet Secim Kontrol Tuslari -->
+      <div class="control navigation-control-panel">
+
+        <!-- Ayet-No Input Elemani -->
+        <label for="ayet-no">AyetNo:</label>
+        <input type="text" id="ayet-no" min="1" max="30" value="1" onfocus="this.select()"
+          onchange="setInputValue(this, this.value); this.blur()">
+        <!-- Ayet Atlama Select -->
+        <select id="ayetNum"></select>
+        <!-- Navigation Buttons -->
+        <button id="prevAyahBtn" onclick="">Geri</button>
+        <button id="nextAyahBtn" onclick="">İleri</button>
+
+        <!-- Auto play Checkbox -->
+        <label for="auto-play">Auto</label>
+        <input type="checkbox" id="auto-play">
+      </div>
+    </div>
+    <!-- Meali Gosterme -->
+    <div class="meal" id="meal"></div>
+    <div class="control-panel2 ">
+    <!-- Meal icin dil secimi -->
+    <!-- <div class="control language-control-panel">
       <label for="turkce">Meal Lisani</label>
       <input type="checkbox" id="turkce">
      </div> -->
 
       <!-- Meal Bekleme Suresini Belirleme -->
-      <div class="meal_bekleme_container">
-        <label for="mealBeklemeKatsayisi">Meal Bekleme Katsayısı:</label>
-        <span class="output" id="beklemeKatsayisiOutput">45</span>
-        <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi" onchange="beklemeSuresiGir(this);">
-          <option value="">Süre Seçin</option>
+      <div class="control time-control-panel">
+        <span id="time-control-panal-name">Meal Bekleme;</span>
+        <label for="mealBeklemeKatsayisi">:</label>
+        <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi"
+          onchange="document.getElementById('beklemeKatsayisiOutput').innerHTML = this.value;">
+          <option value="">Katsayı</option>
           <option value="0">0</option>
           <option value="5">5</option>
           <option value="10">10</option>
@@ -82,31 +107,37 @@
           <option value="60">60</option>
           <option value="70">70</option>
         </select>
-      </div>
-      <div class="bekleme_suresi_goster">
-        <label>Meal Bekleme Süresi:</label>
-        <span class="output" id="kalan_sure"></span>
+        <span class="output" id="beklemeKatsayisiOutput">45</span>
+
+        <div class="bekleme_suresi_goster">
+          <label>Süre:</label>
+          <span class="output" id="kalan_sure"></span>
+        </div>
       </div>
     </div>
-
   </div>
+  <script type="module">
+    import { setInputValue } from "./src/domhandlers.js";
 
+    // setInputValue fonksiyonunu global olarak erisilebilir yapma
+    window.setInputValue = setInputValue;
+  </script>
 
   <script>
     const ayetJumpSelect = document.getElementById("ayetNum");
 
-// Use Array.from to generate the options and join them into a single HTML string
-let array= Array.from({ length: 7 }, (_, i) => {
-  const value = i === 0 ? 1 : i*5;
-  return `<option value="${value}">${value}</option>`;
-});
-let string = array.join("");
-ayetJumpSelect.innerHTML = string;
-console.log('ayetJumpSelect.innerHTML :>> ', ayetJumpSelect.innerHTML);
-// Example function to handle value change
-function updateCounter(value) {
-  // console.log("Selected Ayet:", value);
-}
+    // Use Array.from to generate the options and join them into a single HTML string
+    let array = Array.from({ length: 7 }, (_, i) => {
+      const value = i === 0 ? 1 : i * 5;
+      return `<option value="${value}">${value}</option>`;
+    });
+    let string = array.join("");
+    ayetJumpSelect.innerHTML = string;
+    console.log('ayetJumpSelect.innerHTML :>> ', ayetJumpSelect.innerHTML);
+    // Example function to handle value change
+    function updateCounter(value) {
+      // console.log("Selected Ayet:", value);
+    }
 
 
 
