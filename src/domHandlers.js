@@ -11,22 +11,25 @@ export const getElements = () => ({
     ".ayet_okunusu_container"
   ),
   mealContainer: document.querySelector("#meal"),
-  audioPlayer: document.querySelector(".audio"),
-  nextAyahBtn: document.getElementById("nextAyahBtn"),
-  prevAyahBtn: document.getElementById("prevAyahBtn"),
-
   scaleRange: document.getElementById("scale-range"),
   scaleValue: document.getElementById("scale-value"),
   scaleDecreaseBtn: document.getElementById("decrease-scale"),
   scaleIncreaseBtn: document.getElementById("increase-scale"),
+  // audio-control-panel
+  audioPlayer: document.querySelector(".audio"),
+  ayahRepeatCheckbox: document.querySelector("#ayah-repeat"),
+  ayahPlaybackRateSpan: document.getElementById('playbackRateValue'),
+  ayahPlaybackRateInput: document.getElementById('playbackRate'),
+  // control navigation-control-panel
   ayahNumInput: document.querySelector("#ayet-no"),
   ayetJumpSelect: document.getElementById("ayetNum"),
-  ayahPlaybackRateInput: document.getElementById('playbackRate'),
-  ayahPlaybackRateSpan: document.getElementById('playbackRateValue'),
-  ayahRepeatCheckbox: document.querySelector("#ayah-repeat"),
+  prevAyahBtn: document.getElementById("prevAyahBtn"),
+  nextAyahBtn: document.getElementById("nextAyahBtn"),
   autoPlayCheckbox: document.querySelector("#auto-play"),
-  mealWaitingTimeSpan: document.querySelector("#kalan_sure"),
+  // time-control-panel
   mealWaitingFactorInput: document.querySelector("#mealBeklemeKatsayisi"),
+  mealWaitingTimeSpan: document.querySelector("#kalan_sure"),
+
 });
 
 // Update content of a DOM element

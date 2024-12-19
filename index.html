@@ -31,7 +31,7 @@
       <!-- Kullanici icin kontrol araci -->
       <div class="control scale-control-panel">
         <!-- Scale icin - butonu -->
-        <label for="scale-range">Arayüz Ölçeği:</label>
+        <label for="scale-range" class="myLabel">Arayüz Ölçeği:</label>
         <span id="scale-value" class="output">1.0</span>
         <button id="decrease-scale">
           <i class="fas fa-minus-circle"></i>
@@ -41,24 +41,25 @@
           <i class="fas fa-plus-circle"></i>
         </button>
       </div>
-      <!-- Audio -->
-      <div class="control audio-control-panel">
+      <!-- Audio Control Panel-->
+      <div class="audio-control-panel">
         <!-- Player ve Ayet Tekrari -->
-        <div class=" audio-player-control-panel">
+        <div class="control audio-player-control-panel">
           <audio class="audio" src="" controls></audio>
-          <label for="ayah-repeat">&#x1f501:<div id="x1f501"></div></label>
+          <label for="ayah-repeat" class="myLabel">&#x1f501:<div id="x1f501"></div></label>
           <input type="checkbox" id="ayah-repeat">
         </div>
         <!-- Oynatma Hizi -->
-        <div class="speed-control">
+        <div class="control speed-control">
           <div>
-            <label for="playbackRate">Çalma Hızı:</label>
+            <label for="playbackRate" class="myLabel">Çalma Hızı:</label>
             <span class="output" id="playbackRateValue">1.0</span>
           </div>
           <div>
-            0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="3" value="1.0" step="0.1" oninput="document.getElementById('playbackRateValue').innerHTML = this.value;
+            0<input type="range" id="playbackRate" name="playbackRate" min="0.5" max="2" value="1.0" step="0.1" 
+            oninput="document.getElementById('playbackRateValue').innerHTML = this.value;
           document.querySelector('.audio').playbackRate = this.value;
-          ">3.0
+          ">2.0
           </div>
         </div>
       </div>
@@ -67,8 +68,8 @@
       <div class="control navigation-control-panel">
 
         <!-- Ayet-No Input Elemani -->
-        <label for="ayet-no">AyetNo:</label>
-        <input type="text" id="ayet-no" min="1" max="30" value="1" onfocus="this.select()"
+        <label for="ayet-no" class="myLabel">AyetNo:</label>
+        <input type="text" id="ayet-no" pattern="\d*" value="1" onfocus="this.select()"
           onchange="setInputValue(this, this.value); this.blur()">
         <!-- Ayet Atlama Select -->
         <select id="ayetNum"></select>
@@ -77,23 +78,22 @@
         <button id="nextAyahBtn" onclick="">İleri</button>
 
         <!-- Auto play Checkbox -->
-        <label for="auto-play">Auto</label>
-        <input type="checkbox" id="auto-play">
+        <label for="auto-play" class="myLabel">Auto</label>
+        <input type="checkbox" id="auto-play" checked>
       </div>
     </div>
     <!-- Meali Gosterme -->
     <div class="meal" id="meal"></div>
     <div class="control-panel2 ">
-    <!-- Meal icin dil secimi -->
-    <!-- <div class="control language-control-panel">
-      <label for="turkce">Meal Lisani</label>
+      <!-- Meal icin dil secimi -->
+      <!-- <div class="control language-control-panel">
+      <label for="turkce" class="myLabel">Meal Lisani</label>
       <input type="checkbox" id="turkce">
      </div> -->
 
       <!-- Meal Bekleme Suresini Belirleme -->
       <div class="control time-control-panel">
-        <span id="time-control-panal-name">Meal Bekleme;</span>
-        <label for="mealBeklemeKatsayisi">:</label>
+        <label for="mealBeklemeKatsayisi" class="myLabel">Meal Bekleme;</label>
         <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi"
           onchange="document.getElementById('beklemeKatsayisiOutput').innerHTML = this.value;">
           <option value="">Katsayı</option>
@@ -110,7 +110,7 @@
         <span class="output" id="beklemeKatsayisiOutput">45</span>
 
         <div class="bekleme_suresi_goster">
-          <label>Süre:</label>
+          <label class="myLabel">Süre:</label>
           <span class="output" id="kalan_sure"></span>
         </div>
       </div>
@@ -129,17 +129,11 @@
     // Use Array.from to generate the options and join them into a single HTML string
     let array = Array.from({ length: 7 }, (_, i) => {
       const value = i === 0 ? 1 : i * 5;
-      return `<option value="${value}">${value}</option>`;
+      return `<option value="${value}">${value}. Ayet</option>`;
     });
     let string = array.join("");
     ayetJumpSelect.innerHTML = string;
-    console.log('ayetJumpSelect.innerHTML :>> ', ayetJumpSelect.innerHTML);
     // Example function to handle value change
-    function updateCounter(value) {
-      // console.log("Selected Ayet:", value);
-    }
-
-
 
   </script>
 </body>

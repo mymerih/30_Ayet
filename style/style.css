@@ -126,7 +126,7 @@ html {
 /* Arapça ayet içeriği */
 .arabicTextConainer {
     font-family: 'Scheherazade New', serif;
-    font-size: clamp(1rem, 5.0vw * var(--scale), 5.0rem);
+    font-size: clamp(1rem, 7.0vw * var(--scale), 5.0rem);
     font-weight: 400;
     direction: rtl;
     text-align: right;
@@ -135,19 +135,19 @@ html {
 /* Ayetin Latin harfle okunuşu */
 .ayet_okunusu_container {
     background-color: #f5f2f0;
-    font-size: clamp(1rem, 3.5vw * var(--scale), 2.0rem);
+    font-size: clamp(1rem, 4.5vw * var(--scale), 2.0rem);
     padding: var(--spacing);
     margin-bottom: var(--spacing);
-    line-height: calc(var(--scale) * 2.3vh);
+    line-height: clamp(2vh, calc(var(--scale) * 3.9vh), 4vh);
 }
 
 /* Meal */
 .meal {
     background-color: #ffbee4;
-    font-size: clamp(1rem, 3.5vw * var(--scale), 2.0rem);
+    font-size: clamp(1rem, 4.1vw * var(--scale), 2.0rem);
     padding: var(--spacing);
     margin-bottom: var(--spacing);
-    line-height: calc(var(--scale) * 2.3vh);
+    line-height: clamp(2vh, calc(var(--scale) * 3.9vh), 4vh);
 }
 
 .dud {
@@ -156,13 +156,14 @@ html {
 }
 
 .control-panel1,
-.control-panel2 {
+.control-panel2,
+.audio-control-panel {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    padding: clamp(0.1rem, 1vw * var(--scale), 1rem);
+    padding: clamp(0.1rem, 0.4vw * var(--scale), 1rem);
     width: 100%;
     max-width: 100%;
     background-color: rgb(149, 150, 149);
@@ -171,7 +172,7 @@ html {
 .control {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
     /* Ekran genisligini doldur */
     max-width: 100%;
@@ -189,11 +190,7 @@ html {
 
 /* Audio Kontrol Container */
 .audio-control-panel {
-    /* display: flex; */
-    flex-direction: column;
-    justify-content: flex-start;
     background-color: rgb(5, 131, 89);
-
 }
 
 .navigation-control-panel {
@@ -218,7 +215,9 @@ html {
     max-width: 100%;
     /* Tasmayi engelle */
     gap: clamp(0.1rem, 0.3vw * var(--scale), 1rem);
-    padding: clamp(0.5rem, 0.1vw * var(--scale), 1rem);
+    /* padding: clamp(0.5rem, 0.1vw * var(--scale), 1rem); */
+    /* padding: clamp(0.1rem, 0.4vw * var(--scale), 1rem); */
+
     /* background-color: aquamarine; */
     background-color: var(--color-audio-player-bg);
 }
@@ -261,11 +260,11 @@ label[for='ayah-repeat'] {
 }
 
 /* Label gibi sürekli okunmayan öğeler daha küçük fontta */
-label {
-    font-size: var(--small-font-size);
+.myLabel {
+    font-size: clamp(0.2rem, 1w * var(--scale), 3.0rem);
     font-weight: 700;
     color: var(--color-text);
-    margin: clamp(0vw, calc(var(--scale) * 0, 1vw), 3vw);
+    /* margin: clamp(0vw, calc(var(--scale) * 0, 1vw), 3vw); */
     /* background-color: var(--color-label-bg); */
 }
 
@@ -275,8 +274,8 @@ label {
     font-size: clamp(0.5rem, 3vw * var(--scale), 2rem);
     ;
     font-weight: 900;
-    padding: calc(0.5 * var(--spacing)) var(--spacing);
-    margin: calc(0.1 * var(--spacing)) var(--spacing);
+    padding: calc(0.5 * var(--padding)) var(--padding);
+    margin: 0 calc(0.9 * var(--spacing));
 }
 
 
@@ -296,7 +295,6 @@ button {
     padding: calc(var(--padding)*1);
     text-align: center;
     font-weight: 700;
-    border-radius: 0.3rem;
     border-radius: var(--border-radius);
     transition: all 0.3s ease;
 }
@@ -358,6 +356,16 @@ input[type="range"] {
     .container {
         height: auto;
         padding: calc(var(--spacing) * 0.4);
+    }
+    .output {
+        font-size: clamp(0.5rem, 2.0vw * var(--scale), 1.5rem);
+    }
+    .myLabel {
+        font-size: clamp(0.7rem, 1.5vw * var(--scale), 1.5rem);
+    }
+    .control {
+        gap: clamp(0.1rem, 0.3vw * var(--scale), 1.0rem);
+        padding: clamp(0.1rem, 1vw * var(--scale), 1rem);
     }
 }
 
