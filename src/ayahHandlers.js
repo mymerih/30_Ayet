@@ -230,20 +230,25 @@ function updatePage(ayah) {
 function playAyah() {
   audioPlayer.pause(); // Pause the player before setting the playback rate
   audioPlayer.playbackRate = updateAyahPlaybackRate();
-  audioPlayer.play(); // Play the player after setting the playback rate
+  audioPlayer
+    .play() // Play the player after setting the playback rate
+    .then(() => console.log("Ayah is playing"))
+    .catch(() => alert("Başlamak için lütfen play tuşuna basınız!"));
   reminderElement.hidden = true; // Ayet calmaya baslayinca hatirlatma kaldirilir.
 
   isPlaying = true;
 }
-
 
 // range input'u degeri degisince EventListener bunu calistirir.
 function updateAyahPlaybackRate() {
   const rate = parseFloat(ayahPlaybackRateInput.value); // Oynatma hizi degisince, degeri degiskene atar.
   audioPlayer.playbackRate = rate; // Src'u degisen player'in resetlenen oynatma hizini ayarlanan degere gunceller
   domHandlers.updateContent(ayahPlaybackRateSpan, rate);
-  console.log('audioPlayer.playbackRate :>> ', audioPlayer.playbackRate);
-  console.log('ayahPlaybackRateSpan.value :>> ', ayahPlaybackRateSpan.textContent);
+  console.log("audioPlayer.playbackRate :>> ", audioPlayer.playbackRate);
+  console.log(
+    "ayahPlaybackRateSpan.value :>> ",
+    ayahPlaybackRateSpan.textContent
+  );
   return rate;
 }
 

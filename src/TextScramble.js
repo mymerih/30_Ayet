@@ -16,13 +16,12 @@ export class TextScramble {
     for (let i = 0; i < maxLength; i++) {
       const from = oldText[i] || "";
       const to = newText[i] || "";
-      const start = Math.floor(Math.random() * 100);
-      const end = start + Math.floor(Math.random() * 100);
+      const start = Math.floor(Math.random() * 150);
+      const end = start + Math.floor(Math.random() * 150);
       this.queue.push({ from, to, start, end });
     }
     this.animationReset(); // Yenisi baslatilmadan once, onceki animasyon resetlenir
 
-    
     return new Promise((resolve) => {
       this.resolve = resolve;
       this.frame = 0;

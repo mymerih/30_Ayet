@@ -156,7 +156,7 @@ export const ayatList = [
       "Utlu mâ ûhıye ileyke minel kitâbi ve ekımıssalâte, inne salâte tenha anil fahşâ'i vel munker.",
     translations: {
       turkish:
-        "Muhakkak ki namaz, insanı, ahlâk dışı davranışlardan, meşrû olmayan işlerden uzak tutar.",
+        "Sana vahyedilen kitabı okuyup tebliğ et, namazı hakkıyla kıl. Muhakkak ki namaz, insanı, ahlâk dışı davranışlardan, meşrû olmayan işlerden uzak tutar. Allah’ı namazla anmak, elbette en büyük fazilettir. Allah bütün işlediklerinizi bilir.",
       german:
         "Trage vor und überbringe ihnen, was dir vom Buch offenbart wird, und verrichte das Gebet entsprechend seinen Vorschriften. Wahrlich, das Gebet hält ab von allem, was abscheulich und verwerflich ist, und von allem, was schlecht ist.",
     },
@@ -222,7 +222,7 @@ export const ayatList = [
       "Yâ eyyuhellezîne âmenû in tansurûllâhe yansurkum ve yusebbid akdâmekum.",
     translations: {
       turkish:
-        "Ey iman edenler! Eğer siz Allah’a yardım ederseniz (emrini tutar, dinini uygularsanız), O da size yardım eder ve ayaklarınızı sağlam bastırır.",
+        "Ey iman edenler! Eğer siz Allah’a yardım ederseniz (emrini tutar, dinini uygularsanız), O da size yardım eder ve ayaklarınızı kaydırmaz.",
       german:
         "O ihr, die ihr glaubt! Wenn ihr Gottes Sache unterstützt, dann wird Er euch helfen und eure Füße festen Halt finden lassen.",
     },
