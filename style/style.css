@@ -289,8 +289,7 @@ button {
     align-items: center;
     justify-content: center;
     width: clamp(60px, 3vw * var(--scale), 220px);
-    height: clamp(25px, 2vh * var(--scale), 50px);
-
+    height: clamp(25px, 4vh * var(--scale), 60px);
     font-size: clamp(1rem, 2.0vw * var(--scale), 1.5rem);
     padding: calc(var(--padding)*1);
     text-align: center;
@@ -351,6 +350,18 @@ input[type="range"] {
     border-radius: clamp(5px, 1vw * var(--scale), 10px);
 }
 
+/* Hatirlatma mesaji */
+#ayah-end-wait-reminder {
+background-color: #ff0000;
+color: #fff;
+font-size: clamp(1rem, 3.0vw * var(--scale), 1.5rem);
+font-weight: 900;
+text-align: center;
+padding: clamp(0.1rem, 0.4vw * var(--scale), 1rem);
+width: 100%;
+max-width: 100%;
+}
+
 /* Responsive ayarlar */
 @media screen and (max-width: 768px) {
     .container {
@@ -358,7 +369,7 @@ input[type="range"] {
         padding: calc(var(--spacing) * 0.4);
     }
     .output {
-        font-size: clamp(0.5rem, 2.0vw * var(--scale), 1.5rem);
+        font-size: clamp(0.5rem, 2.3vw * var(--scale), 1.5rem);
     }
     .myLabel {
         font-size: clamp(0.7rem, 1.5vw * var(--scale), 1.5rem);

@@ -26,6 +26,8 @@ export const getElements = () => ({
   prevAyahBtn: document.getElementById("prevAyahBtn"),
   nextAyahBtn: document.getElementById("nextAyahBtn"),
   autoPlayCheckbox: document.querySelector("#auto-play"),
+  reminderElement: document.getElementById('ayah-end-wait-reminder'),
+
   // time-control-panel
   mealWaitingFactorInput: document.querySelector("#mealBeklemeKatsayisi"),
   mealWaitingTimeSpan: document.querySelector("#kalan_sure"),

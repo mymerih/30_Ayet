@@ -25,6 +25,7 @@ const {
   prevAyahBtn,
   nextAyahBtn,
   autoPlayCheckbox,
+  reminderElement,
   // time-control-panel
   mealWaitingFactorInput,
   mealWaitingTimeSpan,
@@ -101,11 +102,11 @@ function updateScale(event, isIncrease) {
   if (event.type === "input") {
     scale = parseFloat(event.target.value);
   } else if (event.type === "click") {
-    scale = isIncrease ? scale + 0.1 : scale - 0.1;
+    scale = isIncrease ? scale + 0.05 : scale - 0.05;
   }
-  scale = scale < 0.5 ? 0.5 : scale; // Min deger
-  scale = scale > 2 ? 2 : scale; // Max deger
-  scale = parseFloat(scale.toFixed(1));
+  scale = scale < 0.7 ? 0.7 : scale; // Min deger
+  scale = scale > 1.6 ? 1.6 : scale; // Max deger
+  scale = parseFloat(scale.toFixed(2));
   document.documentElement.style.setProperty("--scale", scale);
   scaleValue.textContent = scale;
 }
@@ -229,8 +230,9 @@ function updatePage(ayah) {
 function playAyah() {
   audioPlayer.pause(); // Pause the player before setting the playback rate
   audioPlayer.playbackRate = updateAyahPlaybackRate();
-  console.log('Setting playbackRate to:', audioPlayer.playbackRate); // Log the playback rate
   audioPlayer.play(); // Play the player after setting the playback rate
+  reminderElement.hidden = true; // Ayet calmaya baslayinca hatirlatma kaldirilir.
+
   isPlaying = true;
 }
 
@@ -270,10 +272,10 @@ async function handleNextPrevAyahNav(next) {
     // Yeni ayeti goster ve animasyonu baslat
     await displayAyah(currentIndex);
   } else {
+    remindAyahEndWaiting();
     jumpCounter =
       ((next ? ++jumpCounter : --jumpCounter) + ayatList.length) %
       ayatList.length; // Next/prev tusuna basma adedi. Atlanacak ayet sayisi
-    console.log("jumpCounter :>> ", jumpCounter);
     ayahNumInput.value = ((currentIndex + jumpCounter) % ayatList.length) + 1; //Atlanacak ayet sayisini goster
     setSelectValue(ayetJumpSelect, ayahNumInput.value);
     // Animasyon devam ediyorsa setText() donusunde otomatik jumpCounter kadar sonraki ayeti goster.
@@ -296,10 +298,16 @@ async function changeAyahNummer(ayahNummer) {
     // Display and wait for the current ayah's animation to complete
     await displayAyah(currentIndex);
   } else {
+    remindAyahEndWaiting();
     // Animasyon devam ediyorsa setText() donusunde otomatik jumpCounter kadar sonraki ayeti goster.
     allowDisplayAfterAnimation = true; // Next tusuna basildi, ama ayet gosterilemedi. Otomatik sonraki ayetleri goster.
     ayahNumJumper = true; // Auto play modda girilen ayete atlamasi icin kontrol degiskeni
   }
+}
+
+function remindAyahEndWaiting() {
+  reminderElement.hidden = false;
+  reminderElement.innerHTML = "Lütfen ayetin sonuna kadar bekleyin.";
 }
 
 function determineMealWaitingTime() {
