@@ -1,6 +1,5 @@
 // for DOM-related functions
-export const initializeDOM = () => {
-};
+export const initializeDOM = () => {};
 
 // selec and return DOM elements
 export const getElements = () => ({
@@ -18,20 +17,22 @@ export const getElements = () => ({
   // audio-control-panel
   audioPlayer: document.querySelector(".audio"),
   ayahRepeatCheckbox: document.querySelector("#ayah-repeat"),
-  ayahPlaybackRateSpan: document.getElementById('playbackRateValue'),
-  ayahPlaybackRateInput: document.getElementById('playbackRate'),
+  ayahPlaybackRateSpan: document.getElementById("playbackRateValue"),
+  ayahPlaybackRateInput: document.getElementById("playbackRate"),
   // control navigation-control-panel
   ayahNumInput: document.querySelector("#ayet-no"),
   ayetJumpSelect: document.getElementById("ayetNum"),
   prevAyahBtn: document.getElementById("prevAyahBtn"),
   nextAyahBtn: document.getElementById("nextAyahBtn"),
   autoPlayCheckbox: document.querySelector("#auto-play"),
-  reminderElement: document.getElementById('ayah-end-wait-reminder'),
+  reminderElement: document.getElementById("ayah-end-wait-reminder"),
 
   // time-control-panel
   mealWaitingFactorInput: document.querySelector("#mealBeklemeKatsayisi"),
   mealWaitingTimeSpan: document.querySelector("#kalan_sure"),
 
+  // language-control-panel
+  langRadioBtns: document.querySelectorAll("input[name='language']"),
 });
 
 // Update content of a DOM element
@@ -39,12 +40,19 @@ export const updateContent = (element, content) => {
   if (element) element.innerHTML = content;
 };
 
-
 // 1. Event Handling Utilities
 // Functions to simplify attaching, removing, or managing events.
 export const addEvent = (element, eventType, callback) => {
   if (element) {
     element.addEventListener(eventType, callback);
+  }
+};
+
+export const addEventRadio = (elements, eventType, callback) => {
+  if (elements) {
+    elements.forEach((element) => {
+      element.addEventListener(eventType, callback);
+    });
   }
 };
 
@@ -73,8 +81,8 @@ export const createElement = (tagName, attributes = {}, textContent = "") => {
 // Example Usage:
 // const newButton = createElement(
 //   "button",
-//   { id: "nextAyahBtn", 
-//     // onclick: console.log("onclick fonk on button calisti") 
+//   { id: "nextAyahBtn",
+//     // onclick: console.log("onclick fonk on button calisti")
 //   },
 //   "Click me"
 // );
@@ -120,7 +128,7 @@ export const setSelectValue = (inputElement, value) => {
     const selectedIndex = inputElement.selectedIndex;
     inputElement.options[selectedIndex].value = value;
   }
-}
+};
 
 // Example Usage:
 setInputValue(document.getElementById("#searchInput"), "New value");

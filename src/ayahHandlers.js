@@ -29,6 +29,7 @@ const {
   // time-control-panel
   mealWaitingFactorInput,
   mealWaitingTimeSpan,
+  langRadioBtns,
 } = domHandlers.getElements();
 
 // Global degiskenler
@@ -42,12 +43,15 @@ let autoPlaying = true;
 let mealWaitingTimeFactor = 45;
 let mealWaitingTime = 4000;
 let ayahNumJumper = false; // Auto play modda, ayet numarasi girilmis ise currentIndex'i girilen ayete ayarlar.
+let mealLanguage = 'turkish';  // Meal dilini kontrol eden bayrak
 
 // TextScramble nesne ornegi olusturma
 const fx = new TextScramble(mealContainer);
 
 // Setup handlers
 export const setupAyahHandlers = () => {
+  // Meal Dili Secimi
+  domHandlers.addEventRadio(langRadioBtns, "change", changeMealLanguage);
   // scale-control-panel
   domHandlers.addEvent(scaleRange, "input", (e) => updateScale(e));
   domHandlers.addEvent(scaleDecreaseBtn, "click", (e) => {
@@ -94,6 +98,17 @@ export const setupAyahHandlers = () => {
   displayAyah(currentIndex);
 };
 
+// Meal dilini Turkce veya Almanca olarak degistir
+function changeMealLanguage() {
+  langRadioBtns.forEach(radio => {
+    if (radio.checked ) mealLanguage = radio.value;
+  });
+  fx.isAnimating = false;
+  setTimeout(() => {
+    mealContainer.textContent = ayah.translations[mealLanguage];
+  }, 50);
+  console.log('ayah.translations.mealLanguage :>> ', ayah.translations[mealLanguage]);
+}
 // Arayuzun olcegini degistirme
 function updateScale(event, isIncrease) {
   let scale = parseFloat(
@@ -102,9 +117,9 @@ function updateScale(event, isIncrease) {
   if (event.type === "input") {
     scale = parseFloat(event.target.value);
   } else if (event.type === "click") {
-    scale = isIncrease ? scale + 0.05 : scale - 0.05;
+    scale = isIncrease ? scale + 0.07 : scale - 0.07;
   }
-  scale = scale < 0.7 ? 0.7 : scale; // Min deger
+  scale = scale < 0.4 ? 0.4 : scale; // Min deger
   scale = scale > 1.6 ? 1.6 : scale; // Max deger
   scale = parseFloat(scale.toFixed(2));
   document.documentElement.style.setProperty("--scale", scale);
@@ -128,7 +143,7 @@ async function displayAyah(index) {
 // Animate meal text in TextScramble Class
 async function animateMeal(ayah) {
   await fx
-    .setText(ayah.translations.turkish) // Metin icin animasyon baslatilir
+    .setText(ayah.translations[mealLanguage]) // Metin icin animasyon baslatilir
     .then(() => {
       // Amimasyon tamamlandiktan sonra burasi calisir
       console.log("Animasyon tamamlandi.");
@@ -213,7 +228,7 @@ function setSelectValue(
 function updatePage(ayah) {
   domHandlers.updateContent(
     titleContainer,
-    `${ayah.id}.Ayet: ${ayah.surah}_${ayah.id}`
+    `${ayah.id}.Ayet: ${ayah.surah}_${ayah.ayahNumber}`
   );
   domHandlers.setInputValue(ayahNumInput, ayah.id); // Ayet No'yu gunceller
   setSelectValue(ayetJumpSelect, ayah.id); // Ayet No'yu gunceller
@@ -223,7 +238,7 @@ function updatePage(ayah) {
   audioPlayer.src = `./assets/audio/${ayah.audio}`; // ayet mp3 src'sini gunceller.
   domHandlers.updateContent(
     mealWaitingTimeSpan,
-    `${(mealWaitingTime / 1000).toFixed(1)} s`
+    `${(mealWaitingTime / 1000).toFixed(1)}s`
   );
 }
 

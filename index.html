@@ -30,15 +30,15 @@
 
     <!-- Kontrol Paneli -->
     <div class="control-panel1">
-      
+
       <!-- Audio Control Panel-->
       <div class="audio-control-panel">
         <!-- Player ve Ayet Tekrari -->
         <div class="control audio-player-control-panel">
-          <audio class="audio" src="" controls></audio>
-          <div class="control3" id="ayah-repeat-container">
+          <audio class="  audio" src="" controls></audio>
+          <div class="control2 ayah-repeat-container" id="ayah-repeat-container">
             <label for="ayah-repeat" class="myLabel">&#x1f501:<div id="x1f501"></div></label>
-          <input type="checkbox" id="ayah-repeat">
+            <input type="checkbox" id="ayah-repeat">
           </div>
         </div>
         <!-- Oynatma Hizi -->
@@ -59,18 +59,23 @@
       <div class="control navigation-control-panel">
 
         <!-- Ayet-No Input Elemani -->
-        <label for="ayet-no" class="myLabel">AyetNo:</label>
+         <div class="control3" id="ayet-no-input">
+        <label for="ayet-no" class="myLabel">Ayet No:</label>
         <input type="text" id="ayet-no" pattern="\d*" value="1" onfocus="this.select()"
           onchange="setInputValue(this, this.value); this.blur()">
         <!-- Ayet Atlama Select -->
         <select id="ayetNum"></select>
+      </div>
         <!-- Navigation Buttons -->
-        <button id="prevAyahBtn" onclick="">Geri</button>
-        <button id="nextAyahBtn" onclick="">İleri</button>
-
+        <div class="control2" id="navigation-btn">
+          <button id="prevAyahBtn" onclick="">Geri</button>
+          <button id="nextAyahBtn" onclick="">İleri</button>
+        </div>
         <!-- Auto play Checkbox -->
-        <label for="auto-play" class="myLabel">Auto</label>
-        <input type="checkbox" id="auto-play" checked>
+        <div class="control2" id="auto-play-label-checkbox">
+          <label for="auto-play" class="myLabel">Auto</label>
+          <input type="checkbox" id="auto-play" checked>
+        </div>
       </div>
     </div>
     <div id="ayah-end-wait-reminder" hidden></div>
@@ -79,24 +84,25 @@
 
       <!-- Meal Bekleme Suresini Belirleme -->
       <div class="control time-control-panel">
-        <label for="mealBeklemeKatsayisi" class="myLabel">Meal Bekleme;</label>
-        <!-- <div id="waiting-factor"> -->
-        <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi"
-          onchange="document.getElementById('beklemeKatsayisiOutput').innerHTML = this.value;">
-          <option value="">Katsayı</option>
-          <option value="0">0 Bekleme yok</option>
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="20">20 Kisa Bekleme</option>
-          <option value="30">30</option>
-          <option value="40">40 Normal Bekleme</option>
-          <option value="50">50</option>
-          <option value="60">60</option>
-          <option value="70">70 Uzun Bekleme</option>
-        </select>
-        <span class="output" id="beklemeKatsayisiOutput">45</span>
-      <!-- </div> -->
-        <div class="bekleme_suresi_goster">
+        <label for="mealBeklemeKatsayisi" class="control3 myLabel">Meal Bekleme;</label>
+        <!-- Waiting Factor -->
+        <div class="control3" id="waiting-factor">
+          <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi"
+            onchange="document.getElementById('beklemeKatsayisiOutput').innerHTML = this.value;">
+            <option value="">Katsayı</option>
+            <option value="0">0 Bekleme yok</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20 Kisa Bekleme</option>
+            <option value="30">30</option>
+            <option value="40">40 Normal Bekleme</option>
+            <option value="50">50</option>
+            <option value="60">60</option>
+            <option value="70">70 Uzun Bekleme</option>
+          </select>
+          <span class="output" id="beklemeKatsayisiOutput">45</span>
+        </div>
+        <div class="control3 bekleme_suresi_goster" id="waiting-time">
           <label class="myLabel">Süre:</label>
           <span class="output" id="kalan_sure"></span>
         </div>
@@ -104,26 +110,28 @@
       <!-- Kullanici icin kontrol araci -->
       <div class="control scale-control-panel">
         <!-- Scale icin - butonu -->
-        <label for="scale-range" class="myLabel">Ekran Büyütme:</label>
+        <label for="scale-range" class="myLabel">Ekran<br> Büyütme:</label>
         <span id="scale-value" class="output">1.0</span>
         <button id="decrease-scale">
           <i class="fas fa-minus-circle"></i>
         </button>
-        0.7<input type="range" id="scale-range" min="0.7" max="1.6" step="0.05" value="1">1.6
+        0.4<input type="range" id="scale-range" min="0.4" max="1.6" step="0.05" value="1">1.6
         <button id="increase-scale">
           <i class="fas fa-plus-circle"></i>
         </button>
       </div>
       <!-- Meal icin dil secimi -->
       <div class="control language-control-panel">
-        <div for="" class="myLabel">Meal Lisani</div>
-        <div class="control2" id="lang-tr">
-          <img class="btn-flag-img" src="./assets/images/Flag_of_Turkey.svg.webp" alt="">
-          <input type="checkbox" class="lang-checkbox" id="lang-checkbox-tr" checked="checked">
-        </div>
-        <div class="control2" id="lang-de">
-          <img class="btn-flag-img" src="./assets/images/Flag_of_Germany.svg.webp" alt="">
-          <input type="checkbox" class="lang-checkbox" id="lang-checkbox-tr" >
+        <div for="" class="control3 myLabel">Meal Lisani</div>
+        <div class="control" id="lang-selection">
+          <label class="control2">
+            <input type="radio" name="language" value="turkish" checked>
+            <img class="btn-flag-img" src="./assets/images/Flag_of_Turkey.svg.webp" alt="Turkey Flag">
+          </label>
+          <label class="control2">
+            <input type="radio" name="language" value="german">
+            <img class="btn-flag-img" src="./assets/images/Flag_of_Germany.svg.webp" alt="Germany Flag">
+          </label>
         </div>
       </div>
     </div>
