@@ -182,7 +182,6 @@ html {
     /* Tasmayi engelle */
     gap: clamp(.5rem, 2.3vw * var(--scale), 1rem);
     padding: clamp(0.1rem, 1vw * var(--scale), 1rem);
-    background-color: aquamarine;
     background-color:lemonchiffon;
 
 
@@ -338,7 +337,9 @@ input[type="radio"] {
     width: clamp(20px, 2vh, 45px); /* Minimum 20px, ekran genişliğinin %2'si kadar veya maksimum 30px */
     height: clamp(20px, 2vh, 45px);
     cursor: pointer;
+    display: inline-block;
 }
+
 #lang-selection {
     padding: 0;
     /* height: clamp(3.0vh, 3.6vh * var(--scale), 4.5vh); */
@@ -364,6 +365,10 @@ button:hover {
 
 /* Label gibi sürekli okunmayan öğeler daha küçük fontta */
 .myLabel {
+    display: flex;
+    align-items: center;
+    /* Radio button ve bayrak arasındaki boşluk */
+
     font-size: clamp(0.2rem, 2.4vw * var(--scale), 3.0rem);
     font-weight: 700;
     color: var(--color-text);
@@ -464,4 +469,11 @@ button:hover {
     .meal {
         line-height: 4.0vh;
     }
+}
+
+.animation-control-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--spacing);
 }

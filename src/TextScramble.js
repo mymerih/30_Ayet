@@ -6,9 +6,14 @@ export class TextScramble {
     this.frame = 0;
     this.isAnimating = true;
     this.frameRequest = null;
+    this.isAnimationEnabled = true;
   }
 
   setText(newText) {
+    if (!this.isAnimationEnabled) {
+      this.mealContainer.innerHTML = newText;
+      return Promise.resolve();
+    }
     const oldText = this.mealContainer?.innerHTML || "";
     this.queue = [];
     const maxLength = Math.max(newText.length, oldText.length);
@@ -77,5 +82,10 @@ export class TextScramble {
   animationReset() {
     cancelAnimationFrame(this.frameRequest);
     this.frame = 0;
+  }
+
+  // A method to toggle animation dynamically
+  setAnimationEnabled(isEnabled) {
+    this.isAnimationEnabled = isEnabled;
   }
 }

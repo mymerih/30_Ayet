@@ -33,6 +33,9 @@ export const getElements = () => ({
 
   // language-control-panel
   langRadioBtns: document.querySelectorAll("input[name='language']"),
+
+  // animation-control-panel
+  animationCheckbox: document.getElementById("animation-control"),
 });
 
 // Update content of a DOM element

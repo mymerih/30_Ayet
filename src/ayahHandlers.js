@@ -30,6 +30,8 @@ const {
   mealWaitingFactorInput,
   mealWaitingTimeSpan,
   langRadioBtns,
+  // animation-control-panel
+  animationCheckbox,
 } = domHandlers.getElements();
 
 // Global degiskenler
@@ -43,7 +45,8 @@ let autoPlaying = true;
 let mealWaitingTimeFactor = 45;
 let mealWaitingTime = 4000;
 let ayahNumJumper = false; // Auto play modda, ayet numarasi girilmis ise currentIndex'i girilen ayete ayarlar.
-let mealLanguage = 'turkish';  // Meal dilini kontrol eden bayrak
+let mealLanguage = "turkish"; // Meal dilini kontrol eden bayrak
+let isAnimationEnabled = true;
 
 // TextScramble nesne ornegi olusturma
 const fx = new TextScramble(mealContainer);
@@ -94,37 +97,14 @@ export const setupAyahHandlers = () => {
     (e) => (mealWaitingTimeFactor = e.target.value)
   );
 
+  // animation-control-panel
+  domHandlers.addEvent(animationCheckbox, "change", (e) =>
+    toggleAnimation(e.target.checked)
+  );
+
   // Display the initial ayah
   displayAyah(currentIndex);
 };
-
-// Meal dilini Turkce veya Almanca olarak degistir
-function changeMealLanguage() {
-  langRadioBtns.forEach(radio => {
-    if (radio.checked ) mealLanguage = radio.value;
-  });
-  fx.isAnimating = false;
-  setTimeout(() => {
-    mealContainer.textContent = ayah.translations[mealLanguage];
-  }, 50);
-  console.log('ayah.translations.mealLanguage :>> ', ayah.translations[mealLanguage]);
-}
-// Arayuzun olcegini degistirme
-function updateScale(event, isIncrease) {
-  let scale = parseFloat(
-    getComputedStyle(document.documentElement).getPropertyValue("--scale")
-  );
-  if (event.type === "input") {
-    scale = parseFloat(event.target.value);
-  } else if (event.type === "click") {
-    scale = isIncrease ? scale + 0.07 : scale - 0.07;
-  }
-  scale = scale < 0.4 ? 0.4 : scale; // Min deger
-  scale = scale > 1.6 ? 1.6 : scale; // Max deger
-  scale = parseFloat(scale.toFixed(2));
-  document.documentElement.style.setProperty("--scale", scale);
-  scaleValue.textContent = scale;
-}
 
 // Buton ile UI Scale ayarlama
 
@@ -142,64 +122,75 @@ async function displayAyah(index) {
 }
 // Animate meal text in TextScramble Class
 async function animateMeal(ayah) {
-  await fx
-    .setText(ayah.translations[mealLanguage]) // Metin icin animasyon baslatilir
-    .then(() => {
-      // Amimasyon tamamlandiktan sonra burasi calisir
-      console.log("Animasyon tamamlandi.");
-      if (audioPlayer.ended) audioPlayer.play();
-      audioPlayer.addEventListener(
-        "ended",
-        () => {
-          // Belirtilen ayeti surekli tekrar et
-          if (repeatPlayingCurrentAyah) {
-            currentIndex =
-              (currentIndex + jumpCounter + ayatList.length) % ayatList.length; // jumpCounter kadar atlanir
-            jumpCounter = 0; // Sayaci sifirla
-            displayAyah(currentIndex);
-            // Navigasyon tuslarina basilmis ise atlatma sayisina gore Current Index'i ayarlar
-          } else {
-            isPlaying = false; //next, prev, ayet no input ve select tuslari ile ayet seslendirmeyi hemen baslatir
-            let nextPrevJumper; // Ayet atlatma no girilmis ise, Autoplaying'de bu index kullanilir
-            if (jumpCounter !== 0) {
-              nextPrevJumper = true;
-              currentIndex =
-                (currentIndex + jumpCounter + ayatList.length) %
-                ayatList.length; // jumpCounter kadar atlanir
-              jumpCounter = 0; // Sayaci sifirla
-            }
-            // Auto play checkbox checked
-            if (autoPlaying) {
-              fx.isAnimating = true;
-              allowDisplayAfterAnimation = false; // Mevcut ayetin islenmesine baslanir ve yenisi engellenir.
-              // Ayet atlanmis ise currentIndex'i degistirmez, yoksa 1 artirir.
-              if (!ayahNumJumper) {
-                // Ayet numarasi girilip/secilip girilmedigi/secilmedigini kontrol eder
-                // Ayet atlama numarasi girilmemis ise index'i 1 artirir ve sonraki ayeti calar.
-                currentIndex =
-                  (nextPrevJumper ? currentIndex : currentIndex + 1) %
-                  ayatList.length;
-              }
-              ayahNumJumper = false; //Bayragi sifirlar
-              setTimeout(() => {
-                displayAyah(currentIndex);
-              }, mealWaitingTime);
-
-              //Animasyon tamamlanmadan next/prev'e basilirsa animasyon bitince burasi calisir
-            } else if (allowDisplayAfterAnimation) {
-              allowDisplayAfterAnimation = false; // Mevcut ayetin islenmesine baslanir ve yenisi engellenir.
-              fx.isAnimating = true; // Animasyonun basladigini gosteren bayrak aktif edilir
-
-              displayAyah(currentIndex);
-            }
-          }
-        },
-        { once: true }
-      );
-    });
+  const mealText = ayah.translations[mealLanguage];
+  if (isAnimationEnabled) {
+    await fx
+      .setText(mealText) // Metin icin animasyon baslatilir
+      .then(() => handleAnimationEnd());
+  } else {
+    mealContainer.textContent = mealText;
+    handleAnimationEnd();
+  }
 }
 
-//
+// Animasyon veya doğrudan gösterim sonrası yapılacak işlemler
+function handleAnimationEnd() {
+  // Amimasyon tamamlandiktan sonra burasi calisir
+  console.log("Animasyon tamamlandi.");
+  if (audioPlayer.ended) audioPlayer.play();
+  audioPlayer.addEventListener(
+    "ended",
+    () => {
+      // Belirtilen ayeti surekli tekrar et
+      if (repeatPlayingCurrentAyah) {
+        currentIndex =
+          (currentIndex + jumpCounter + ayatList.length) % ayatList.length; // jumpCounter kadar atlanir
+        jumpCounter = 0; // Sayaci sifirla
+        displayAyah(currentIndex);
+        // Navigasyon tuslarina basilmis ise atlatma sayisina gore Current Index'i ayarlar
+      } else {
+        handleNextAutoPlay();
+      }
+    },
+    { once: true }
+  );
+}
+
+// Otomatik oynatma sonrası yapılacak işlemler
+function handleNextAutoPlay() {
+  isPlaying = false; //next, prev, ayet no input ve select tuslari ile ayet seslendirmeyi hemen baslatir
+  let nextPrevJumper; // Ayet atlatma no girilmis ise, Autoplaying'de bu index kullanilir
+  if (jumpCounter !== 0) {
+    nextPrevJumper = true;
+    currentIndex =
+      (currentIndex + jumpCounter + ayatList.length) % ayatList.length; // jumpCounter kadar atlanir
+    jumpCounter = 0; // Sayaci sifirla
+  }
+  // Auto play checkbox checked
+  if (autoPlaying) {
+    fx.isAnimating = true;  // Animasyon  baslatilacagi icin bayratk set edilir.
+    allowDisplayAfterAnimation = false; // Mevcut ayetin islenmesine baslanir ve yenisi engellenir.
+    // Ayet atlanmis ise currentIndex'i degistirmez, yoksa 1 artirir.
+    if (!ayahNumJumper) {
+      // Ayet numarasi girilip/secilip girilmedigi/secilmedigini kontrol eder
+      // Ayet atlama numarasi girilmemis ise index'i 1 artirir ve sonraki ayeti calar.
+      currentIndex =
+        (nextPrevJumper ? currentIndex : currentIndex + 1) % ayatList.length;
+    }
+    ayahNumJumper = false; //Bayragi sifirlar
+    setTimeout(() => {
+      displayAyah(currentIndex);
+    }, mealWaitingTime);
+
+    //Animasyon tamamlanmadan next/prev'e basilirsa animasyon bitince burasi calisir
+  } else if (allowDisplayAfterAnimation) {
+    allowDisplayAfterAnimation = false; // Mevcut ayetin islenmesine baslanir ve yenisi engellenir.
+    fx.isAnimating = true; // Animasyonun basladigini gosteren bayrak aktif edilir
+
+    displayAyah(currentIndex);
+  }
+}
+
 function setSelectValue(
   inputElement,
   value,
@@ -247,8 +238,7 @@ function playAyah() {
   audioPlayer.playbackRate = updateAyahPlaybackRate();
   audioPlayer
     .play() // Play the player after setting the playback rate
-    .then(() => console.log("Ayah is playing"))
-    .catch(() => alert("Başlamak için lütfen play tuşuna basınız!"));
+    .catch(() => console.error("Başlamak için lütfen play tuşuna basınız!"));
   reminderElement.hidden = true; // Ayet calmaya baslayinca hatirlatma kaldirilir.
 
   isPlaying = true;
@@ -259,11 +249,6 @@ function updateAyahPlaybackRate() {
   const rate = parseFloat(ayahPlaybackRateInput.value); // Oynatma hizi degisince, degeri degiskene atar.
   audioPlayer.playbackRate = rate; // Src'u degisen player'in resetlenen oynatma hizini ayarlanan degere gunceller
   domHandlers.updateContent(ayahPlaybackRateSpan, rate);
-  console.log("audioPlayer.playbackRate :>> ", audioPlayer.playbackRate);
-  console.log(
-    "ayahPlaybackRateSpan.value :>> ",
-    ayahPlaybackRateSpan.textContent
-  );
   return rate;
 }
 
@@ -335,6 +320,39 @@ function determineMealWaitingTime() {
   let mealText = ayah.translations.turkish;
   mealWaitingTime = factor * mealText.length;
   // mealWaitingTimeSpan.innerHTML = `${mealWaitingTime/1000} sn.`;
-  console.log("mealWaitingTimeFactor :>> ", factor);
-  console.log("mealWaitingTime :>> ", mealWaitingTime / 1000);
+}
+
+// Arayuzun olcegini degistirme
+function updateScale(event, isIncrease) {
+  let scale = parseFloat(
+    getComputedStyle(document.documentElement).getPropertyValue("--scale")
+  );
+  if (event.type === "input") {
+    scale = parseFloat(event.target.value);
+  } else if (event.type === "click") {
+    scale = isIncrease ? scale + 0.07 : scale - 0.07;
+  }
+  scale = scale < 0.4 ? 0.4 : scale; // Min deger
+  scale = scale > 1.6 ? 1.6 : scale; // Max deger
+  scale = parseFloat(scale.toFixed(2));
+  document.documentElement.style.setProperty("--scale", scale);
+  scaleValue.textContent = scale;
+}
+
+// Meal dilini Turkce veya Almanca olarak degistir
+function changeMealLanguage() {
+  langRadioBtns.forEach((radio) => {
+    if (radio.checked) mealLanguage = radio.value;
+  });
+  fx.isAnimating = false;
+  setTimeout(() => {
+    mealContainer.textContent = ayah.translations[mealLanguage];
+  }, 50);
+}
+
+//
+function toggleAnimation(isChecked) {
+  isAnimationEnabled = isChecked;
+  console.log('isAnimationEnabled :>> ', isAnimationEnabled);
+  fx.setAnimationEnabled(isChecked);
 }
