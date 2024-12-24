@@ -37,7 +37,7 @@
         <div class="control audio-player-control-panel">
           <audio class="  audio" src="" controls></audio>
           <div class="control2 ayah-repeat-container" id="ayah-repeat-container">
-            <label for="ayah-repeat" class="myLabel">&#x1f501:<div id="x1f501"></div></label>
+            <label for="ayah-repeat" class="myLabel">&#x1f501 : <div id="x1f501"></div></label>
             <input type="checkbox" id="ayah-repeat">
           </div>
         </div>
@@ -64,8 +64,8 @@
         </div>
         <!-- Navigation Buttons -->
         <div class="control2" id="navigation-btn">
-          <button id="prevAyahBtn" onclick="">Geri</button>
-          <button id="nextAyahBtn" onclick="">İleri</button>
+          <button class="prev-next" id="prevAyahBtn" onclick="">Geri</button>
+          <button class="prev-next" id="nextAyahBtn" onclick="">İleri</button>
         </div>
         <!-- Auto play Checkbox -->
         <div class="control2" id="auto-play-label-checkbox">
@@ -80,8 +80,8 @@
 
       <!-- time-control-panel -->
       <div class="control time-control-panel">
-        <label for="mealBeklemeKatsayisi" class="control3 myLabel">Meal Bekleme;</label>
         <!-- Waiting Factor -->
+        <label for="mealBeklemeKatsayisi" id="meal-bekleme-label" class="control3 myLabel">Meal Bekleme;</label>
         <div class="control3" id="waiting-factor">
           <select id="mealBeklemeKatsayisi" name="mealBeklemeKatsayisi"
             onchange="document.getElementById('beklemeKatsayisiOutput').innerHTML = this.value;">
@@ -120,10 +120,15 @@
           <i class="fas fa-plus-circle"></i>
         </button>
       </div>
-      <!-- Meal icin dil secimi -->
-      <div class="control language-control-panel">
-        <div for="" class="control3 myLabel">Meal Lisani:</div>
-        <div class="control" id="lang-selection">
+      <div class="control animation-language-control-panel">
+        <!-- control animation-control-panel -->
+        <div class="control2 animation-control-panel">
+          <label for="animation-control" class="myLabel">Animasyonu Aç/Kapat:</label>
+          <input type="checkbox" id="animation-control" checked>
+        </div>
+        <!-- Meal icin dil secimi -->
+        <div class="control2 language-control-panel" id="lang-selection">
+          <div for="" class=" myLabel">Meal Lisani:</div>
           <label class="control2">
             <input type="radio" name="language" value="turkish" checked>
             <img class="btn-flag-img" src="./assets/images/Flag_of_Turkey.svg.webp" alt="Turkey Flag">
@@ -133,11 +138,6 @@
             <img class="btn-flag-img" src="./assets/images/Flag_of_Germany.svg.webp" alt="Germany Flag">
           </label>
         </div>
-      </div>
-      <!-- control animation-control-panel -->
-      <div class="control animation-control-panel">
-        <label for="animation-control" class="myLabel">Animasyonu Aç/Kapat:</label>
-        <input type="checkbox" id="animation-control" checked>
       </div>
     </div>
   </div>

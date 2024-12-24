@@ -132,7 +132,6 @@ async function animateMeal(ayah) {
   } else {
     mealContainer.textContent = mealText;
     handleAnimationEnd();
-    console.log("animasyon yok :>> ");
   }
 }
 
@@ -183,7 +182,6 @@ function handleNextAutoPlay() {
     ayahNumJumper = false; //Bayragi sifirlar
     animateRemainingTime();
     setTimeout(() => {
-
       displayAyah(currentIndex);
     }, mealWaitingTime);
 
@@ -196,30 +194,6 @@ function handleNextAutoPlay() {
   }
 }
 
-function setSelectValue(
-  inputElement,
-  value,
-  text = value,
-  id = "selectedOption"
-) {
-  if (inputElement) {
-    const selectedOption = document.getElementById("selectedOption");
-    if (selectedOption) {
-      inputElement.removeChild(selectedOption);
-    }
-    let optionId = id !== "selectedOption" ? id : "selectedOption";
-    let option = domHandlers.createElement(
-      "option",
-      { selected: "selected", id: optionId, value: value },
-      (text = value)
-    );
-    inputElement.appendChild(option);
-
-    // const selectedIndex = inputElement.selectedIndex;
-    // inputElement.options[inputElement.selectedIndex].value = value;
-    // inputElement.value = value;
-  }
-}
 // Page Updates: Update header, arabic text, arabic pronounciation
 function updatePage(ayah) {
   domHandlers.updateContent(
@@ -236,7 +210,7 @@ function updatePage(ayah) {
     mealWaitingTimeSpan,
     `${(mealWaitingTime / 1000).toFixed(1)}s`
   );
-  domHandlers.updateContent(mealRemainingTimeSpan, `${(mealWaitingTime / 1000).toFixed(1)}s`);
+    domHandlers.updateContent(mealRemainingTimeSpan, `${(mealWaitingTime / 1000).toFixed(1)}s`);
 
 }
 
@@ -271,6 +245,7 @@ function playAyahAuto() {
   }
 }
 
+// Ileri ve Geri Manuel Ayet Atlama
 async function handleNextPrevAyahNav(next) {
   console.log("next :>> ", next);
   // Animasyon devam etmiyorsa sonraki ayeti goster
@@ -340,6 +315,33 @@ async function changeAyahNummer(ayahNummer) {
   }
 }
 
+// Girilen ayet Numarasini Select Elemaninda da Gosterme
+function setSelectValue(
+  inputElement,
+  value,
+  text = value,
+  id = "selectedOption"
+) {
+  if (inputElement) {
+    const selectedOption = document.getElementById("selectedOption");
+    if (selectedOption) {
+      inputElement.removeChild(selectedOption);
+    }
+    let optionId = id !== "selectedOption" ? id : "selectedOption";
+    let option = domHandlers.createElement(
+      "option",
+      { selected: "selected", id: optionId, value: value },
+      (text = value)
+    );
+    inputElement.appendChild(option);
+
+    // const selectedIndex = inputElement.selectedIndex;
+    // inputElement.options[inputElement.selectedIndex].value = value;
+    // inputElement.value = value;
+  }
+}
+
+// Silinecek
 function remindAyahEndWaiting() {
   reminderElement.hidden = false;
   reminderElement.innerHTML = "Lütfen ayetin sonuna kadar bekleyin.";
@@ -361,8 +363,9 @@ function animateRemainingTime() {
     const currentTime = Date.now();
     const elapsedTime = currentTime - startTime;
     console.log("elapsedTime :>> ", elapsedTime);
-    const remainingTime = ((mealWaitingTime - elapsedTime) / 1000).toFixed(1);
-    console.log("remainingTime :>> ", remainingTime);
+    let remainingTime = ((mealWaitingTime - elapsedTime) / 1000).toFixed(1);
+    console.log("remainingTime :>> ", typeof remainingTime);
+    remainingTime = parseFloat(remainingTime) < 0 ? 0 : `${remainingTime}s`;
     domHandlers.updateContent(mealRemainingTimeSpan, remainingTime);
     if (remainingTime < 1) {
       clearInterval(intervalId);

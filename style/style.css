@@ -166,7 +166,7 @@ html {
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    padding: clamp(0.1rem, 0.4vw * var(--scale), 1rem);
+    padding: clamp(0.1rem, 0.4vw * var(--scale), 2rem);
     width: 100%;
     max-width: 100%;
     background-color: rgb(149, 150, 149);
@@ -181,15 +181,18 @@ html {
     /* Ekran genisligini doldur */
     max-width: 100%;
     /* Tasmayi engelle */
-    gap: clamp(.5rem, 2.3vw * var(--scale), 1rem);
+    gap: clamp(.5rem, 4.3vw * var(--scale), 12rem);
     padding: clamp(0.1rem, 1vw * var(--scale), 1rem);
     background-color: lemonchiffon;
+}
 
-
+.control>* {
+    flex: 1 1 auto;
+    margin: 0;
+    /* Avoid extra spacing issues */
 }
 
 .control2 {
-    flex: 1 1 35vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -200,16 +203,16 @@ html {
     /* Tasmayi engelle */
     /* gap: clamp(0.1rem, 0.3vw * var(--scale), 1rem); */
     /* padding: clamp(0.1rem, 1vw * var(--scale), 1rem); */
-
     background-color: #13dfa2;
+}
 
+.control2 > * {
+    flex: 1 1 auto;
+    margin: 0;
+    /* Avoid extra spacing issues */
 }
 
 .control3 {
-    flex: 0 1 10px;
-    flex: 1 1 auto;
-    flex: 1 1 35vw;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -222,9 +225,13 @@ html {
     /* padding: clamp(0.1rem, 1vw * var(--scale), 1rem); */
     /* margin: 0 2.5vh; */
     /* padding: 0; */
-
     /* background-color:#8cdf06; */
+}
 
+.control3>* {
+    flex: 1 1 auto;
+    margin: 0;
+    /* Avoid extra spacing issues */
 }
 
 /* Audio Kontrol Container */
@@ -254,40 +261,49 @@ html {
     /* background-color:khaki; */
 }
 
-/* Scale icin kontrol paneli */
-.language-control-panel {
-    /* margin: 0.5vh 0; */
-    /* background-color:wheat; */
-
+/* animation-language-control-panel */
+.animation-language-control-panel > * {
+    flex: 1 1 auto;
+    margin: 0;
 }
 
-.animation-control-panel {
-    display: flex;
-    justify-content: center;
-    align-items: center
+.animation-control-panel > * {
+    flex: 1 1 auto;
+}
+
+/* Scale icin kontrol paneli */
+.language-control-panel {
+    flex: 2 1 auto;
+    /* margin: 0.5vh 0; */
+    /* background-color:wheat; */
 }
 
 /* Audio Player */
 audio {
-    flex: 7 1 45vw;
+    flex: 9 1 auto;
+    min-width: 70%;
     height: clamp(25px, 4vh * var(--scale), 60px);
-    width: auto;
 }
 
 .ayah-repeat-container {
-    flex: 1 1 9vw;
+    flex: 1 1 auto;
+    max-width: 20vw;
 
-}
-
-/* Ayet Tekrar Checkbox */
-#ayah-repeat {
-    flex: 1 1 3vw;
 }
 
 /* Ayet tekrar checkbox Etiketi */
 label[for='ayah-repeat'] {
     flex: 1 1 auto;
-    font-size: clamp(0.9rem, 4vw * var(--scale), 2.5rem);
+    font-size: clamp(0.9rem, 4.6vw * var(--scale), 2.5rem);
+    /* max-width: 10%; */
+
+}
+
+/* Ayet Tekrar Checkbox */
+input [id='ayah-repeat'] {
+    /* flex: 0 1 auto; */
+    /* max-width: 10%; */
+
 }
 
 /* Çalma Hızı Kontrol Alanı */
@@ -297,8 +313,12 @@ label[for='ayah-repeat'] {
     font-weight: 700;
 }
 
+.speed-control>* {
+    flex: 1 1 auto;
+}
+
 input[type="range"] {
-    /* flex: 3 1 20vw; */
+    flex: 15 1 auto;
     height: clamp(10px, 2vh * var(--scale), 40px);
     width: clamp(20vw, 25vw * var(--scale), 30vw);
     max-width: 100%;
@@ -325,14 +345,14 @@ button {
 }
 
 input[type="text"] {
-    flex: 2 1 auto;
+    /* flex: 2 1 auto; */
     width: clamp(60px, 3vw * var(--scale), 220px);
     color: yellow;
     background-color: #0000ff;
 }
 
 select {
-    flex: 2 1 auto;
+    /* flex: 1 1 auto; */
     /* width: auto; */
     width: clamp(60px, 2.5vw * var(--scale), 220px);
     /* max-width: clamp(20px, 20vw * var(--scale), 150px); */
@@ -340,16 +360,23 @@ select {
     background-color: #0000ff;
     color: yellow;
 }
+/* Select */
+#mealBeklemeKatsayisi {
+        max-width: clamp(20px, 22vw * var(--scale), 150px);
+}
 
 button {
-    flex: 2 1 auto;
-    width: clamp(60px, 3vw * var(--scale), 220px);
+    /* flex: 2 1 auto; */
+    width: clamp(25px, 10vw * var(--scale), 150px);
     /* min-width: clamp(40px, 10vw * var(--scale), 90px); */
     cursor: pointer;
     color: #fff;
     background-color: var(--color-label-bg);
 }
-
+/* Navigation Buttons */
+.prev-next {
+    min-width: 15vw;
+}
 input[type="radio"] {
     /* flex: 2 1 10vw; */
     width: clamp(20px, 2vh, 45px);
@@ -373,9 +400,8 @@ input[type="checkbox"] {
 
 
 #auto-play-label-checkbox {
-    flex: 1 1 auto;
+    /* flex: 1 1 auto; */
     width: clamp(10.0rem, 15vw * var(--scale), 220px);
-
 }
 
 /* label for="auto-play" */
@@ -386,20 +412,19 @@ button:hover {
 
 /* Label gibi sürekli okunmayan öğeler daha küçük fontta */
 .myLabel {
-    flex: 1 1 auto;
-    min-width: 100px;
-    max-width: 25%;
-    display: flex;
-    align-items: center;
+    /* flex: 1 1 auto; */
+    /* min-width: 100px; */
+    /* max-width: 25%; */
     /* Radio button ve bayrak arasındaki boşluk */
-
     font-size: clamp(0.2rem, 2.4vw * var(--scale), 3.0rem);
     font-weight: 700;
     color: var(--color-text);
-    /* margin: clamp(0vw, calc(var(--scale) * 0, 1vw), 3vw); */
+    padding: clamp(0.1rem, 1vw * var(--scale), 1rem);
     /* background-color: var(--color-label-bg); */
 }
-
+#meal-bekleme-label {
+    max-width: 20%;
+}
 .output {
     /* flex: 0 1 0; */
     background-color: var(--color-output-bg);
@@ -408,6 +433,8 @@ button:hover {
     font-weight: 900;
     padding: calc(0.5 * var(--padding)) var(--padding);
     margin: 0 calc(0.9 * var(--spacing));
+    max-width: 12vw;
+    align-content: center;
 }
 
 /* Hatirlatma mesaji */
