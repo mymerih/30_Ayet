@@ -6,37 +6,34 @@ export class TextScramble {
     this.frame = 0;
     this.isAnimating = true;
     this.frameRequest = null;
-    this.isAnimationEnabled = true;
   }
 
   setText(newText) {
-    if (!this.isAnimationEnabled) {
-      this.mealContainer.innerHTML = newText;
-      return Promise.resolve();
-    }
+    this.animationReset(); // Always reset before starting a new animation
+    // this.isAnimating = true; // Animasyon teyit edilir ve islemleri devam ettirilir
+    this.newText = newText;
     const oldText = this.mealContainer?.innerHTML || "";
     this.queue = [];
     const maxLength = Math.max(newText.length, oldText.length);
-    
+
     for (let i = 0; i < maxLength; i++) {
       const from = oldText[i] || "";
       const to = newText[i] || "";
-      const start = Math.floor(Math.random() * 150);
-      const end = start + Math.floor(Math.random() * 150);
+      const start = Math.floor(Math.random() * 100);
+      const end = start + Math.floor(Math.random() * 100);
       this.queue.push({ from, to, start, end });
     }
-    this.animationReset(); // Yenisi baslatilmadan once, onceki animasyon resetlenir
-    // console.log('this.queue :>> ', this.queue);
+    // cancelAnimationFrame(this.frameRequest)
     return new Promise((resolve) => {
       // console.log('resolve :>> ', resolve);
       this.resolve = resolve;
-      this.frame = 0;
-      this.update(newText); // Yeni animasyon baslatilir
+      // this.frame = 0;
+      this.isAnimating = true; // Ensure animation starts
+      this.update(); // Yeni animasyon baslatilir
     });
   }
-  
-  update(newText) {
-    // console.log('newText :>> ', newText);
+
+  update() {
     let output = "";
     let complete = 0;
     let i, n;
@@ -67,10 +64,7 @@ export class TextScramble {
       this.resolve();
     } else if (!this.isAnimating) {
       // Kullanici animasyonu next,prev vb. ile burada durdurabilir
-      setTimeout(() => {
-      this.mealContainer.innerHTML = newText;
-        
-      }, 50);
+      this.animationReset();
       this.resolve();
       return;
     } else {
@@ -86,8 +80,11 @@ export class TextScramble {
   }
 
   animationReset() {
+    this.isAnimating = false;
     cancelAnimationFrame(this.frameRequest);
     this.frame = 0;
+    this.queue = [];
+    this.mealContainer.innerHTML = this.newText;
   }
 
   // A method to toggle animation dynamically

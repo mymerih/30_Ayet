@@ -281,13 +281,13 @@ html {
 /* Audio Player */
 audio {
     flex: 9 1 auto;
-    min-width: 70%;
+    min-width: 70vw;
     height: clamp(25px, 4vh * var(--scale), 60px);
 }
 
 .ayah-repeat-container {
     flex: 1 1 auto;
-    max-width: 20vw;
+    max-width: 22vw;
 
 }
 
@@ -362,7 +362,9 @@ select {
 }
 /* Select */
 #mealBeklemeKatsayisi {
-        max-width: clamp(20px, 22vw * var(--scale), 150px);
+        min-width: clamp(60px, 14vw * var(--scale), 90px);
+        max-width: clamp(70px, 20vw * var(--scale), 150px);
+        
 }
 
 button {
@@ -451,7 +453,7 @@ button:hover {
 
 .btn-flag-img {
     width: var(--button-image-width);
-    /* height: var(--button-image-height); */
+    height: auto;
     padding: var(--button-image-padding);
 }
 
@@ -467,12 +469,21 @@ button:hover {
     }
 
     .myLabel {
-        font-size: clamp(0.7rem, 3.0vw * var(--scale), 1.2rem);
+        font-size: clamp(0.7rem, 3.3vw * var(--scale), 1.1rem);
+        padding: clamp(0.05rem, 0.3vw * var(--scale), 0.5rem);
     }
 
     .control {
-        gap: clamp(0.1rem, 0.7vw * var(--scale), 1.0rem);
+        gap: clamp(0.1rem, 0.5vw * var(--scale), 1.0rem);
         padding: clamp(0.1rem, 1vw * var(--scale), 1rem);
+    }
+    input[type="range"] {
+        flex: 4 1 auto;
+    }
+
+    input[type="checkbox"] {
+        /* width: clamp(2vw, 2.0vw * var(--scale), 18.0vw); */
+        /* height: clamp(2.0vh, 2.0vh * var(--scale), 14,5vh); */
     }
 }
 

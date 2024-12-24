@@ -21,14 +21,12 @@ const {
   ayahPlaybackRateInput,
   // control navigation-control-panel
   ayahNumInput,
-  ayetJumpSelect,
+  ayahNumSelect,
   prevAyahBtn,
   nextAyahBtn,
   autoPlayCheckbox,
-  reminderElement,
   // time-control-panel
   mealWaitingFactorInput,
-  mealWaitingTimeSpan,
   mealRemainingTimeSpan,
   // language-control-panel
   langRadioBtns,
@@ -40,8 +38,8 @@ const {
 let ayah;
 let currentIndex = 0; // Index of Ayat
 let jumpCounter = 0; // Ayet atlama adedi.
-let allowDisplayAfterAnimation = false; // next'e basilmis ise animasyondan sonra devam eder
-let isPlaying = false;
+let allowAnimationAfterNavigation = false; // next'e basilmis ise sonraki animasyonu aktive eder
+// let isPlaying = false;
 let repeatPlayingCurrentAyah = false;
 let autoPlaying = true;
 let mealWaitingTimeFactor = 45;
@@ -49,6 +47,8 @@ let mealWaitingTime = 4000;
 let ayahNumJumper = false; // Auto play modda, ayet numarasi girilmis ise currentIndex'i girilen ayete ayarlar.
 let mealLanguage = "turkish"; // Meal dilini kontrol eden bayrak
 let isAnimationEnabled = true;
+let audioPlayerEvent;
+let displayAyahWaitingTimeout;
 
 // TextScramble nesne ornegi olusturma
 const fx = new TextScramble(mealContainer);
@@ -81,7 +81,7 @@ export const setupAyahHandlers = () => {
     let ayahNummer = event.target.value;
     changeAyahNummer(ayahNummer);
   });
-  domHandlers.addEvent(ayetJumpSelect, "change", (event) => {
+  domHandlers.addEvent(ayahNumSelect, "change", (event) => {
     const selectedIndex = event.target.selectedIndex;
     const selectedOption = event.target.options[selectedIndex];
     const ayahNummer = selectedOption.value;
@@ -93,11 +93,9 @@ export const setupAyahHandlers = () => {
   domHandlers.addEvent(nextAyahBtn, "click", () => handleNextPrevAyahNav(true));
   domHandlers.addEvent(autoPlayCheckbox, "input", playAyahAuto);
   // time-control-panel
-  domHandlers.addEvent(
-    mealWaitingFactorInput,
-    "change",
-    (e) => (mealWaitingTimeFactor = e.target.value)
-  );
+  domHandlers.addEvent(mealWaitingFactorInput, "change", (e) => {
+    changeMealWaitingFactor(e);
+  });
 
   // animation-control-panel
   domHandlers.addEvent(animationCheckbox, "change", (e) =>
@@ -108,18 +106,23 @@ export const setupAyahHandlers = () => {
   displayAyah(currentIndex);
 };
 
-// Buton ile UI Scale ayarlama
-
 // Async function to display ayah and audio
 async function displayAyah(index) {
+  if (displayAyahWaitingTimeout) {
+    clearTimeout(displayAyahWaitingTimeout);
+  }
   ayah = ayatList[index];
   if (!ayah) {
     console.error("Ayah couldnt be find!");
+    return; //gracefully exit
   }
   // Update header, arabic text, arabic pronounciation
   determineMealWaitingTime();
   updatePage(ayah);
   playAyah();
+
+  // Trigger the animation
+  fx.animationReset(); // Reset any ongoing animation
   await animateMeal(ayah);
 }
 // Animate meal text in TextScramble Class
@@ -140,7 +143,8 @@ function handleAnimationEnd() {
   // Amimasyon tamamlandiktan sonra burasi calisir
   console.log("Animasyon tamamlandi.");
   if (audioPlayer.ended) audioPlayer.play();
-  audioPlayer.addEventListener(
+  if (audioPlayerEvent) clearInterval(audioPlayerEvent);
+  audioPlayerEvent = audioPlayer.addEventListener(
     "ended",
     () => {
       // Belirtilen ayeti surekli tekrar et
@@ -160,37 +164,17 @@ function handleAnimationEnd() {
 
 // Otomatik oynatma sonrası yapılacak işlemler
 function handleNextAutoPlay() {
-  isPlaying = false; //next, prev, ayet no input ve select tuslari ile ayet seslendirmeyi hemen baslatir
-  let nextPrevJumper; // Ayet atlatma no girilmis ise, Autoplaying'de bu index kullanilir
-  if (jumpCounter !== 0) {
-    nextPrevJumper = true;
-    currentIndex =
-      (currentIndex + jumpCounter + ayatList.length) % ayatList.length; // jumpCounter kadar atlanir
-    jumpCounter = 0; // Sayaci sifirla
+  if (displayAyahWaitingTimeout) {
+    clearTimeout(displayAyahWaitingTimeout);
   }
   // Auto play checkbox checked
   if (autoPlaying) {
     fx.isAnimating = true; // Animasyon  baslatilacagi icin bayratk set edilir.
-    allowDisplayAfterAnimation = false; // Mevcut ayetin islenmesine baslanir ve yenisi engellenir.
-    // Ayet atlanmis ise currentIndex'i degistirmez, yoksa 1 artirir.
-    if (!ayahNumJumper) {
-      // Ayet numarasi girilip/secilip girilmedigi/secilmedigini kontrol eder
-      // Ayet atlama numarasi girilmemis ise index'i 1 artirir ve sonraki ayeti calar.
-      currentIndex =
-        (nextPrevJumper ? currentIndex : currentIndex + 1) % ayatList.length;
-    }
-    ayahNumJumper = false; //Bayragi sifirlar
     animateRemainingTime();
-    setTimeout(() => {
+    displayAyahWaitingTimeout = setTimeout(() => {
+      currentIndex = (currentIndex + 1) % ayatList.length;
       displayAyah(currentIndex);
     }, mealWaitingTime);
-
-    //Animasyon tamamlanmadan next/prev'e basilirsa animasyon bitince burasi calisir
-  } else if (allowDisplayAfterAnimation) {
-    allowDisplayAfterAnimation = false; // Mevcut ayetin islenmesine baslanir ve yenisi engellenir.
-    fx.isAnimating = true; // Animasyonun basladigini gosteren bayrak aktif edilir
-
-    displayAyah(currentIndex);
   }
 }
 
@@ -201,17 +185,14 @@ function updatePage(ayah) {
     `${ayah.id}.Ayet: ${ayah.surah}_${ayah.ayahNumber}`
   );
   domHandlers.setInputValue(ayahNumInput, ayah.id); // Ayet No'yu gunceller
-  setSelectValue(ayetJumpSelect, ayah.id); // Ayet No'yu gunceller
+  setSelectValue(ayahNumSelect, ayah.id); // Ayet No'yu gunceller
   domHandlers.updateContent(arabicTextConainer, ayah.arabicText); // Arapca ayeti gunceller
   domHandlers.updateContent(arabicPronunciationContainer, ayah.transliteration); // Arapca okunusu gunceller
-  // domHandlers.setAttribute(audioPlayer, "src", `./assets/audio/${ayah.audio}`); // ayet mp3 src'sini gunceller.
   audioPlayer.src = `./assets/audio/${ayah.audio}`; // ayet mp3 src'sini gunceller.
   domHandlers.updateContent(
-    mealWaitingTimeSpan,
+    mealRemainingTimeSpan,
     `${(mealWaitingTime / 1000).toFixed(1)}s`
   );
-    domHandlers.updateContent(mealRemainingTimeSpan, `${(mealWaitingTime / 1000).toFixed(1)}s`);
-
 }
 
 function playAyah() {
@@ -220,9 +201,6 @@ function playAyah() {
   audioPlayer
     .play() // Play the player after setting the playback rate
     .catch(() => console.error("Başlamak için lütfen play tuşuna basınız!"));
-  reminderElement.hidden = true; // Ayet calmaya baslayinca hatirlatma kaldirilir.
-
-  isPlaying = true;
 }
 
 // range input'u degeri degisince EventListener bunu calistirir.
@@ -247,72 +225,34 @@ function playAyahAuto() {
 
 // Ileri ve Geri Manuel Ayet Atlama
 async function handleNextPrevAyahNav(next) {
-  console.log("next :>> ", next);
-  // Animasyon devam etmiyorsa sonraki ayeti goster
-  if (!fx.isAnimating && !isPlaying) {
-    fx.isAnimating = true;
-
-    // Bir sonraki ayete gec
-    currentIndex =
-      ((next ? ++currentIndex : --currentIndex) + ayatList.length) %
-      ayatList.length;
-    // Yeni ayeti goster ve animasyonu baslat
-    await displayAyah(currentIndex);
-  } else {
-    remindAyahEndWaiting();
-    jumpCounter =
-      ((next ? ++jumpCounter : --jumpCounter) + ayatList.length) %
-      ayatList.length; // Next/prev tusuna basma adedi. Atlanacak ayet sayisi
-    ayahNumInput.value = ((currentIndex + jumpCounter) % ayatList.length) + 1; //Atlanacak ayet sayisini goster
-    setSelectValue(ayetJumpSelect, ayahNumInput.value);
-    // Animasyon devam ediyorsa setText() donusunde otomatik jumpCounter kadar sonraki ayeti goster.
-    allowDisplayAfterAnimation = true; // Next tusuna basildi, ama ayet gosterilemedi. Otomatik sonraki ayetleri goster.
+  fx.animationReset();
+  if (displayAyahWaitingTimeout) {
+    clearTimeout(displayAyahWaitingTimeout);
   }
+  // Bir sonraki ayete gec
+  currentIndex =
+    ((next ? ++currentIndex : --currentIndex) + ayatList.length) %
+    ayatList.length;
+  // Yeni ayeti goster ve animasyonu baslat
+  await displayAyah(currentIndex);
 }
-// async function handleNextPrevAyahNav(next) {
-//   console.log("next :>> ", next);
-//   // Animasyon devam etmiyorsa sonraki ayeti goster
-//   if (!fx.isAnimating && !isPlaying) {
-//     fx.isAnimating = true;
-
-//     // Bir sonraki ayete gec
-//     currentIndex =
-//       ((next ? ++currentIndex : --currentIndex) + ayatList.length) %
-//       ayatList.length;
-//     // Yeni ayeti goster ve animasyonu baslat
-//     await displayAyah(currentIndex);
-//   } else {
-//     remindAyahEndWaiting();
-//     jumpCounter =
-//       ((next ? ++jumpCounter : --jumpCounter) + ayatList.length) %
-//       ayatList.length; // Next/prev tusuna basma adedi. Atlanacak ayet sayisi
-//     ayahNumInput.value = ((currentIndex + jumpCounter) % ayatList.length) + 1; //Atlanacak ayet sayisini goster
-//     setSelectValue(ayetJumpSelect, ayahNumInput.value);
-//     // Animasyon devam ediyorsa setText() donusunde otomatik jumpCounter kadar sonraki ayeti goster.
-//     allowDisplayAfterAnimation = true; // Next tusuna basildi, ama ayet gosterilemedi. Otomatik sonraki ayetleri goster.
-//   }
-// }
 
 // Belirtilen ayete atla
 async function changeAyahNummer(ayahNummer) {
-  currentIndex = (parseInt(ayahNummer, 10) - 1) % ayatList.length; //input'a girilen degeri string'den sayiya cevirir.
-  setSelectValue(ayetJumpSelect, currentIndex + 1);
-
-  // Animasyon devam etmiyorsa sonraki ayeti goster
-  if (!fx.isAnimating && !isPlaying) {
-    fx.isAnimating = true;
-
-    // Move to the given ayah
-    ayahNumInput.blur(); // Odaktan cikar.
-
-    // Display and wait for the current ayah's animation to complete
-    await displayAyah(currentIndex);
-  } else {
-    remindAyahEndWaiting();
-    // Animasyon devam ediyorsa setText() donusunde otomatik jumpCounter kadar sonraki ayeti goster.
-    allowDisplayAfterAnimation = true; // Next tusuna basildi, ama ayet gosterilemedi. Otomatik sonraki ayetleri goster.
-    ayahNumJumper = true; // Auto play modda girilen ayete atlamasi icin kontrol degiskeni
+  fx.animationReset();
+  // Clear any existing timeout to avoid overlap
+  if (displayAyahWaitingTimeout) {
+    clearTimeout(displayAyahWaitingTimeout);
   }
+  currentIndex = (parseInt(ayahNummer, 10) + ayatList.length - 1) % ayatList.length; //input'a girilen degeri string'den sayiya cevirir.
+
+  // Prevent redundant auto-play logic. Set the flag to prevent auto-play interference
+  ayahNumJumper = true; // Auto play modda girilen ayete atlamasi icin kontrol degiskeni
+  // Yeni ayeti goster ve animasyonu baslat
+  // Update UI to reflect the new Ayah
+  ayahNumInput.blur(); // Odaktan cikar.
+  // setSelectValue(ayahNumSelect, currentIndex + 1);
+  await displayAyah(currentIndex);
 }
 
 // Girilen ayet Numarasini Select Elemaninda da Gosterme
@@ -327,52 +267,57 @@ function setSelectValue(
     if (selectedOption) {
       inputElement.removeChild(selectedOption);
     }
-    let optionId = id !== "selectedOption" ? id : "selectedOption";
     let option = domHandlers.createElement(
       "option",
-      { selected: "selected", id: optionId, value: value },
-      (text = value)
+      { selected: "selected", id: id, value: value },
+      text
     );
     inputElement.appendChild(option);
-
-    // const selectedIndex = inputElement.selectedIndex;
-    // inputElement.options[inputElement.selectedIndex].value = value;
-    // inputElement.value = value;
   }
 }
 
-// Silinecek
-function remindAyahEndWaiting() {
-  reminderElement.hidden = false;
-  reminderElement.innerHTML = "Lütfen ayetin sonuna kadar bekleyin.";
+// Meal Bekleme suresi katsayisini degiskene atama ve katsayiya gore kalan zamani hesaplayip gosterme
+function changeMealWaitingFactor(e) {
+  mealWaitingTimeFactor = e.target.value;
+  updateRemaininTime();
 }
-
+// Hesaplanan bekleme suresini Kalan Sure olarak span'da gosterme
+function updateRemaininTime() {
+  determineMealWaitingTime();
+  domHandlers.updateContent(
+    mealRemainingTimeSpan,
+    `${(mealWaitingTime / 1000).toFixed(1)}s`
+  );
+}
+// metin uzunlugunu katsayi ile carpip, bekleme zamanini hesaplar
 function determineMealWaitingTime() {
   let factor = parseInt(mealWaitingTimeFactor);
-  let mealText = ayah.translations.turkish;
+  const mealText = ayah.translations[mealLanguage];
   mealWaitingTime = factor * mealText.length;
-  // mealWaitingTimeSpan.innerHTML = `${mealWaitingTime/1000} sn.`;
 }
-
+// Ayet caldiktan sonra, kalan sureyi hesaplar ve 1sn araliklarla geri sayimla gosterir.
+let intervalId;
 function animateRemainingTime() {
+  if (intervalId) clearInterval(intervalId);
   const startTime = Date.now();
-  console.log("startTime :>> ", startTime);
 
-  const intervalId = setInterval(() => {
+  intervalId = setInterval(() => {
     domHandlers.updateContent(mealRemainingTimeSpan, mealWaitingTime);
     const currentTime = Date.now();
     const elapsedTime = currentTime - startTime;
-    console.log("elapsedTime :>> ", elapsedTime);
-    let remainingTime = ((mealWaitingTime - elapsedTime) / 1000).toFixed(1);
-    console.log("remainingTime :>> ", typeof remainingTime);
-    remainingTime = parseFloat(remainingTime) < 0 ? 0 : `${remainingTime}s`;
-    domHandlers.updateContent(mealRemainingTimeSpan, remainingTime);
+    let remainingTime = (mealWaitingTime - elapsedTime) / 1000;
+    remainingTime = parseFloat(remainingTime.toFixed(1));
+    const displayTime = remainingTime < 0 ? "0s" : `${remainingTime}s`;
+    domHandlers.updateContent(mealRemainingTimeSpan, displayTime);
     if (remainingTime < 1) {
       clearInterval(intervalId);
     }
   }, 1000);
 }
-// Arayuzun olcegini degistirme
+
+// Buton ve range ile UI Scale ayarlama
+// Degisen rayuzun olcegini hesaplar ve --scale degiskenini gunceller
+// Sonra hedaplanan scale degerini range ve span'da gosterir
 function updateScale(event, isIncrease) {
   let scale = parseFloat(
     getComputedStyle(document.documentElement).getPropertyValue("--scale")
@@ -380,20 +325,24 @@ function updateScale(event, isIncrease) {
   if (event.type === "input") {
     scale = parseFloat(event.target.value);
   } else if (event.type === "click") {
-    scale = isIncrease ? scale + 0.07 : scale - 0.07;
+    scale = isIncrease ? scale + 0.1 : scale - 0.1;
   }
   scale = scale < 0.4 ? 0.4 : scale; // Min deger
   scale = scale > 1.6 ? 1.6 : scale; // Max deger
-  scale = parseFloat(scale.toFixed(2));
+  scale = parseFloat(scale.toFixed(1));
   document.documentElement.style.setProperty("--scale", scale);
   scaleValue.textContent = scale;
+  scaleRange.value = scale; // range bar'ini ayarlanan degere getirme
 }
 
 // Meal dilini Turkce veya Almanca olarak degistir
 function changeMealLanguage() {
   langRadioBtns.forEach((radio) => {
-    if (radio.checked) mealLanguage = radio.value;
+    if (radio.checked) {
+      mealLanguage = radio.value;
+    }
   });
+  updateRemaininTime();
   fx.isAnimating = false;
   setTimeout(() => {
     mealContainer.textContent = ayah.translations[mealLanguage];
@@ -403,9 +352,9 @@ function changeMealLanguage() {
 // Animasyonu acip kapatir
 async function toggleAnimation(isChecked) {
   isAnimationEnabled = isChecked;
-  fx.isAnimating = false;
+  fx.isAnimating = isAnimationEnabled;
   const mealText = ayah.translations[mealLanguage];
 
   console.log("isAnimationEnabled :>> ", isAnimationEnabled);
-  // fx.setAnimationEnabled(isChecked);
+  return isAnimationEnabled;
 }

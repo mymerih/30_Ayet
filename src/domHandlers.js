@@ -21,15 +21,13 @@ export const getElements = () => ({
   ayahPlaybackRateInput: document.getElementById("playbackRate"),
   // control navigation-control-panel
   ayahNumInput: document.querySelector("#ayet-no"),
-  ayetJumpSelect: document.getElementById("ayetNum"),
+  ayahNumSelect: document.getElementById("ayetNum"),
   prevAyahBtn: document.getElementById("prevAyahBtn"),
   nextAyahBtn: document.getElementById("nextAyahBtn"),
   autoPlayCheckbox: document.querySelector("#auto-play"),
-  reminderElement: document.getElementById("ayah-end-wait-reminder"),
 
   // time-control-panel
   mealWaitingFactorInput: document.querySelector("#mealBeklemeKatsayisi"),
-  mealWaitingTimeSpan: document.querySelector("#waiting-time-span"),
   mealRemainingTimeSpan: document.querySelector("#remaining-time-span"),
 
   // language-control-panel

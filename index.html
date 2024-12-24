@@ -37,7 +37,7 @@
         <div class="control audio-player-control-panel">
           <audio class="  audio" src="" controls></audio>
           <div class="control2 ayah-repeat-container" id="ayah-repeat-container">
-            <label for="ayah-repeat" class="myLabel">&#x1f501 : <div id="x1f501"></div></label>
+            <label for="ayah-repeat" class="myLabel">&#x1f501:</label>
             <input type="checkbox" id="ayah-repeat">
           </div>
         </div>
@@ -98,10 +98,6 @@
           </select>
           <span class="output" id="beklemeKatsayisiOutput">45</span>
         </div>
-        <!-- <div class="control3 bekleme_suresi_goster" id="waiting-time-container">
-          <label class="myLabel">Süre:</label>
-          <span class="output" id="waiting-time-span"></span>
-        </div> -->
         <div class="control2 bekleme_suresi_goster" id="remaining-time-container">
           <label class="myLabel">Kalan Süre:</label>
           <span class="output" id="remaining-time-span"></span>
@@ -115,7 +111,7 @@
         <button id="decrease-scale">
           <i class="fas fa-minus-circle"></i>
         </button>
-        0.4<input type="range" id="scale-range" min="0.4" max="1.6" step="0.05" value="1">1.6
+        0.4<input type="range" id="scale-range" min="0.4" max="1.6" step="0.1" value="1">1.6
         <button id="increase-scale">
           <i class="fas fa-plus-circle"></i>
         </button>
@@ -149,7 +145,7 @@
   </script>
 
   <script>
-    const ayetJumpSelect = document.getElementById("ayetNum");
+    const ayahNumSelect = document.getElementById("ayetNum");
 
     // Use Array.from to generate the options and join them into a single HTML string
     let array = Array.from({ length: 7 }, (_, i) => {
@@ -157,7 +153,7 @@
       return `<option value="${value}">${value}. Ayet</option>`;
     });
     let string = array.join("");
-    ayetJumpSelect.innerHTML = string;
+    ayahNumSelect.innerHTML = string;
     // Example function to handle value change
 
   </script>
