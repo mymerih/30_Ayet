@@ -29,7 +29,8 @@ export const getElements = () => ({
 
   // time-control-panel
   mealWaitingFactorInput: document.querySelector("#mealBeklemeKatsayisi"),
-  mealWaitingTimeSpan: document.querySelector("#kalan_sure"),
+  mealWaitingTimeSpan: document.querySelector("#waiting-time-span"),
+  mealRemainingTimeSpan: document.querySelector("#remaining-time-span"),
 
   // language-control-panel
   langRadioBtns: document.querySelectorAll("input[name='language']"),

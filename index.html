@@ -78,7 +78,7 @@
 
     <div class="control-panel2 ">
 
-      <!-- Meal Bekleme Suresini Belirleme -->
+      <!-- time-control-panel -->
       <div class="control time-control-panel">
         <label for="mealBeklemeKatsayisi" class="control3 myLabel">Meal Bekleme;</label>
         <!-- Waiting Factor -->
@@ -98,12 +98,16 @@
           </select>
           <span class="output" id="beklemeKatsayisiOutput">45</span>
         </div>
-        <div class="control3 bekleme_suresi_goster" id="waiting-time">
+        <!-- <div class="control3 bekleme_suresi_goster" id="waiting-time-container">
           <label class="myLabel">Süre:</label>
-          <span class="output" id="kalan_sure"></span>
+          <span class="output" id="waiting-time-span"></span>
+        </div> -->
+        <div class="control2 bekleme_suresi_goster" id="remaining-time-container">
+          <label class="myLabel">Kalan Süre:</label>
+          <span class="output" id="remaining-time-span"></span>
         </div>
       </div>
-      <!-- Kullanici icin kontrol araci -->
+      <!-- scale-control-panel -->
       <div class="control scale-control-panel">
         <!-- Scale icin - butonu -->
         <label for="scale-range" class="myLabel">Ekran<br> Büyütme:</label>
@@ -118,7 +122,7 @@
       </div>
       <!-- Meal icin dil secimi -->
       <div class="control language-control-panel">
-        <div for="" class="control3 myLabel">Meal Lisani</div>
+        <div for="" class="control3 myLabel">Meal Lisani:</div>
         <div class="control" id="lang-selection">
           <label class="control2">
             <input type="radio" name="language" value="turkish" checked>

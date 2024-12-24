@@ -17,7 +17,7 @@ export class TextScramble {
     const oldText = this.mealContainer?.innerHTML || "";
     this.queue = [];
     const maxLength = Math.max(newText.length, oldText.length);
-
+    
     for (let i = 0; i < maxLength; i++) {
       const from = oldText[i] || "";
       const to = newText[i] || "";
@@ -26,15 +26,17 @@ export class TextScramble {
       this.queue.push({ from, to, start, end });
     }
     this.animationReset(); // Yenisi baslatilmadan once, onceki animasyon resetlenir
-
+    // console.log('this.queue :>> ', this.queue);
     return new Promise((resolve) => {
+      // console.log('resolve :>> ', resolve);
       this.resolve = resolve;
       this.frame = 0;
       this.update(newText); // Yeni animasyon baslatilir
     });
   }
-
+  
   update(newText) {
+    // console.log('newText :>> ', newText);
     let output = "";
     let complete = 0;
     let i, n;
@@ -42,6 +44,7 @@ export class TextScramble {
       let { from, to, start, end, char } = this.queue[i];
       if (this.frame >= end) {
         complete++;
+        // console.log('complete :>> ', complete);
         output += to;
       } else if (this.frame >= start) {
         if (!char || Math.random() < 0.58) {
@@ -64,7 +67,10 @@ export class TextScramble {
       this.resolve();
     } else if (!this.isAnimating) {
       // Kullanici animasyonu next,prev vb. ile burada durdurabilir
+      setTimeout(() => {
       this.mealContainer.innerHTML = newText;
+        
+      }, 50);
       this.resolve();
       return;
     } else {

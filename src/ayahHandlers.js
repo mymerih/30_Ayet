@@ -29,6 +29,8 @@ const {
   // time-control-panel
   mealWaitingFactorInput,
   mealWaitingTimeSpan,
+  mealRemainingTimeSpan,
+  // language-control-panel
   langRadioBtns,
   // animation-control-panel
   animationCheckbox,
@@ -118,7 +120,7 @@ async function displayAyah(index) {
   determineMealWaitingTime();
   updatePage(ayah);
   playAyah();
-  animateMeal(ayah);
+  await animateMeal(ayah);
 }
 // Animate meal text in TextScramble Class
 async function animateMeal(ayah) {
@@ -130,6 +132,7 @@ async function animateMeal(ayah) {
   } else {
     mealContainer.textContent = mealText;
     handleAnimationEnd();
+    console.log("animasyon yok :>> ");
   }
 }
 
@@ -168,7 +171,7 @@ function handleNextAutoPlay() {
   }
   // Auto play checkbox checked
   if (autoPlaying) {
-    fx.isAnimating = true;  // Animasyon  baslatilacagi icin bayratk set edilir.
+    fx.isAnimating = true; // Animasyon  baslatilacagi icin bayratk set edilir.
     allowDisplayAfterAnimation = false; // Mevcut ayetin islenmesine baslanir ve yenisi engellenir.
     // Ayet atlanmis ise currentIndex'i degistirmez, yoksa 1 artirir.
     if (!ayahNumJumper) {
@@ -178,7 +181,9 @@ function handleNextAutoPlay() {
         (nextPrevJumper ? currentIndex : currentIndex + 1) % ayatList.length;
     }
     ayahNumJumper = false; //Bayragi sifirlar
+    animateRemainingTime();
     setTimeout(() => {
+
       displayAyah(currentIndex);
     }, mealWaitingTime);
 
@@ -231,6 +236,8 @@ function updatePage(ayah) {
     mealWaitingTimeSpan,
     `${(mealWaitingTime / 1000).toFixed(1)}s`
   );
+  domHandlers.updateContent(mealRemainingTimeSpan, `${(mealWaitingTime / 1000).toFixed(1)}s`);
+
 }
 
 function playAyah() {
@@ -287,6 +294,29 @@ async function handleNextPrevAyahNav(next) {
     allowDisplayAfterAnimation = true; // Next tusuna basildi, ama ayet gosterilemedi. Otomatik sonraki ayetleri goster.
   }
 }
+// async function handleNextPrevAyahNav(next) {
+//   console.log("next :>> ", next);
+//   // Animasyon devam etmiyorsa sonraki ayeti goster
+//   if (!fx.isAnimating && !isPlaying) {
+//     fx.isAnimating = true;
+
+//     // Bir sonraki ayete gec
+//     currentIndex =
+//       ((next ? ++currentIndex : --currentIndex) + ayatList.length) %
+//       ayatList.length;
+//     // Yeni ayeti goster ve animasyonu baslat
+//     await displayAyah(currentIndex);
+//   } else {
+//     remindAyahEndWaiting();
+//     jumpCounter =
+//       ((next ? ++jumpCounter : --jumpCounter) + ayatList.length) %
+//       ayatList.length; // Next/prev tusuna basma adedi. Atlanacak ayet sayisi
+//     ayahNumInput.value = ((currentIndex + jumpCounter) % ayatList.length) + 1; //Atlanacak ayet sayisini goster
+//     setSelectValue(ayetJumpSelect, ayahNumInput.value);
+//     // Animasyon devam ediyorsa setText() donusunde otomatik jumpCounter kadar sonraki ayeti goster.
+//     allowDisplayAfterAnimation = true; // Next tusuna basildi, ama ayet gosterilemedi. Otomatik sonraki ayetleri goster.
+//   }
+// }
 
 // Belirtilen ayete atla
 async function changeAyahNummer(ayahNummer) {
@@ -322,6 +352,23 @@ function determineMealWaitingTime() {
   // mealWaitingTimeSpan.innerHTML = `${mealWaitingTime/1000} sn.`;
 }
 
+function animateRemainingTime() {
+  const startTime = Date.now();
+  console.log("startTime :>> ", startTime);
+
+  const intervalId = setInterval(() => {
+    domHandlers.updateContent(mealRemainingTimeSpan, mealWaitingTime);
+    const currentTime = Date.now();
+    const elapsedTime = currentTime - startTime;
+    console.log("elapsedTime :>> ", elapsedTime);
+    const remainingTime = ((mealWaitingTime - elapsedTime) / 1000).toFixed(1);
+    console.log("remainingTime :>> ", remainingTime);
+    domHandlers.updateContent(mealRemainingTimeSpan, remainingTime);
+    if (remainingTime < 1) {
+      clearInterval(intervalId);
+    }
+  }, 1000);
+}
 // Arayuzun olcegini degistirme
 function updateScale(event, isIncrease) {
   let scale = parseFloat(
@@ -350,9 +397,12 @@ function changeMealLanguage() {
   }, 50);
 }
 
-//
-function toggleAnimation(isChecked) {
+// Animasyonu acip kapatir
+async function toggleAnimation(isChecked) {
   isAnimationEnabled = isChecked;
-  console.log('isAnimationEnabled :>> ', isAnimationEnabled);
-  fx.setAnimationEnabled(isChecked);
+  fx.isAnimating = false;
+  const mealText = ayah.translations[mealLanguage];
+
+  console.log("isAnimationEnabled :>> ", isAnimationEnabled);
+  // fx.setAnimationEnabled(isChecked);
 }
